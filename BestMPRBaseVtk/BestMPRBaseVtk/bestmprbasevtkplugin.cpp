@@ -41,7 +41,7 @@ QString BestMPRBaseVtkPlugin::group() const
 
 QIcon BestMPRBaseVtkPlugin::icon() const
 {
-    return QIcon(QLatin1String(":/LOGO.png"));
+    return QIcon();
 }
 
 QString BestMPRBaseVtkPlugin::toolTip() const
