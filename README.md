@@ -1,6 +1,6 @@
 # BestMPRBaseVtk
 
-<img src="https://raw.githubusercontent.com/DreamLife-Jianwei/BestMPRBaseVtk/master/LOGO.png" alt="阿萨德" style="zoom:50%;" />
+<img src="https://raw.githubusercontent.com/DreamLife-Jianwei/BestMPRBaseVtk/master/LOGO.png" alt="阿萨德" style="zoom:10%;" />
 
 > 是的，你没有看错，我膨胀了，我已经不满足于在Qt中使用那种控件提升为的方法了，现在我要把VTK的一些并能封装成一个控件。
 >
