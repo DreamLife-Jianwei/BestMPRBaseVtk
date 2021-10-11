@@ -10,13 +10,13 @@ CONFIG += c++11
 
 SOURCES += \
     main.cpp \
-    mainwindow.cpp
+    bppmprwidget.cpp
 
 HEADERS += \
-    mainwindow.h
+    bppmprwidget.h
 
 FORMS += \
-    mainwindow.ui
+    bppmprwidget.ui
 
 # Default rules for deployment.
 qnx: target.path = /tmp/$${TARGET}/bin

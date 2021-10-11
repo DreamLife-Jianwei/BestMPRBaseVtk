@@ -1,5 +1,5 @@
 TEMPLATE = subdirs
 
 SUBDIRS += \
-    BestMPRBaseVtk \
-    BestMPRBaseVtkTest
+    MPR \
+
