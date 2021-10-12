@@ -13,3 +13,18 @@ bPPMPRWidget::~bPPMPRWidget()
     delete ui;
 }
 
+
+void bPPMPRWidget::render()
+{
+
+}
+
+void bPPMPRWidget::setData()
+{
+
+}
+
+void bPPMPRWidget::setShowMode(showType mode)
+{
+
+}
