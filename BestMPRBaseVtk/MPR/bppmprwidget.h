@@ -29,7 +29,7 @@ QT_END_NAMESPACE
 class QVTKInteractor;
 class QVTKInteractorAdapter;
 class QVTKRenderWindowAdapter;
-class vtkGenericOpenglRenderWindow;
+class vtkGenericOpenGLRenderWindow;
 
 
 class bPPMPRWidget : public QOpenGLWidget
@@ -68,15 +68,13 @@ public:
      * @param win
      * 设置渲染窗口
      */
-    void setRenderWindow(vtkGenericOpenglRenderWindow *win);
+    void setRenderWindow(vtkGenericOpenGLRenderWindow *win);
     /**
      * @brief setRenderWindow
      * @param win
      * 设置渲染窗口
      */
     void setRenderWindow(vtkRenderWindow *win);
-
-
     /**
      * @brief render
      * 控件开始渲染
@@ -168,5 +166,12 @@ public:
 
 private:
     Ui::bPPMPRWidget *ui;
+
+    Q_DISABLE_COPY(bPPMPRWidget);       //确保唯一性，私有化拷贝构造函数和赋值操作符
+
+    bool EnableHiDPI;
+    int UnscaledDPI;
+    QCursor DefaultCursor;
+
 };
 #endif // BPPMPRWIDGET_H

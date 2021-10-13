@@ -17,7 +17,7 @@ bPPMPRWidget::~bPPMPRWidget()
     delete ui;
 }
 
-void bPPMPRWidget::setRenderWindow(vtkGenericOpenglRenderWindow *win)
+void bPPMPRWidget::setRenderWindow(vtkGenericOpenGLRenderWindow *win)
 {
 
 }
