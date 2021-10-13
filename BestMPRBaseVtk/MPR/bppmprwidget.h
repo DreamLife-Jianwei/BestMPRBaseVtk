@@ -2,17 +2,14 @@
 #define BPPMPRWIDGET_H
 
 #include <QWidget>
+#include "mprpipeline.h"
+
 
 QT_BEGIN_NAMESPACE
 namespace Ui { class bPPMPRWidget; }
 QT_END_NAMESPACE
 
-enum showType
-{
-    TRA,
-    SAG,
-    COR
-};
+
 
 
 class bPPMPRWidget : public QWidget
@@ -34,6 +31,13 @@ public:
 
 
    showType showMode= showType::COR;                //显示模式
+
+
+   mprPipeline *m_mprPipeline;                      //流水线管理类
+
+
+
+
 
     bPPMPRWidget(QWidget *parent = nullptr);
     ~bPPMPRWidget();
