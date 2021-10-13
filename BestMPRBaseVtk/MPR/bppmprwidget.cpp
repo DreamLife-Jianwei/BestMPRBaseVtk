@@ -1,8 +1,8 @@
 #include "bppmprwidget.h"
 #include "ui_bppmprwidget.h"
 
-bPPMPRWidget::bPPMPRWidget(QWidget *parent)
-    : QWidget(parent)
+bPPMPRWidget::bPPMPRWidget(QOpenGLWidget *parent)
+    : QOpenGLWidget(parent)
     , ui(new Ui::bPPMPRWidget)
 {
     ui->setupUi(this);
@@ -15,6 +15,16 @@ bPPMPRWidget::bPPMPRWidget(QWidget *parent)
 bPPMPRWidget::~bPPMPRWidget()
 {
     delete ui;
+}
+
+void bPPMPRWidget::setRenderWindow(vtkGenericOpenglRenderWindow *win)
+{
+
+}
+
+void bPPMPRWidget::setRenderWindow(vtkRenderWindow *win)
+{
+
 }
 
 

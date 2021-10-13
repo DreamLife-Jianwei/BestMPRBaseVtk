@@ -1,8 +1,24 @@
 #ifndef BPPMPRWIDGET_H
 #define BPPMPRWIDGET_H
 
+// Qt 基础
+
+#include <QObject>
 #include <QWidget>
-#include "mprpipeline.h"
+#include <QOpenGLWidget>                        //继承基类
+#include <QScopedPointer>                       //内存管理
+#include <QMouseEvent>                          //鼠标事件
+
+// vtk 支持
+
+#include "vtkGUISupportQtModule.h"              //vtk 宏支持
+#include "QVTKInteractor.h"                     //vtk 交互
+#include "vtkNew.h"                             //vtk New
+#include "vtkSmartPointer.h"                    //vtk 智能指针0
+
+// 自定义
+
+#include "mprpipeline.h"                        //流水钱管理
 
 
 QT_BEGIN_NAMESPACE
@@ -10,37 +26,56 @@ namespace Ui { class bPPMPRWidget; }
 QT_END_NAMESPACE
 
 
+class QVTKInteractor;
+class QVTKInteractorAdapter;
+class QVTKRenderWindowAdapter;
+class vtkGenericOpenglRenderWindow;
 
 
-class bPPMPRWidget : public QWidget
+class bPPMPRWidget : public QOpenGLWidget
 {
     Q_OBJECT
 
 public:
 
-    int scaleIndex = 0;                             //当前图层
-    int scaleCount = 0;                             //图层数
-    int scaleThickness = 0;                         //层厚
-    int scaleGap = 0;                               //层间距
-    QColor imageColor = QColor(255,255,255,255);    //图像颜色
+    // 图像相关
+
+    int scaleIndex = 0;                                         //当前图层
+    int scaleCount = 0;                                         //图层数
+    int scaleThickness = 0;                                     //层厚
+    int scaleGap = 0;                                           //层间距
+    QColor imageColor = QColor(255,255,255,255);                //图像颜色
+
+    // 工具相关
+
+    bool scaleTool = false;                                     //比例尺工具
+    bool zoomTool = false;                                      //放大镜工具
+    bool patientInforTool = false;                              //病人信息
+
+    //基础信息
+
+   showType showMode= showType::COR;                            //显示模式
+   mprPipeline *m_mprPipeline;                                  //流水线管理类
 
 
-    bool scaleTool = false;                         //比例尺工具
-    bool zoomTool = false;                          //放大镜工具
-    bool patientInforTool = false;                  //病人信息
-
-
-   showType showMode= showType::COR;                //显示模式
-
-
-   mprPipeline *m_mprPipeline;                      //流水线管理类
 
 
 
-
-
-    bPPMPRWidget(QWidget *parent = nullptr);
+    bPPMPRWidget(QOpenGLWidget *parent = nullptr);
     ~bPPMPRWidget();
+    /**
+     * @brief setRenderWindow
+     * @param win
+     * 设置渲染窗口
+     */
+    void setRenderWindow(vtkGenericOpenglRenderWindow *win);
+    /**
+     * @brief setRenderWindow
+     * @param win
+     * 设置渲染窗口
+     */
+    void setRenderWindow(vtkRenderWindow *win);
+
 
     /**
      * @brief render
