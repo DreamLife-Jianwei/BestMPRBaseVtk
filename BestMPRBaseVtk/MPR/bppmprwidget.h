@@ -11,8 +11,8 @@
 
 // vtk 支持
 
-#include "vtkGUISupportQtModule.h"              //vtk 宏支持
 #include "QVTKInteractor.h"                     //vtk 交互
+#include "vtkGUISupportQtModule.h"              //vtk 宏支持
 #include "vtkNew.h"                             //vtk New
 #include "vtkSmartPointer.h"                    //vtk 智能指针
 
@@ -35,6 +35,7 @@ class vtkGenericOpenGLRenderWindow;
 class bPPMPRWidget : public QOpenGLWidget
 {
     Q_OBJECT
+    typedef QOpenGLWidget Superclass;
 
 public:
 
@@ -197,7 +198,7 @@ public:
 /*********************************************************************************************************/
 protected:
     vtkSmartPointer<vtkGenericOpenGLRenderWindow> RenderWindow;
-    QScopedPointer<QVTKRenderWindowAdapter> RenderWindowAdapter;
+//    QScopedPointer<QVTKRenderWindowAdapter> RenderWindowAdapter;
 private:
     Ui::bPPMPRWidget *ui;
 
