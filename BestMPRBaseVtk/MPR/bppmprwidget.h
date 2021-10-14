@@ -14,7 +14,7 @@
 #include "vtkGUISupportQtModule.h"              //vtk 宏支持
 #include "QVTKInteractor.h"                     //vtk 交互
 #include "vtkNew.h"                             //vtk New
-#include "vtkSmartPointer.h"                    //vtk 智能指针0
+#include "vtkSmartPointer.h"                    //vtk 智能指针
 
 // 自定义
 
@@ -38,6 +38,8 @@ class bPPMPRWidget : public QOpenGLWidget
 
 public:
 
+/*********************************************************************************************************/
+
     // 图像相关
 
     int scaleIndex = 0;                                         //当前图层
@@ -57,9 +59,7 @@ public:
    showType showMode= showType::COR;                            //显示模式
    mprPipeline *m_mprPipeline;                                  //流水线管理类
 
-
-
-
+/*********************************************************************************************************/
 
     bPPMPRWidget(QOpenGLWidget *parent = nullptr);
     ~bPPMPRWidget();
@@ -75,6 +75,35 @@ public:
      * 设置渲染窗口
      */
     void setRenderWindow(vtkRenderWindow *win);
+    /**
+     * @brief renderWindow
+     * @return
+     * 返回渲染窗口
+     */
+    vtkRenderWindow* renderWindow() const;
+    /**
+     * @brief interator
+     * @return
+     * 返回交互器
+     */
+    QVTKInteractor* interator() const;
+
+
+    VTK_LEGACY(void SetRenderWindow(vtkGenericOpenGLRenderWindow* win));
+
+    VTK_LEGACY(void SetRenderWindow(vtkRenderWindow* win));
+
+    VTK_LEGACY(vtkRenderWindow* GetRenderWindow());
+    VTK_LEGACY(QVTKInteractor* GetInteractor());
+
+    VTK_LEGACY(QVTKInteractorAdapter* GetInteractorAdapter());
+
+    VTK_LEGACY(void setQVTKCursor(const QCursor& cursor));
+
+    VTK_LEGACY(void setDefaultQVTKCursor(const QCursor& cursor));
+
+/*********************************************************************************************************/
+
     /**
      * @brief render
      * 控件开始渲染
@@ -164,6 +193,11 @@ public:
 
 
 
+
+/*********************************************************************************************************/
+protected:
+    vtkSmartPointer<vtkGenericOpenGLRenderWindow> RenderWindow;
+    QScopedPointer<QVTKRenderWindowAdapter> RenderWindowAdapter;
 private:
     Ui::bPPMPRWidget *ui;
 

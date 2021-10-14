@@ -27,6 +27,16 @@ void bPPMPRWidget::setRenderWindow(vtkRenderWindow *win)
 
 }
 
+vtkRenderWindow *bPPMPRWidget::renderWindow() const
+{
+    return nullptr;
+}
+
+QVTKInteractor *bPPMPRWidget::interator() const
+{
+    return nullptr;
+}
+
 
 void bPPMPRWidget::render()
 {
