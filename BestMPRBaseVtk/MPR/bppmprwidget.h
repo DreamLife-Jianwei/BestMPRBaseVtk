@@ -10,7 +10,13 @@
 #include <QMouseEvent>                          //鼠标事件
 
 // vtk 支持
-
+#include "QVTKInteractorAdapter.h"
+#include "QVTKRenderWindowAdapter.h"
+#include "vtkCommand.h"
+#include "vtkGenericOpenGLRenderWindow.h"
+#include "vtkInteractorStyleTrackballCamera.h"
+#include "vtkObjectFactory.h"
+#include "vtkOpenGLState.h"
 #include "QVTKInteractor.h"                     //vtk 交互
 #include "vtkGUISupportQtModule.h"              //vtk 宏支持
 #include "vtkNew.h"                             //vtk New
@@ -198,7 +204,7 @@ public:
 /*********************************************************************************************************/
 protected:
     vtkSmartPointer<vtkGenericOpenGLRenderWindow> RenderWindow;
-//    QScopedPointer<QVTKRenderWindowAdapter> RenderWindowAdapter;
+    QScopedPointer<QVTKRenderWindowAdapter> RenderWindowAdapter;
 private:
     Ui::bPPMPRWidget *ui;
 
