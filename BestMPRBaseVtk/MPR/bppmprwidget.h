@@ -94,19 +94,40 @@ public:
      * 返回交互器
      */
     QVTKInteractor* interator() const;
-
-
+    /**
+     * @brief VTK_LEGACY
+     * @param SetRenderWindow
+     */
     VTK_LEGACY(void SetRenderWindow(vtkGenericOpenGLRenderWindow* win));
-
+    /**
+     * @brief VTK_LEGACY
+     * @param SetRenderWindow
+     */
     VTK_LEGACY(void SetRenderWindow(vtkRenderWindow* win));
-
+    /**
+     * @brief VTK_LEGACY
+     * @param GetRenderWindow
+     */
     VTK_LEGACY(vtkRenderWindow* GetRenderWindow());
+    /**
+     * @brief VTK_LEGACY
+     * @param GetInteractor
+     */
     VTK_LEGACY(QVTKInteractor* GetInteractor());
-
+    /**
+     * @brief VTK_LEGACY
+     * @param GetInteractorAdapter
+     */
     VTK_LEGACY(QVTKInteractorAdapter* GetInteractorAdapter());
-
+    /**
+     * @brief VTK_LEGACY
+     * @param setQVTKCursor
+     */
     VTK_LEGACY(void setQVTKCursor(const QCursor& cursor));
-
+    /**
+     * @brief VTK_LEGACY
+     * @param setDefaultQVTKCursor
+     */
     VTK_LEGACY(void setDefaultQVTKCursor(const QCursor& cursor));
 
 /*********************************************************************************************************/
@@ -197,19 +218,13 @@ public:
      * 设置图像颜色
      */
     void setImageColor(QColor color = QColor(255,255,255,255));
-
-
-
-
 /*********************************************************************************************************/
 protected:
     vtkSmartPointer<vtkGenericOpenGLRenderWindow> RenderWindow;
     QScopedPointer<QVTKRenderWindowAdapter> RenderWindowAdapter;
 private:
     Ui::bPPMPRWidget *ui;
-
     Q_DISABLE_COPY(bPPMPRWidget);       //确保唯一性，私有化拷贝构造函数和赋值操作符
-
     bool EnableHiDPI;
     int UnscaledDPI;
     QCursor DefaultCursor;
