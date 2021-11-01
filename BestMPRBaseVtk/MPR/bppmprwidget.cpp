@@ -2,17 +2,10 @@
 #include "ui_bppmprwidget.h"
 
 
-
-
-
-
-bPPMPRWidget::bPPMPRWidget(QOpenGLWidget *parent)
-    : QOpenGLWidget(parent)
-    , ui(new Ui::bPPMPRWidget)
+bPPMPRWidget::bPPMPRWidget(QOpenGLWidget *parent) : QOpenGLWidget(parent) , ui(new Ui::bPPMPRWidget)
 {
     ui->setupUi(this);
-
-    m_mprPipeline = new mprPipeline();
+    m_mprPipeline = new mprPipeline();      //流水钱管理类
 
 
 }
