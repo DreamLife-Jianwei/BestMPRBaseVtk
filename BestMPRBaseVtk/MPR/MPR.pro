@@ -10,16 +10,16 @@ CONFIG += c++11
 
 
 SOURCES += \
-    main.cpp \
     bppmprwidget.cpp \
-    mprpipeline.cpp
+    main.cpp \
+    mainwindow.cpp
 
 HEADERS += \
     bppmprwidget.h \
-    mprpipeline.h
+    mainwindow.h
 
 FORMS += \
-    bppmprwidget.ui
+    mainwindow.ui
 
 
 INCLUDEPATH += ./include/vtk-9.0
