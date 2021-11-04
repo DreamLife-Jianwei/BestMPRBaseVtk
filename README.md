@@ -18,17 +18,17 @@
 
 Qt版本：5.14.2 
 
-creator版本：4.15.2
+creator版本：4.15.2 -> 5.0.2
 
-VTK版本：8.2
+VTK版本：8.2 -> 9.0.3
 
 # 子项目说明
 
 ## MPR项目
 
+功能测试项目，目前已搬运官方代码，效果如下：
 
-
-
+![gif6](https://raw.githubusercontent.com/DreamLife-Jianwei/CSDNResources/master/20211104162012.gif)
 
 
 

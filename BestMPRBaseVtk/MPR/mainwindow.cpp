@@ -4,7 +4,7 @@
 MainWindow::MainWindow(QWidget *parent) : QWidget(parent), ui(new Ui::MainWindow)
 {
     ui->setupUi(this);
-
+    this->setWindowTitle("BestMPRWidget");
     mBPPMPRWidget = new BPPMPRWidget(this);
     mBPPMPRWidget->setGeometry(0,0,600,350);
 
