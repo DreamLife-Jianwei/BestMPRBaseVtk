@@ -30,9 +30,9 @@ BPPMPRWidget::BPPMPRWidget(vtkGenericOpenGLRenderWindow *window, QWidget *parent
 {
 
     //默认设置为强焦点
-    this->setFocusPolicy(Qt::StrongFocus);                          //焦点策略，即小部件可以通过Tab键和单击接受焦点，在MacOS上，这也表明当处于"文档、列表焦点模式"时，小部件接受选项卡焦点
-    this->setUpdateBehavior(QOpenGLWidget::NoPartialUpdate);        //缓存区刷新策略，不使用部分绘制
-    this->setMouseTracking(true);                                   //实时监听鼠标事件
+    this->setFocusPolicy(Qt::StrongFocus);                                      //焦点策略，即小部件可以通过Tab键和单击接受焦点，在MacOS上，这也表明当处于"文档、列表焦点模式"时，小部件接受选项卡焦点
+    this->setUpdateBehavior(QOpenGLWidget::NoPartialUpdate);                    //缓存区刷新策略，不使用部分绘制
+    this->setMouseTracking(true);                                               //实时监听鼠标事件
     //使用本地updateSize替换原来的resize
     this->connect(this,&BPPMPRWidget::resized,this,&BPPMPRWidget::updateSize);  //这个和直接调用应该没有啥区别
     this->setRenderWindow(window);                                              //设置渲染窗口
@@ -52,16 +52,17 @@ BPPMPRWidget::~BPPMPRWidget()
 
 void BPPMPRWidget::setRenderWindow(vtkGenericOpenGLRenderWindow *win)
 {
-    if(this->RenderWindow == win)
+    if(this->RenderWindow == win)               //判断当前窗口是不是传进来的，是就返回不是继续
     {
         return;
     }
-    // 这将释放所有与旧窗口相关的OpenGL资源
-    if(this->RenderWindowAdapter)
+
+    if(this->RenderWindowAdapter)               // 这将释放所有与旧窗口相关的OpenGL资源
     {
         this->makeCurrent();
         this->RenderWindowAdapter.reset(nullptr);
     }
+
     this->RenderWindow = win;
     if(this->RenderWindow)
     {
