@@ -100,12 +100,12 @@ void BPPMPRWidget::setRenderWindow(vtkRenderWindow *win)
 
 vtkRenderWindow *BPPMPRWidget::renderWindow() const
 {
-    return this->RenderWindow;
+    return this->RenderWindow;                          //返回窗口指针
 }
 
 QVTKInteractor *BPPMPRWidget::interactor() const
 {
-    return this->RenderWindow ? QVTKInteractor::SafeDownCast(this->RenderWindow->GetInteractor()) : nullptr;
+    return this->RenderWindow ? QVTKInteractor::SafeDownCast(this->RenderWindow->GetInteractor()) : nullptr;            //返回窗口交互器
 }
 
 QSurfaceFormat BPPMPRWidget::defaultFormat(bool stereo_capable)
