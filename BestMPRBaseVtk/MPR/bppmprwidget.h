@@ -104,41 +104,7 @@ public:
      * 获取光标
      */
     const QCursor& defaultCursor() const;
-    /**
-     * @brief VTK_LEGACY
-     * @param SetRenderWindow
-     */
-    VTK_LEGACY(void SetRenderWindow(vtkGenericOpenGLRenderWindow* win));
-    /**
-     * @brief VTK_LEGACY
-     * @param SetRenderWindow
-     */
-    VTK_LEGACY(void SetRenderWindow(vtkRenderWindow* win));
-    /**
-     * @brief VTK_LEGACY
-     * @param GetRenderWindow
-     */
-    VTK_LEGACY(vtkRenderWindow* GetRenderWindow());
-    /**
-     * @brief VTK_LEGACY
-     * @param GetInteractor
-     */
-    VTK_LEGACY(QVTKInteractor* GetInteractor());
-    /**
-     * @brief VTK_LEGACY
-     * @param GetInteractorAdapter
-     */
-    VTK_LEGACY(QVTKInteractorAdapter* GetInteractorAdapter());
-    /**
-     * @brief VTK_LEGACY
-     * @param setQVTKCursor
-     */
-    VTK_LEGACY(void setQVTKCursor(const QCursor& cursor));
-    /**
-     * @brief VTK_LEGACY
-     * @param setDefaultQVTKCursor
-     */
-    VTK_LEGACY(void setDefaultQVTKCursor(const QCursor& cursor));
+
 
 protected slots:
     /**
