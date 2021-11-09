@@ -90,12 +90,12 @@ void BPPMPRWidget::setRenderWindow(vtkRenderWindow *win)
 {
     //做类型转换
     auto gwin = vtkGenericOpenGLRenderWindow::SafeDownCast(win);
-    if(win != nullptr && gwin == nullptr)
+    if(win != nullptr && gwin == nullptr)                                       //转换失败，则提示类型不支持
     {
         qDebug() << "QVTKOpenGLNativeWidget requires a `vtkGenericOpenGLRenderWindow`. `"
                  << win->GetClassName() << "` is not supported.";
     }
-    this->setRenderWindow(gwin);
+    this->setRenderWindow(gwin);                //调用另一个setRenderWindow
 }
 
 vtkRenderWindow *BPPMPRWidget::renderWindow() const
@@ -110,9 +110,12 @@ QVTKInteractor *BPPMPRWidget::interactor() const
 
 QSurfaceFormat BPPMPRWidget::defaultFormat(bool stereo_capable)
 {
-    return QVTKRenderWindowAdapter::defaultFormat(stereo_capable);
+    return QVTKRenderWindowAdapter::defaultFormat(stereo_capable);              //返回默认QSurfaceFormat
 }
-
+/**
+ * @brief BPPMPRWidget::setEnableHiDPI
+ * @param enable
+ */
 void BPPMPRWidget::setEnableHiDPI(bool enable)
 {
     this->EnableHiDPI = enable;
@@ -185,15 +188,15 @@ void BPPMPRWidget::initializeGL()
     this->Superclass::initializeGL();
     if(this->RenderWindow)
     {
-        Q_ASSERT(this->RenderWindowAdapter.data() == nullptr);
+        Q_ASSERT(this->RenderWindowAdapter.data() == nullptr);              //测试代码
 
-        this->RenderWindowAdapter.reset(new QVTKRenderWindowAdapter(this->context(),this->RenderWindow,this));
-        this->RenderWindowAdapter->setDefaultCursor(this->defaultCursor());
-        this->RenderWindowAdapter->setEnableHiDPI(this->EnableHiDPI);
-        this->RenderWindowAdapter->setUnscaledDPI(this->UnscaledDPI);
+        this->RenderWindowAdapter.reset(new QVTKRenderWindowAdapter(this->context(),this->RenderWindow,this));  //重置
+        this->RenderWindowAdapter->setDefaultCursor(this->defaultCursor());         //设置默认光标
+        this->RenderWindowAdapter->setEnableHiDPI(this->EnableHiDPI);               //设置HiDPI
+        this->RenderWindowAdapter->setUnscaledDPI(this->UnscaledDPI);               //设置默认DPI
     }
 
-    this->connect(this->context(),&QOpenGLContext::aboutToBeDestroyed,this,&BPPMPRWidget::cleanupContext,static_cast<Qt::ConnectionType>(Qt::UniqueConnection | Qt::DirectConnection));
+    this->connect(this->context(),&QOpenGLContext::aboutToBeDestroyed,this,&BPPMPRWidget::cleanupContext,static_cast<Qt::ConnectionType>(Qt::UniqueConnection | Qt::DirectConnection)); //连接信号槽
 
 }
 
@@ -205,7 +208,7 @@ void BPPMPRWidget::paintGL()
         Q_ASSERT(this->RenderWindowAdapter);
         this->RenderWindowAdapter->paint();
 
-        this->makeCurrent();
+        this->makeCurrent();                    //在大多数情况下，没有必要调用这个函数，因为在调用paintGL()之前会自动调用它。
 
         QOpenGLFunctions_3_2_Core* f = QOpenGLContext::currentContext()->versionFunctions<QOpenGLFunctions_3_2_Core>();
 

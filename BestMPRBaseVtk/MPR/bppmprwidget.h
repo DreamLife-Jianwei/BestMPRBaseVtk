@@ -72,6 +72,7 @@ public:
     /**
      * @brief setEnableHiDPI
      * @param enable
+     * 启用或禁用HiDPI显示支持，当启用时，这将启用DPI伸缩，‘vtkWindow::SetDPI’将在每次小部件调整大小时使用按设备像素比例缩放的DPI值来调用，未缩放的DPI值可以使用‘setUnscaledDPI’来指定
      */
     void setEnableHiDPI(bool enable);
     /**
@@ -82,21 +83,25 @@ public:
     /**
      * @brief setUnscaledDPI
      * @param dpi
+     * 设置、获取未缩放的DPI值，默认为72 也是vtkWindow默认的值
      */
-    void setUnscaledDPI(int dpi);
+    void setUnscaledDPI(int dpi = 72);
     /**
      * @brief unscaledDPI
      * @return
+     * 返回当前DPI
      */
     int unscaledDPI() const;
     /**
      * @brief setDefaultCursor
      * @param cursor
+     * 设置光标
      */
     void setDefaultCursor(const QCursor& cursor);
     /**
      * @brief defaultCursor
      * @return
+     * 获取光标
      */
     const QCursor& defaultCursor() const;
     /**
