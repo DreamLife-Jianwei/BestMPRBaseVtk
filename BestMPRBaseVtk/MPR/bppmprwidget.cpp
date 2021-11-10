@@ -20,15 +20,27 @@
 #include "vtkNew.h"
 #include "vtkObjectFactory.h"
 #include "vtkOpenGLState.h"
-
-BPPMPRWidget::BPPMPRWidget(QWidget *parent, Qt::WindowFlags f) : BPPMPRWidget(vtkSmartPointer<vtkGenericOpenGLRenderWindow>::New().GetPointer(),parent,f)
+/**
+ * @brief BPPMPRWidget::BPPMPRWidget
+ * @param parent
+ * @param f
+ * 构造函数，调用另一个构造函数
+ */
+BPPMPRWidget::BPPMPRWidget(QWidget *parent, Qt::WindowFlags f)
 {
+
+BPPMPRWidget(vtkSmartPointer<vtkGenericOpenGLRenderWindow>::New().GetPointer(),parent,f);
 
 }
-
+/**
+ * @brief BPPMPRWidget::BPPMPRWidget
+ * @param window
+ * @param parent
+ * @param f
+ * 最终的构造函数，完成控件焦点设置，
+ */
 BPPMPRWidget::BPPMPRWidget(vtkGenericOpenGLRenderWindow *window, QWidget *parent, Qt::WindowFlags f) : Superclass(parent,f),RenderWindow(nullptr),RenderWindowAdapter(nullptr),EnableHiDPI(true),UnscaledDPI(72),DefaultCursor(QCursor(Qt::ArrowCursor))
 {
-
     //默认设置为强焦点
     this->setFocusPolicy(Qt::StrongFocus);                                      //焦点策略，即小部件可以通过Tab键和单击接受焦点，在MacOS上，这也表明当处于"文档、列表焦点模式"时，小部件接受选项卡焦点
     this->setUpdateBehavior(QOpenGLWidget::NoPartialUpdate);                    //缓存区刷新策略，不使用部分绘制
@@ -42,6 +54,8 @@ BPPMPRWidget::BPPMPRWidget(vtkGenericOpenGLRenderWindow *window, QWidget *parent
     this->grabGesture(Qt::TapGesture);
     this->grabGesture(Qt::TapAndHoldGesture);
     this->grabGesture(Qt::SwipeGesture);
+
+    qDebug()<<"asd111111111111111111111";
 }
 
 BPPMPRWidget::~BPPMPRWidget()

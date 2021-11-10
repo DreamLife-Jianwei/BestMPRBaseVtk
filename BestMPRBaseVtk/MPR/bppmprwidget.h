@@ -138,7 +138,6 @@ protected:
 
 private:
     Q_DISABLE_COPY(BPPMPRWidget);
-
     bool EnableHiDPI;
     int UnscaledDPI;
     QCursor DefaultCursor;

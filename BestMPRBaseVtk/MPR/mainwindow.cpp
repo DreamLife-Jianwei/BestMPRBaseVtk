@@ -38,7 +38,11 @@ void MainWindow::readDicomImageNormal(const char *url)
     viewer->SetRenderWindow(ui->openGLWidget->renderWindow());
     viewer->Render();
 }
-
+/**
+ * @brief MainWindow::readDicomImageBPP
+ * @param url
+ * 读取Dicom文件
+ */
 void MainWindow::readDicomImageBPP(const char *url)
 {
     vtkSmartPointer<vtkDICOMImageReader> render = vtkSmartPointer<vtkDICOMImageReader>::New();
