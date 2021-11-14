@@ -26,10 +26,10 @@
  * @param f
  * 构造函数，调用另一个构造函数
  */
-BPPMPRWidget::BPPMPRWidget(QWidget *parent, Qt::WindowFlags f)
+BPPMPRWidget::BPPMPRWidget(QWidget *parent, Qt::WindowFlags f) : BPPMPRWidget(vtkSmartPointer<vtkGenericOpenGLRenderWindow>::New().GetPointer(),parent,f)
 {
 
-BPPMPRWidget(vtkSmartPointer<vtkGenericOpenGLRenderWindow>::New().GetPointer(),parent,f);
+
 
 }
 /**
@@ -54,8 +54,6 @@ BPPMPRWidget::BPPMPRWidget(vtkGenericOpenGLRenderWindow *window, QWidget *parent
     this->grabGesture(Qt::TapGesture);
     this->grabGesture(Qt::TapAndHoldGesture);
     this->grabGesture(Qt::SwipeGesture);
-
-    qDebug()<<"asd111111111111111111111";
 }
 
 BPPMPRWidget::~BPPMPRWidget()
@@ -66,50 +64,45 @@ BPPMPRWidget::~BPPMPRWidget()
 
 void BPPMPRWidget::setRenderWindow(vtkGenericOpenGLRenderWindow *win)
 {
-    if(this->RenderWindow == win)               //判断当前窗口是不是传进来的，是就返回不是继续
+    if(this->RenderWindow == win)                               //判断当前窗口是不是传进来的，是就返回不是继续
     {
         return;
     }
 
-    if(this->RenderWindowAdapter)               // 这将释放所有与旧窗口相关的OpenGL资源
+    if(this->RenderWindowAdapter)                               // 这将释放所有与旧窗口相关的OpenGL资源
     {
-        this->makeCurrent();
-        this->RenderWindowAdapter.reset(nullptr);
+        this->makeCurrent();                                    //为窗口绘制OpenGL内容做准备，将上下文设置为当前，并为该上下文绑定framebuffer
+        this->RenderWindowAdapter.reset(nullptr);               //删除并重置指针
     }
 
-    this->RenderWindow = win;
+    this->RenderWindow = win;                                   //赋新值
     if(this->RenderWindow)
     {
         this->RenderWindow->SetReadyForRendering(false);
-        //如果没有提供交互器，我们默认将创建一个
-        if(!this->RenderWindow->GetInteractor())
+
+        if(!this->RenderWindow->GetInteractor())                //如果没有提供交互器，我们默认将创建一个
         {
-            vtkNew<QVTKInteractor> iren;                //创建一个默认交互器
-            this->RenderWindow->SetInteractor(iren);    //为RenderWindow添加交互器
-            iren->Initialize();                         //交互器初始化
-            //设置交互器默认样式
-            vtkNew<vtkInteractorStyleTrackballCamera> style;
+            vtkNew<QVTKInteractor> iren;                        //创建一个默认交互器
+            this->RenderWindow->SetInteractor(iren);            //为RenderWindow添加交互器
+            iren->Initialize();                                 //交互器初始化
+            vtkNew<vtkInteractorStyleTrackballCamera> style;    //设置交互器默认样式
             iren->SetInteractorStyle(style);
         }
         if(this->isValid())
         {
-            this->makeCurrent();
-            this->initializeGL();
-            this->updateSize();
+            this->makeCurrent();                                //为窗口绘制OpenG内容做准备，将上下文设置为当前，并为该上下文绑定framebuffer paintGL会自动调用。
+            this->initializeGL();                               //初始化Openg
+            this->updateSize();                                 //更新窗口尺寸
         }
     }
 }
 
 void BPPMPRWidget::setRenderWindow(vtkRenderWindow *win)
 {
-    //做类型转换
-    auto gwin = vtkGenericOpenGLRenderWindow::SafeDownCast(win);
-    if(win != nullptr && gwin == nullptr)                                       //转换失败，则提示类型不支持
-    {
-        qDebug() << "QVTKOpenGLNativeWidget requires a `vtkGenericOpenGLRenderWindow`. `"
-                 << win->GetClassName() << "` is not supported.";
-    }
-    this->setRenderWindow(gwin);                //调用另一个setRenderWindow
+    auto gwin = vtkGenericOpenGLRenderWindow::SafeDownCast(win);                                                                                //做类型转换
+    if(win != nullptr && gwin == nullptr)                                                                                                       //转换失败，则提示类型不支持
+        qDebug() << "QVTKOpenGLNativeWidget requires a `vtkGenericOpenGLRenderWindow`. `" << win->GetClassName() << "` is not supported.";      //输出信息，后期得该到日志系统里面
+    this->setRenderWindow(gwin);                                                                                                                //调用另一个setRenderWindow
 }
 
 vtkRenderWindow *BPPMPRWidget::renderWindow() const
@@ -202,7 +195,7 @@ void BPPMPRWidget::initializeGL()
     this->Superclass::initializeGL();
     if(this->RenderWindow)
     {
-        Q_ASSERT(this->RenderWindowAdapter.data() == nullptr);              //测试代码
+        Q_ASSERT(this->RenderWindowAdapter.data() == nullptr);              //断言，程序错误后会自动停止程序运行，并弹出提示，只有的Debug下有效
 
         this->RenderWindowAdapter.reset(new QVTKRenderWindowAdapter(this->context(),this->RenderWindow,this));  //重置
         this->RenderWindowAdapter->setDefaultCursor(this->defaultCursor());         //设置默认光标
@@ -219,13 +212,10 @@ void BPPMPRWidget::paintGL()
     this->Superclass::paintGL();
     if(this->RenderWindow)
     {
-        Q_ASSERT(this->RenderWindowAdapter);
-        this->RenderWindowAdapter->paint();
-
-        this->makeCurrent();                    //在大多数情况下，没有必要调用这个函数，因为在调用paintGL()之前会自动调用它。
-
+        Q_ASSERT(this->RenderWindowAdapter);        //断言，程序在出问题是，会停止，并自动弹窗包出错位置，只有的Debug下有效
+        this->RenderWindowAdapter->paint();         //调用vtk绘制函数
+        this->makeCurrent();                        //自动调用了，见上面注释
         QOpenGLFunctions_3_2_Core* f = QOpenGLContext::currentContext()->versionFunctions<QOpenGLFunctions_3_2_Core>();
-
         if(f)
         {
             const QSize deviceSize = this->size() * this->devicePixelRatioF();
