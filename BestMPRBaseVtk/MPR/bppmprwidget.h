@@ -26,7 +26,7 @@ class BPPMPRWidget : public QOpenGLWidget
     typedef QOpenGLWidget Superclass;
 
 
-public:
+public:                                                             //公开接口
     /**
      * @brief BPPMPRWidget
      * @param parent
@@ -124,7 +124,7 @@ public:
      * @param in
      * 设置输入数据
      */
-    void SetInputConnection(vtkAlgorithmOutput* input);
+    void setInputConnection(vtkAlgorithmOutput* input);
     /**
      * @brief getInput
      * @return
@@ -143,11 +143,11 @@ public:
     };
     void setSliceOrientation(int orientation);
 
-    void SetSliceOrientationToXY();
+    void setSliceOrientationToXY();
 
-    void SetSliceOrientationToYZ();
+    void setSliceOrientationToYZ();
 
-    void SetSliceOrientationToXZ();
+    void setSliceOrientationToXZ();
     /**
      * @brief getSliceOrientation
      * @return
@@ -170,8 +170,59 @@ public:
      * @brief UpdateDisplayExtent
      * 更新显示切片
      */
-    void UpdateDisplayExtent();
+    void updateDisplayExtent();
+    /**
+     * @brief getSliceMin
+     * @return
+     * 返回最小切片值
+     */
+    int getSliceMin();
+    /**
+     * @brief getSliceMax
+     * @return
+     * 返回最大切片值
+     */
+    int getSliceMax();
+    /**
+     * @brief getSliceRange
+     * @param range
+     * 获取切片范围
+     */
+    void getSliceRange(int range[2]);
+    /**
+     * @brief getSliceRange
+     * @param min
+     * @param max
+     * 获取切片范围
+     */
+    void getSliceRange(int &min,int& max);
+    /**
+     * @brief getColorWindow
+     * @return
+     * 获取窗宽
+     */
+    double getColorWindow();
+    /**
+     * @brief getColorLevel
+     * @return
+     * 获取窗位
+     */
+    double getColorLevel();
+    /**
+     * @brief setColorWindow
+     * @param s
+     * 设置窗宽
+     */
+    void setColorWindow(double s);
+    /**
+     * @brief setColorLevel
+     * @param s
+     * 设置窗位
+     */
+    void setColorLevel(double s);
 
+
+public:                                                         //公开属性
 
 
 protected slots:

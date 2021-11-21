@@ -231,7 +231,7 @@ void BPPMPRWidget::setInputData(vtkImageData *in)
  * @param in
  * 设置输入数据
  */
-void BPPMPRWidget::SetInputConnection(vtkAlgorithmOutput *input)
+void BPPMPRWidget::setInputConnection(vtkAlgorithmOutput *input)
 {
 
 }
@@ -252,17 +252,17 @@ void BPPMPRWidget::setSliceOrientation(int orientation)
 
 }
 
-void BPPMPRWidget::SetSliceOrientationToXY()
+void BPPMPRWidget::setSliceOrientationToXY()
 {
     setSliceOrientation(BPPMPRWidget::SLICE_ORIENTATION_XY);
 }
 
-void BPPMPRWidget::SetSliceOrientationToYZ()
+void BPPMPRWidget::setSliceOrientationToYZ()
 {
 setSliceOrientation(BPPMPRWidget::SLICE_ORIENTATION_YZ);
 }
 
-void BPPMPRWidget::SetSliceOrientationToXZ()
+void BPPMPRWidget::setSliceOrientationToXZ()
 {
 setSliceOrientation(BPPMPRWidget::SLICE_ORIENTATION_XZ);
 }
@@ -297,7 +297,80 @@ int BPPMPRWidget::getSlice()
  * @brief UpdateDisplayExtent
  * 更新显示切片
  */
-void BPPMPRWidget::UpdateDisplayExtent()
+void BPPMPRWidget::updateDisplayExtent()
+{
+
+}
+/**
+ * @brief getSliceMin
+ * @return
+ * 返回最小切片值
+ */
+int BPPMPRWidget::getSliceMin()
+{
+    return 0;
+}
+/**
+ * @brief getSliceMax
+ * @return
+ * 返回最大切片值
+ */
+int BPPMPRWidget::getSliceMax()
+{
+    return 0;
+}
+/**
+ * @brief getSliceRange
+ * @param range
+ * 获取切片范围
+ */
+void BPPMPRWidget::getSliceRange(int range[])
+{
+    this->getSliceRange(range[0],range[1]);
+}
+/**
+ * @brief getSliceRange
+ * @param min
+ * @param max
+ * 获取切片范围
+ */
+void BPPMPRWidget::getSliceRange(int &min, int &max)
+{
+
+}
+/**
+ * @brief getColorWindow
+ * @return
+ * 获取窗宽
+ */
+double BPPMPRWidget::getColorWindow()
+{
+    return 0;
+}
+/**
+ * @brief getColorLevel
+ * @return
+ * 获取窗位
+ */
+double BPPMPRWidget::getColorLevel()
+{
+    return 0;
+}
+/**
+ * @brief setColorWindow
+ * @param s
+ * 设置窗宽
+ */
+void BPPMPRWidget::setColorWindow(double s)
+{
+
+}
+/**
+ * @brief setColorLevel
+ * @param s
+ * 设置窗位
+ */
+void BPPMPRWidget::setColorLevel(double s)
 {
 
 }
