@@ -159,3 +159,6 @@ LIBS += -L./lib/ -lvtkCommonMisc-9.0
 LIBS += -L./lib/ -lvtkCommonSystem-9.0
 LIBS += -L./lib/ -lvtkCommonTransforms-9.0
 LIBS += -L./lib/ -lvtkDICOM-9.0
+
+RESOURCES += \
+    resources.qrc

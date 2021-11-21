@@ -17,11 +17,15 @@ class QVTKInteractorAdapter;
 class QVTKRenderWindowAdapter;
 class vtkGenericOpenGLRenderWindow;
 
+class vtkImageData;
+class vtkAlgorithmOutput;
 
 class BPPMPRWidget : public QOpenGLWidget
 {
     Q_OBJECT
     typedef QOpenGLWidget Superclass;
+
+
 public:
     /**
      * @brief BPPMPRWidget
@@ -104,6 +108,46 @@ public:
      * 获取光标
      */
     const QCursor& defaultCursor() const;
+    /**
+     * @brief render
+     * 渲染图像
+     */
+    void render();
+    /**
+     * @brief setInputData
+     * @param in
+     * 设置输入数据
+     */
+    void setInputData(vtkImageData* in);
+    /**
+     * @brief setInputData
+     * @param in
+     * 设置输入数据
+     */
+    void SetInputConnection(vtkAlgorithmOutput* input);
+    /**
+     * @brief getInput
+     * @return
+     * 获取出入数据
+     */
+    vtkImageData* getInput();
+
+    /**
+     * 切片方向
+     */
+    enum
+    {
+      SLICE_ORIENTATION_YZ = 0,
+      SLICE_ORIENTATION_XZ = 1,
+      SLICE_ORIENTATION_XY = 2
+    };
+    void setSliceOrientation(int orientation);
+
+
+
+
+
+
 
 
 protected slots:
@@ -130,14 +174,21 @@ protected:
      * @brief paintGL
      */
     void paintGL() override;
+
+
+
+
+
 protected:
 
-    vtkSmartPointer<vtkGenericOpenGLRenderWindow> RenderWindow;
 
-    QScopedPointer<QVTKRenderWindowAdapter> RenderWindowAdapter;
+    vtkSmartPointer<vtkGenericOpenGLRenderWindow> RenderWindow;                 //渲染窗口
+    QScopedPointer<QVTKRenderWindowAdapter> RenderWindowAdapter;                //窗口管理器
 
 private:
-    Q_DISABLE_COPY(BPPMPRWidget);
+
+    Q_DISABLE_COPY(BPPMPRWidget);           //禁用拷贝构造
+
     bool EnableHiDPI;
     int UnscaledDPI;
     QCursor DefaultCursor;

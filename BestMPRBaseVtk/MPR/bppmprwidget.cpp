@@ -55,13 +55,20 @@ BPPMPRWidget::BPPMPRWidget(vtkGenericOpenGLRenderWindow *window, QWidget *parent
     this->grabGesture(Qt::TapAndHoldGesture);
     this->grabGesture(Qt::SwipeGesture);
 }
-
+/**
+ * @brief BPPMPRWidget::~BPPMPRWidget
+ * 析构函数
+ */
 BPPMPRWidget::~BPPMPRWidget()
 {
     this->makeCurrent();
     this->cleanupContext();
 }
-
+/**
+ * @brief BPPMPRWidget::setRenderWindow
+ * @param win
+ * 设置渲染窗口
+ */
 void BPPMPRWidget::setRenderWindow(vtkGenericOpenGLRenderWindow *win)
 {
     if(this->RenderWindow == win)                               //判断当前窗口是不是传进来的，是就返回不是继续
@@ -96,7 +103,11 @@ void BPPMPRWidget::setRenderWindow(vtkGenericOpenGLRenderWindow *win)
         }
     }
 }
-
+/**
+ * @brief BPPMPRWidget::setRenderWindow
+ * @param win
+ * 设置渲染窗口
+ */
 void BPPMPRWidget::setRenderWindow(vtkRenderWindow *win)
 {
     auto gwin = vtkGenericOpenGLRenderWindow::SafeDownCast(win);                                                                                //做类型转换
@@ -104,17 +115,30 @@ void BPPMPRWidget::setRenderWindow(vtkRenderWindow *win)
         qDebug() << "QVTKOpenGLNativeWidget requires a `vtkGenericOpenGLRenderWindow`. `" << win->GetClassName() << "` is not supported.";      //输出信息，后期得该到日志系统里面
     this->setRenderWindow(gwin);                                                                                                                //调用另一个setRenderWindow
 }
-
+/**
+ * @brief BPPMPRWidget::renderWindow
+ * @return
+ * 返回窗口指针
+ */
 vtkRenderWindow *BPPMPRWidget::renderWindow() const
 {
     return this->RenderWindow;                          //返回窗口指针
 }
-
+/**
+ * @brief BPPMPRWidget::interactor
+ * @return
+ * 返回窗口交互器
+ */
 QVTKInteractor *BPPMPRWidget::interactor() const
 {
     return this->RenderWindow ? QVTKInteractor::SafeDownCast(this->RenderWindow->GetInteractor()) : nullptr;            //返回窗口交互器
 }
-
+/**
+ * @brief BPPMPRWidget::defaultFormat
+ * @param stereo_capable
+ * @return
+ * 返回QSurfaceFormat
+ */
 QSurfaceFormat BPPMPRWidget::defaultFormat(bool stereo_capable)
 {
     return QVTKRenderWindowAdapter::defaultFormat(stereo_capable);              //返回默认QSurfaceFormat
@@ -122,6 +146,7 @@ QSurfaceFormat BPPMPRWidget::defaultFormat(bool stereo_capable)
 /**
  * @brief BPPMPRWidget::setEnableHiDPI
  * @param enable
+ * 设置高DPI支持
  */
 void BPPMPRWidget::setEnableHiDPI(bool enable)
 {
@@ -131,12 +156,20 @@ void BPPMPRWidget::setEnableHiDPI(bool enable)
         this->RenderWindowAdapter->setEnableHiDPI(enable);
     }
 }
-
+/**
+ * @brief BPPMPRWidget::enableHiDPI
+ * @return
+ * 返回高DPI状态
+ */
 bool BPPMPRWidget::enableHiDPI() const
 {
     return this->EnableHiDPI;
 }
-
+/**
+ * @brief BPPMPRWidget::setUnscaledDPI
+ * @param dpi
+ * 设置默认DPI
+ */
 void BPPMPRWidget::setUnscaledDPI(int dpi)
 {
     this->UnscaledDPI = dpi;
@@ -145,12 +178,20 @@ void BPPMPRWidget::setUnscaledDPI(int dpi)
         this->RenderWindowAdapter->setUnscaledDPI(dpi);
     }
 }
-
+/**
+ * @brief BPPMPRWidget::unscaledDPI
+ * @return
+ * 返回默认PDI
+ */
 int BPPMPRWidget::unscaledDPI() const
 {
     return this->UnscaledDPI;
 }
-
+/**
+ * @brief BPPMPRWidget::setDefaultCursor
+ * @param cursor
+ * 设置默认光标
+ */
 void BPPMPRWidget::setDefaultCursor(const QCursor &cursor)
 {
     this->DefaultCursor = cursor;
@@ -159,17 +200,69 @@ void BPPMPRWidget::setDefaultCursor(const QCursor &cursor)
         this->RenderWindowAdapter->setDefaultCursor(cursor);
     }
 }
-
+/**
+ * @brief BPPMPRWidget::defaultCursor
+ * @return
+ * 返回默认光标
+ */
 const QCursor &BPPMPRWidget::defaultCursor() const
 {
     return this->DefaultCursor;
 }
+/**
+ * @brief BPPMPRWidget::render
+ * 渲染
+ */
+void BPPMPRWidget::render()
+{
 
+}
+/**
+ * @brief setInputData
+ * @param in
+ * 设置输入数据
+ */
+void BPPMPRWidget::setInputData(vtkImageData *in)
+{
+
+}
+/**
+ * @brief setInputData
+ * @param in
+ * 设置输入数据
+ */
+void BPPMPRWidget::SetInputConnection(vtkAlgorithmOutput *input)
+{
+
+}
+/**
+ * @brief getInput
+ * @return
+ * 获取出入数据
+ */
+vtkImageData *BPPMPRWidget::getInput()
+{
+    return 0;
+}
+/**
+ * 切片方向
+ */
+void BPPMPRWidget::setSliceOrientation(int orientation)
+{
+
+}
+/**
+ * @brief BPPMPRWidget::cleanupContext
+ * 清除上下文
+ */
 void BPPMPRWidget::cleanupContext()
 {
     this->RenderWindowAdapter.reset(nullptr);
 }
-
+/**
+ * @brief BPPMPRWidget::updateSize
+ * 更新画布大小
+ */
 void BPPMPRWidget::updateSize()
 {
     if(this->RenderWindowAdapter)
@@ -177,36 +270,41 @@ void BPPMPRWidget::updateSize()
         this->RenderWindowAdapter->resize(this->width(),this->height());
     }
 }
-
+/**
+ * @brief BPPMPRWidget::event
+ * @param evt
+ * @return
+ * 重载event事件
+ */
 bool BPPMPRWidget::event(QEvent *evt)
 {
-
     if(this->RenderWindowAdapter)
     {
         this->RenderWindowAdapter->handleEvent(evt);
     }
-
-
     return this->Superclass::event(evt);
 }
-
+/**
+ * @brief BPPMPRWidget::initializeGL
+ * 初始化OpenGL
+ */
 void BPPMPRWidget::initializeGL()
 {
     this->Superclass::initializeGL();
     if(this->RenderWindow)
     {
         Q_ASSERT(this->RenderWindowAdapter.data() == nullptr);              //断言，程序错误后会自动停止程序运行，并弹出提示，只有的Debug下有效
-
         this->RenderWindowAdapter.reset(new QVTKRenderWindowAdapter(this->context(),this->RenderWindow,this));  //重置
         this->RenderWindowAdapter->setDefaultCursor(this->defaultCursor());         //设置默认光标
         this->RenderWindowAdapter->setEnableHiDPI(this->EnableHiDPI);               //设置HiDPI
         this->RenderWindowAdapter->setUnscaledDPI(this->UnscaledDPI);               //设置默认DPI
     }
-
     this->connect(this->context(),&QOpenGLContext::aboutToBeDestroyed,this,&BPPMPRWidget::cleanupContext,static_cast<Qt::ConnectionType>(Qt::UniqueConnection | Qt::DirectConnection)); //连接信号槽
-
 }
-
+/**
+ * @brief BPPMPRWidget::paintGL
+ * 绘制
+ */
 void BPPMPRWidget::paintGL()
 {
     this->Superclass::paintGL();
@@ -220,6 +318,7 @@ void BPPMPRWidget::paintGL()
         {
             const QSize deviceSize = this->size() * this->devicePixelRatioF();
             this->RenderWindowAdapter->blit(this->defaultFramebufferObject(),GL_COLOR_ATTACHMENT0,QRect(QPoint(0,0),deviceSize));
+            f->glClearColor(1.0f,1.0f,1.0f,1.0f);
         }
     }
     else
@@ -229,5 +328,3 @@ void BPPMPRWidget::paintGL()
         f->glClear(GL_COLOR_BUFFER_BIT);
     }
 }
-
-
