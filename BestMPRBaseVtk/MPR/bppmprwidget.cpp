@@ -251,6 +251,56 @@ void BPPMPRWidget::setSliceOrientation(int orientation)
 {
 
 }
+
+void BPPMPRWidget::SetSliceOrientationToXY()
+{
+    setSliceOrientation(BPPMPRWidget::SLICE_ORIENTATION_XY);
+}
+
+void BPPMPRWidget::SetSliceOrientationToYZ()
+{
+setSliceOrientation(BPPMPRWidget::SLICE_ORIENTATION_YZ);
+}
+
+void BPPMPRWidget::SetSliceOrientationToXZ()
+{
+setSliceOrientation(BPPMPRWidget::SLICE_ORIENTATION_XZ);
+}
+/**
+ * @brief getSliceOrientation
+ * @return
+ * 获取切片方向
+ */
+int BPPMPRWidget::getSliceOrientation()
+{
+    return 0;
+}
+/**
+ * @brief setSlice
+ * @param s
+ * 设置当前显示层数
+ */
+void BPPMPRWidget::setSlice(int s)
+{
+
+}
+/**
+ * @brief getSlice
+ * @return
+ * 获取当前显示层数
+ */
+int BPPMPRWidget::getSlice()
+{
+    return 0;
+}
+/**
+ * @brief UpdateDisplayExtent
+ * 更新显示切片
+ */
+void BPPMPRWidget::UpdateDisplayExtent()
+{
+
+}
 /**
  * @brief BPPMPRWidget::cleanupContext
  * 清除上下文

@@ -143,10 +143,34 @@ public:
     };
     void setSliceOrientation(int orientation);
 
+    void SetSliceOrientationToXY();
 
+    void SetSliceOrientationToYZ();
 
-
-
+    void SetSliceOrientationToXZ();
+    /**
+     * @brief getSliceOrientation
+     * @return
+     * 获取切片方向
+     */
+    int getSliceOrientation();
+    /**
+     * @brief setSlice
+     * @param s
+     * 设置当前显示层数
+     */
+    void setSlice(int s);
+    /**
+     * @brief getSlice
+     * @return
+     * 获取当前显示层数
+     */
+    int getSlice();
+    /**
+     * @brief UpdateDisplayExtent
+     * 更新显示切片
+     */
+    void UpdateDisplayExtent();
 
 
 
