@@ -32,9 +32,6 @@
  */
 BPPMPRWidget::BPPMPRWidget(QWidget *parent, Qt::WindowFlags f) : BPPMPRWidget(vtkSmartPointer<vtkGenericOpenGLRenderWindow>::New().GetPointer(),parent,f)
 {
-
-
-
 }
 /**
  * @brief BPPMPRWidget::BPPMPRWidget
@@ -58,6 +55,9 @@ BPPMPRWidget::BPPMPRWidget(vtkGenericOpenGLRenderWindow *window, QWidget *parent
     this->grabGesture(Qt::TapGesture);
     this->grabGesture(Qt::TapAndHoldGesture);
     this->grabGesture(Qt::SwipeGesture);
+
+    m_PipeLine = ImagePipeLine::New();
+    m_PipeLine->setRenderWindow(this->renderWindow());                          //这里有问题,会报错
 }
 /**
  * @brief BPPMPRWidget::~BPPMPRWidget
@@ -212,6 +212,209 @@ void BPPMPRWidget::setDefaultCursor(const QCursor &cursor)
 const QCursor &BPPMPRWidget::defaultCursor() const
 {
     return this->DefaultCursor;
+}
+/**
+ * @brief setInputData
+ * @param data 输入数据
+ * 设置输入数据
+ */
+void BPPMPRWidget::setInputData(vtkImageData *data)
+{
+    if(m_PipeLine)
+        m_PipeLine->setInputData(data);
+}
+/**
+ * @brief setInputConnection
+ * @param input
+ * 设置输入数据
+ */
+void BPPMPRWidget::setInputConnection(vtkAlgorithmOutput *input)
+{
+    if(m_PipeLine)
+        m_PipeLine->setInputConnection(input);
+}
+/**
+ * @brief render
+ * 开始渲染
+ */
+void BPPMPRWidget::render()
+{
+    m_PipeLine->render();
+}
+
+int BPPMPRWidget::getSliceOrientation()
+{
+    return m_PipeLine->getSliceOrientation();
+}
+
+void BPPMPRWidget::setSliceOrientation(int orientation)
+{
+    m_PipeLine->setSliceOrientation(orientation);
+}
+
+void BPPMPRWidget::setSliceOrientationToXY()
+{
+    m_PipeLine->setSliceOrientationToXY();
+}
+
+void BPPMPRWidget::setSliceOrientationToYZ()
+{
+    m_PipeLine->setSliceOrientationToYZ();
+}
+
+void BPPMPRWidget::setSliceOrientationToXZ()
+{
+    m_PipeLine->setSliceOrientationToXZ();
+}
+
+void BPPMPRWidget::updateDisplayExtent()
+{
+    m_PipeLine->updateDisplayExtent();
+}
+
+int BPPMPRWidget::getSliceMin()
+{
+    return m_PipeLine->getSliceMin();
+}
+
+int BPPMPRWidget::getSliceMax()
+{
+    return m_PipeLine->getSliceMax();
+}
+
+void BPPMPRWidget::getSliceRange(int range[])
+{
+    m_PipeLine->getSliceRange(range);
+}
+
+void BPPMPRWidget::getSliceRange(int &min, int &max)
+{
+    m_PipeLine->getSliceRange(min,max);
+}
+
+int *BPPMPRWidget::getSliceRange()
+{
+    return m_PipeLine->getSliceRange();
+}
+
+double BPPMPRWidget::getColorWindow()
+{
+    return m_PipeLine->getColorWindow();
+}
+
+double BPPMPRWidget::getColorLevel()
+{
+    return m_PipeLine->getColorLevel();
+}
+
+void BPPMPRWidget::setColorWindow(double s)
+{
+    m_PipeLine->setColorWindow(s);
+}
+
+void BPPMPRWidget::setColorLevel(double s)
+{
+    m_PipeLine->setColorLevel(s);
+}
+
+void BPPMPRWidget::setDisolayId(void *a)
+{
+    m_PipeLine->setDisolayId(a);
+}
+
+void BPPMPRWidget::setWindowId(void *a)
+{
+    m_PipeLine->setWindowId(a);
+}
+
+void BPPMPRWidget::setParentId(void *a)
+{
+    m_PipeLine->setParentId(a);
+}
+
+int *BPPMPRWidget::getPosition()
+{
+    return m_PipeLine->getPosition();
+}
+
+void BPPMPRWidget::setPosition(int x, int y)
+{
+    m_PipeLine->setPosition(x,y);
+}
+
+void BPPMPRWidget::setPosition(int a[])
+{
+    m_PipeLine->setPosition(a);
+}
+
+int *BPPMPRWidget::getSize()
+{
+    return m_PipeLine->getSize();
+}
+
+void BPPMPRWidget::setSize(int width, int height)
+{
+    m_PipeLine->setSize(width,height);
+}
+
+void BPPMPRWidget::setSize(int a[])
+{
+    m_PipeLine->setSize(a);
+}
+
+void BPPMPRWidget::setRenderer(vtkRenderer *arg)
+{
+    m_PipeLine->setRenderer(arg);
+}
+
+vtkRenderWindow *BPPMPRWidget::getRenderWindow()
+{
+    return this->RenderWindow;
+}
+
+vtkRenderer *BPPMPRWidget::getRenderer()
+{
+    return m_PipeLine->getRenderer();
+}
+
+vtkImageActor *BPPMPRWidget::getImageActor()
+{
+    return m_PipeLine->getImageActor();
+}
+
+vtkImageMapToWindowLevelColors *BPPMPRWidget::getWindowLevel()
+{
+    return m_PipeLine->getWindowLevel();
+}
+
+vtkInteractorStyleImage *BPPMPRWidget::getInteratorStyle()
+{
+    return m_PipeLine->getInteratorStyle();
+}
+
+void BPPMPRWidget::setupInteractor(vtkRenderWindowInteractor *arg)
+{
+    m_PipeLine->setupInteractor(arg);
+}
+
+void BPPMPRWidget::setOffScreenRendering(vtkTypeBool i)
+{
+    m_PipeLine->setOffScreenRendering(i);
+}
+
+vtkTypeBool BPPMPRWidget::getOffScreenRendering()
+{
+    return m_PipeLine->getOffScreenRendering();
+}
+
+void BPPMPRWidget::offScreenRenderingOn()
+{
+    m_PipeLine->offScreenRenderingOn();
+}
+
+void BPPMPRWidget::offScreenRenderingOff()
+{
+    m_PipeLine->offScreenRenderingOff();
 }
 /**
  * @brief BPPMPRWidget::cleanupContext

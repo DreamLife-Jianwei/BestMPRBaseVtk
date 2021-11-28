@@ -6,6 +6,7 @@
 #include <vtkDICOMImageReader.h>
 #include <vtkImageViewer2.h>
 #include <bppmprwidget.h>
+#include "imagepipeline.h"
 namespace Ui {
 class MainWindow;
 }

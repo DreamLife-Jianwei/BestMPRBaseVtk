@@ -11,11 +11,13 @@ CONFIG += c++11
 
 SOURCES += \
     bppmprwidget.cpp \
+    imagepipeline.cpp \
     main.cpp \
     mainwindow.cpp
 
 HEADERS += \
     bppmprwidget.h \
+    imagepipeline.h \
     mainwindow.h
 
 FORMS += \

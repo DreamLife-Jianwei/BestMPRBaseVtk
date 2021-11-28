@@ -48,9 +48,12 @@ void MainWindow::readDicomImageBPP(const char *url)
     vtkSmartPointer<vtkDICOMImageReader> render = vtkSmartPointer<vtkDICOMImageReader>::New();
     render->SetFileName(url);
     render->Update();
-    vtkSmartPointer<vtkImageViewer2> viewer = vtkSmartPointer<vtkImageViewer2>::New();
-    viewer->SetInputData(render->GetOutput());
-    viewer->SetRenderWindow(mBPPMPRWidget->renderWindow());
-    viewer->Render();
+//    vtkSmartPointer<ImagePipeLine> viewer = vtkSmartPointer<ImagePipeLine>::New();
+//    viewer->setInputData(render->GetOutput());
+//    viewer->setRenderWindow(mBPPMPRWidget->renderWindow());
+//    viewer->render();
+
+    mBPPMPRWidget->setInputData(render->GetOutput());
+    mBPPMPRWidget->render();
 }
 

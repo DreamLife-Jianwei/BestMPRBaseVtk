@@ -11,6 +11,8 @@
 #include <vtkNew.h>
 #include <vtkSmartPointer.h>
 
+#include "imagepipeline.h"
+
 
 class QVTKInteractor;
 class QVTKInteractorAdapter;
@@ -105,6 +107,117 @@ public:                                                             //公开接�
      * 获取光标
      */
     const QCursor& defaultCursor() const;
+    /**
+     * @brief setInputData
+     * @param data 输入数据
+     * 设置输入数据
+     */
+    void setInputData(vtkImageData* data);
+    /**
+     * @brief setInputConnection
+     * @param input
+     * 设置输入数据
+     */
+    void setInputConnection(vtkAlgorithmOutput* input);
+    /**
+     * @brief render
+     * 开始渲染
+     */
+    void render();
+
+    /**
+     * 切片方向
+     */
+    enum
+     {
+       SLICE_ORIENTATION_YZ = 0,
+       SLICE_ORIENTATION_XZ = 1,
+       SLICE_ORIENTATION_XY = 2
+     };
+
+    int getSliceOrientation();
+    /**
+     * @brief ImagePipeLine::setSliceOrientation
+     * @param orientation
+     * 设置切片方向
+     */
+    void setSliceOrientation(int orientation);
+    /**
+     * @brief setSliceOrientationToXY
+     * 设置切片方向
+     */
+    void setSliceOrientationToXY();
+    /**
+     * @brief setSliceOrientationToXY
+     * 设置切片方向
+     */
+    void setSliceOrientationToYZ();
+    /**
+     * @brief setSliceOrientationToXY
+     * 设置切片方向
+     */
+    void setSliceOrientationToXZ();
+
+    void updateDisplayExtent();
+
+    int getSliceMin();
+
+    int getSliceMax();
+
+    void getSliceRange(int range[2]);
+
+    void getSliceRange(int& min, int& max);
+
+    int* getSliceRange();
+
+    double getColorWindow();
+
+    double getColorLevel();
+
+    void setColorWindow(double s);
+
+    void setColorLevel(double s);
+
+    void setDisolayId(void* a);
+
+    void setWindowId(void* a);
+
+    void setParentId(void* a);
+
+    int* getPosition();
+
+    void setPosition(int x,int y);
+
+    void setPosition(int a[2]);
+
+    int* getSize();
+
+    void setSize(int width,int height);
+
+    void setSize(int a[2]);
+
+
+    void setRenderer(vtkRenderer* arg);
+
+    vtkRenderWindow* getRenderWindow();
+
+    vtkRenderer* getRenderer();
+
+    vtkImageActor* getImageActor();
+
+    vtkImageMapToWindowLevelColors* getWindowLevel();
+
+    vtkInteractorStyleImage* getInteratorStyle();
+
+    void setupInteractor(vtkRenderWindowInteractor*arg);
+
+    void setOffScreenRendering(vtkTypeBool i);
+
+    vtkTypeBool getOffScreenRendering();
+
+    void offScreenRenderingOn();
+
+    void offScreenRenderingOff();
 
 
 public:                                                         //公开属性
@@ -149,6 +262,8 @@ private:
     bool EnableHiDPI;
     int UnscaledDPI;
     QCursor DefaultCursor;
+
+    ImagePipeLine* m_PipeLine = nullptr;
 };
 
 #endif // BPPMPRWIDGET_H
