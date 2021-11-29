@@ -65,6 +65,12 @@ BPPMPRWidget::~BPPMPRWidget()
 {
     this->makeCurrent();
     this->cleanupContext();
+
+    if(m_PipeLine)
+    {
+        m_PipeLine->Delete();
+        m_PipeLine = nullptr;
+    }
 }
 /**
  * @brief BPPMPRWidget::setRenderWindow
@@ -553,6 +559,13 @@ void BPPMPRWidget::offScreenRenderingOff()
 {
     m_PipeLine->offScreenRenderingOff();
 }
+
+void BPPMPRWidget::update()
+{
+    QOpenGLWidget::update();
+    m_PipeLine->render();
+}
+
 /**
  * @brief BPPMPRWidget::cleanupContext
  * 清除上下文

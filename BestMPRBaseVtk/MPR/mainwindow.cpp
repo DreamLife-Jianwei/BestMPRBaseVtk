@@ -7,6 +7,7 @@ MainWindow::MainWindow(QWidget *parent) : QWidget(parent), ui(new Ui::MainWindow
     this->setWindowTitle("BestMPRWidget");
     mBPPMPRWidget = new BPPMPRWidget(this);
     mBPPMPRWidget->setGeometry(0,0,600,350);
+    ui->groupBox->setEnabled(false);
 
 }
 
@@ -22,6 +23,8 @@ void MainWindow::on_pushButton_ReadDicom_clicked()
 {
     readDicomImageNormal("D:\\00_Code\\CT\\CT.1.2.840.113619.2.290.3.151673680.426.1473208896.505.18.dcm");
     readDicomImageBPP("D:\\00_Code\\CT\\CT.1.2.840.113619.2.290.3.151673680.426.1473208896.505.18.dcm");
+
+    ui->groupBox->setEnabled(true);
 }
 /**
  * @brief MainWindow::readDicomImage
@@ -48,11 +51,6 @@ void MainWindow::readDicomImageBPP(const char *url)
     vtkSmartPointer<vtkDICOMImageReader> render = vtkSmartPointer<vtkDICOMImageReader>::New();
     render->SetFileName(url);
     render->Update();
-//    vtkSmartPointer<ImagePipeLine> viewer = vtkSmartPointer<ImagePipeLine>::New();
-//    viewer->setInputData(render->GetOutput());
-//    viewer->setRenderWindow(mBPPMPRWidget->renderWindow());
-//    viewer->render();
-
     mBPPMPRWidget->setInputData(render->GetOutput());
     mBPPMPRWidget->render();
 }
@@ -62,7 +60,6 @@ void MainWindow::on_pushButton_ColorWindow_clicked()
 {
     ui->pushButton_ColorWindow->setText(QString::number(mBPPMPRWidget->getColorWindow(),'f',10));
 }
-
 
 void MainWindow::on_pushButton_ColorLevel_clicked()
 {
@@ -78,9 +75,9 @@ void MainWindow::on_horizontalSlider_ColorWindow_valueChanged(int value)
 {
     mBPPMPRWidget->setColorWindow(value);
     viewer->SetColorWindow(value);
-    mBPPMPRWidget->updateDisplayExtent();
+    mBPPMPRWidget->update();
+    viewer->Render();
 
-    qDebug() <<"runing";
 }
 /**
  * @brief MainWindow::on_horizontalSlider_ColorLevel_valueChanged
@@ -91,6 +88,7 @@ void MainWindow::on_horizontalSlider_ColorLevel_valueChanged(int value)
 {
     mBPPMPRWidget->setColorLevel(value);
     viewer->SetColorLevel(value);
-    viewer->UpdateDisplayExtent();
+    viewer->Render();
+    mBPPMPRWidget->update();
 }
 

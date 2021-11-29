@@ -339,6 +339,8 @@ public:                                                             //公开接�
      * 关闭离屏渲染
      */
     void offScreenRenderingOff();
+
+   void update();
 public:                                         //公开属性
 
     double colorWindow = 0.0;                   //窗宽
