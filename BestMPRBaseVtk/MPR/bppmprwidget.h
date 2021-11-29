@@ -23,8 +23,6 @@ class BPPMPRWidget : public QOpenGLWidget
 {
     Q_OBJECT
     typedef QOpenGLWidget Superclass;
-
-
 public:                                                             //公开接口
     /**
      * @brief BPPMPRWidget
@@ -134,7 +132,11 @@ public:                                                             //公开接�
        SLICE_ORIENTATION_XZ = 1,
        SLICE_ORIENTATION_XY = 2
      };
-
+    /**
+     * @brief getSliceOrientation
+     * @return
+     * 获取切片方向
+     */
     int getSliceOrientation();
     /**
      * @brief ImagePipeLine::setSliceOrientation
@@ -157,70 +159,191 @@ public:                                                             //公开接�
      * 设置切片方向
      */
     void setSliceOrientationToXZ();
-
+    /**
+     * @brief updateDisplayExtent
+     * 更新显示范围
+     */
     void updateDisplayExtent();
-
+    /**
+     * @brief getSliceMin
+     * @return
+     * 获取最小切片
+     */
     int getSliceMin();
-
+    /**
+     * @brief getSliceMax
+     * @return
+     * 获取最大切片
+     */
     int getSliceMax();
-
+    /**
+     * @brief getSliceRange
+     * @param range
+     * 获取切片范围
+     */
     void getSliceRange(int range[2]);
-
+    /**
+     * @brief getSliceRange
+     * @param min
+     * @param max
+     * 获取切片范围
+     */
     void getSliceRange(int& min, int& max);
-
+    /**
+     * @brief getSliceRange
+     * @return
+     * 获取切片范围
+     */
     int* getSliceRange();
-
+    /**
+     * @brief getColorWindow
+     * @return
+     * 获取窗宽
+     */
     double getColorWindow();
-
+    /**
+     * @brief getColorLevel
+     * @return
+     * 获取窗位
+     */
     double getColorLevel();
-
+    /**
+     * @brief setColorWindow
+     * @param s
+     * 设置窗宽
+     */
     void setColorWindow(double s);
-
+    /**
+     * @brief setColorLevel
+     * @param s
+     * 设置窗位
+     */
     void setColorLevel(double s);
-
-    void setDisolayId(void* a);
-
+    /**
+     * @brief setDisplayId
+     * @param a
+     * 设置显示ID
+     */
+    void setDisplayId(void* a);
+    /**
+     * @brief setWindowId
+     * @param a
+     * 设置窗口ID
+     */
     void setWindowId(void* a);
-
+    /**
+     * @brief setParentId
+     * @param a
+     * 设置父窗口ID
+     */
     void setParentId(void* a);
-
+    /**
+     * @brief getPosition
+     * @return
+     * 获取位置
+     */
     int* getPosition();
-
+    /**
+     * @brief setPosition
+     * @param x
+     * @param y
+     * 设置位置
+     */
     void setPosition(int x,int y);
-
+    /**
+     * @brief setPosition
+     * @param a
+     * 设置位置
+     */
     void setPosition(int a[2]);
-
+    /**
+     * @brief getSize
+     * @return
+     * 获取尺寸
+     */
     int* getSize();
-
+    /**
+     * @brief setSize
+     * @param width
+     * @param height
+     * 设置尺寸
+     */
     void setSize(int width,int height);
-
+    /**
+     * @brief setSize
+     * @param a
+     * 设置尺寸
+     */
     void setSize(int a[2]);
-
-
+    /**
+     * @brief setRenderer
+     * @param arg
+     * 设置渲染器
+     */
     void setRenderer(vtkRenderer* arg);
-
+    /**
+     * @brief getRenderWindow
+     * @return
+     * 获取渲染窗口
+     */
     vtkRenderWindow* getRenderWindow();
-
+    /**
+     * @brief getRenderer
+     * @return
+     * 获取渲染器
+     */
     vtkRenderer* getRenderer();
-
+    /**
+     * @brief getImageActor
+     * @return
+     * 获取ImageActor
+     */
     vtkImageActor* getImageActor();
-
+    /**
+     * @brief getWindowLevel
+     * @return
+     * 获取窗位
+     */
     vtkImageMapToWindowLevelColors* getWindowLevel();
-
+    /**
+     * @brief getInteratorStyle
+     * @return
+     * 获取交互器
+     */
     vtkInteractorStyleImage* getInteratorStyle();
-
+    /**
+     * @brief setupInteractor
+     * @param arg
+     * 设置交互器
+     */
     void setupInteractor(vtkRenderWindowInteractor*arg);
-
+    /**
+     * @brief setOffScreenRendering
+     * @param i
+     * 设置离屏渲染开关
+     */
     void setOffScreenRendering(vtkTypeBool i);
-
+    /**
+     * @brief getOffScreenRendering
+     * @return
+     * 获取离屏渲染状态
+     */
     vtkTypeBool getOffScreenRendering();
-
+    /**
+     * @brief offScreenRenderingOn
+     * 打开离屏渲染
+     */
     void offScreenRenderingOn();
-
+    /**
+     * @brief offScreenRenderingOff
+     * 关闭离屏渲染
+     */
     void offScreenRenderingOff();
+public:                                         //公开属性
 
+    double colorWindow = 0.0;                   //窗宽
+    double colorLevel = 0.0;                    //窗位
 
-public:                                                         //公开属性
 
 
 protected slots:

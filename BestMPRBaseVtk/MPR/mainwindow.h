@@ -33,11 +33,21 @@ private slots:
     void readDicomImageNormal(const char* url);
 
     void readDicomImageBPP(const char* url);
+    void on_pushButton_ColorWindow_clicked();
+
+    void on_pushButton_ColorLevel_clicked();
+
+    void on_horizontalSlider_ColorWindow_valueChanged(int value);
+
+    void on_horizontalSlider_ColorLevel_valueChanged(int value);
+
 private:
     Ui::MainWindow *ui;
 
 
     BPPMPRWidget* mBPPMPRWidget = nullptr;
+
+    vtkSmartPointer<vtkImageViewer2> viewer;
 
 
 };

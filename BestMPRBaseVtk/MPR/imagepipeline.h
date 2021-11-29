@@ -149,7 +149,7 @@ public:
     /**
      * These are here when using a Tk window.
      */
-    virtual void setDisolayId(void* a);
+    virtual void setDisplayId(void* a);
 
     virtual void setWindowId(void* a);
 
@@ -160,18 +160,38 @@ public:
      * 获取图像位置
      */
     virtual int* getPosition();
-
+    /**
+     * @brief setPosition
+     * @param x
+     * @param y
+     * 设置图像位置
+     */
     virtual void setPosition(int x,int y);
-
+    /**
+     * @brief setPosition
+     * @param a
+     * 设置图像位置
+     */
     virtual void setPosition(int a[2]);
-
+    /**
+     * @brief getSize
+     * @return
+     * 获取图像尺寸
+     */
     virtual int* getSize();
-
+    /**
+     * @brief setSize
+     * @param width
+     * @param height
+     * 设置图像尺寸
+     */
     virtual void setSize(int width,int height);
-
+    /**
+     * @brief setSize
+     * @param a
+     * 设置图像尺寸
+     */
     virtual void setSize(int a[2]);
-
-
     /**
      * @brief ImagePipeLine::setRenderWindow
      * @param arg
@@ -220,13 +240,27 @@ public:
      * 设置交互器
      */
     virtual void setupInteractor(vtkRenderWindowInteractor*arg);
-
+    /**
+     * @brief setOffScreenRendering
+     * @param i
+     * 设置离屏渲染开关
+     */
     virtual void setOffScreenRendering(vtkTypeBool i);
-
+    /**
+     * @brief getOffScreenRendering
+     * @return
+     * 获取离屏渲染开关
+     */
     virtual vtkTypeBool getOffScreenRendering();
-
+    /**
+     * @brief offScreenRenderingOn
+     * 打开离屏渲染
+     */
     virtual void offScreenRenderingOn();
-
+    /**
+     * @brief offScreenRenderingOff
+     * 关闭离屏渲染
+     */
     virtual void offScreenRenderingOff();
 
 protected:
@@ -257,6 +291,8 @@ protected:
      * 卸载流水线
      */
     virtual void unInstallPipeline();
+
+
 protected:
     vtkImageMapToWindowLevelColors* WindowLevel;
     vtkRenderWindow* RenderWindow;

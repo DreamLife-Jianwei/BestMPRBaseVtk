@@ -22,8 +22,6 @@
 #include "vtkOpenGLState.h"
 
 
-
-
 /**
  * @brief BPPMPRWidget::BPPMPRWidget
  * @param parent
@@ -57,7 +55,7 @@ BPPMPRWidget::BPPMPRWidget(vtkGenericOpenGLRenderWindow *window, QWidget *parent
     this->grabGesture(Qt::SwipeGesture);
 
     m_PipeLine = ImagePipeLine::New();
-    m_PipeLine->setRenderWindow(this->renderWindow());                          //这里有问题,会报错
+
 }
 /**
  * @brief BPPMPRWidget::~BPPMPRWidget
@@ -220,8 +218,9 @@ const QCursor &BPPMPRWidget::defaultCursor() const
  */
 void BPPMPRWidget::setInputData(vtkImageData *data)
 {
-    if(m_PipeLine)
         m_PipeLine->setInputData(data);
+    if(m_PipeLine->getRenderWindow() != this->renderWindow())
+        m_PipeLine->setRenderWindow(this->renderWindow());                          //问题已修正，整导入数据的时候切换渲染窗口，但是这么写会不会有新的问题，还待考证
 }
 /**
  * @brief setInputConnection
@@ -230,7 +229,6 @@ void BPPMPRWidget::setInputData(vtkImageData *data)
  */
 void BPPMPRWidget::setInputConnection(vtkAlgorithmOutput *input)
 {
-    if(m_PipeLine)
         m_PipeLine->setInputConnection(input);
 }
 /**
@@ -241,177 +239,316 @@ void BPPMPRWidget::render()
 {
     m_PipeLine->render();
 }
-
+/**
+ * @brief getSliceOrientation
+ * @return
+ * 获取切片方向
+ */
 int BPPMPRWidget::getSliceOrientation()
 {
     return m_PipeLine->getSliceOrientation();
 }
-
+/**
+ * @brief ImagePipeLine::setSliceOrientation
+ * @param orientation
+ * 设置切片方向
+ */
 void BPPMPRWidget::setSliceOrientation(int orientation)
 {
     m_PipeLine->setSliceOrientation(orientation);
 }
-
+/**
+ * @brief setSliceOrientationToXY
+ * 设置切片方向
+ */
 void BPPMPRWidget::setSliceOrientationToXY()
 {
     m_PipeLine->setSliceOrientationToXY();
 }
-
+/**
+ * @brief setSliceOrientationToXY
+ * 设置切片方向
+ */
 void BPPMPRWidget::setSliceOrientationToYZ()
 {
     m_PipeLine->setSliceOrientationToYZ();
 }
-
+/**
+ * @brief setSliceOrientationToXY
+ * 设置切片方向
+ */
 void BPPMPRWidget::setSliceOrientationToXZ()
 {
     m_PipeLine->setSliceOrientationToXZ();
 }
-
+/**
+ * @brief updateDisplayExtent
+ * 更新显示范围
+ */
 void BPPMPRWidget::updateDisplayExtent()
 {
     m_PipeLine->updateDisplayExtent();
 }
-
+/**
+ * @brief getSliceMin
+ * @return
+ * 获取最小切片
+ */
 int BPPMPRWidget::getSliceMin()
 {
     return m_PipeLine->getSliceMin();
 }
-
+/**
+ * @brief getSliceMax
+ * @return
+ * 获取最大切片
+ */
 int BPPMPRWidget::getSliceMax()
 {
     return m_PipeLine->getSliceMax();
 }
-
+/**
+ * @brief getSliceRange
+ * @param range
+ * 获取切片范围
+ */
 void BPPMPRWidget::getSliceRange(int range[])
 {
     m_PipeLine->getSliceRange(range);
 }
-
+/**
+ * @brief getSliceRange
+ * @param min
+ * @param max
+ * 获取切片范围
+ */
 void BPPMPRWidget::getSliceRange(int &min, int &max)
 {
     m_PipeLine->getSliceRange(min,max);
 }
-
+/**
+ * @brief getSliceRange
+ * @return
+ * 获取切片范围
+ */
 int *BPPMPRWidget::getSliceRange()
 {
     return m_PipeLine->getSliceRange();
 }
-
+/**
+ * @brief getColorWindow
+ * @return
+ * 获取窗宽
+ */
 double BPPMPRWidget::getColorWindow()
 {
-    return m_PipeLine->getColorWindow();
+    this->colorWindow = m_PipeLine->getColorWindow();
+    return this->colorWindow;
 }
-
+/**
+ * @brief getColorLevel
+ * @return
+ * 获取窗位
+ */
 double BPPMPRWidget::getColorLevel()
 {
-    return m_PipeLine->getColorLevel();
+    this->colorLevel = m_PipeLine->getColorLevel();
+    return this->colorLevel;
 }
-
+/**
+ * @brief setColorWindow
+ * @param s
+ * 设置窗宽
+ */
 void BPPMPRWidget::setColorWindow(double s)
 {
     m_PipeLine->setColorWindow(s);
 }
-
+/**
+ * @brief setColorLevel
+ * @param s
+ * 设置窗位
+ */
 void BPPMPRWidget::setColorLevel(double s)
 {
     m_PipeLine->setColorLevel(s);
 }
-
-void BPPMPRWidget::setDisolayId(void *a)
+/**
+ * @brief setDisplayId
+ * @param a
+ * 设置显示ID
+ */
+void BPPMPRWidget::setDisplayId(void *a)
 {
-    m_PipeLine->setDisolayId(a);
+    m_PipeLine->setDisplayId(a);
 }
-
+/**
+* @brief setWindowId
+* @param a
+* 设置窗口ID
+*/
 void BPPMPRWidget::setWindowId(void *a)
 {
     m_PipeLine->setWindowId(a);
 }
-
+/**
+ * @brief setParentId
+ * @param a
+ * 设置父窗口ID
+ */
 void BPPMPRWidget::setParentId(void *a)
 {
     m_PipeLine->setParentId(a);
 }
-
+/**
+ * @brief getPosition
+ * @return
+ * 获取位置
+ */
 int *BPPMPRWidget::getPosition()
 {
     return m_PipeLine->getPosition();
 }
-
+/**
+ * @brief setPosition
+ * @param x
+ * @param y
+ * 设置位置
+ */
 void BPPMPRWidget::setPosition(int x, int y)
 {
     m_PipeLine->setPosition(x,y);
 }
-
+/**
+ * @brief setPosition
+ * @param a
+ * 设置位置
+ */
 void BPPMPRWidget::setPosition(int a[])
 {
     m_PipeLine->setPosition(a);
 }
-
+/**
+ * @brief getSize
+ * @return
+ * 获取尺寸
+ */
 int *BPPMPRWidget::getSize()
 {
     return m_PipeLine->getSize();
 }
-
+/**
+ * @brief setSize
+ * @param width
+ * @param height
+ * 设置尺寸
+ */
 void BPPMPRWidget::setSize(int width, int height)
 {
     m_PipeLine->setSize(width,height);
 }
-
+/**
+ * @brief setSize
+ * @param a
+ * 设置尺寸
+ */
 void BPPMPRWidget::setSize(int a[])
 {
     m_PipeLine->setSize(a);
 }
-
+/**
+ * @brief setRenderer
+ * @param arg
+ * 设置渲染器
+ */
 void BPPMPRWidget::setRenderer(vtkRenderer *arg)
 {
     m_PipeLine->setRenderer(arg);
 }
-
+/**
+ * @brief getRenderWindow
+ * @return
+ * 获取渲染窗口
+ */
 vtkRenderWindow *BPPMPRWidget::getRenderWindow()
 {
     return this->RenderWindow;
 }
-
+/**
+ * @brief getRenderer
+ * @return
+ * 获取渲染器
+ */
 vtkRenderer *BPPMPRWidget::getRenderer()
 {
     return m_PipeLine->getRenderer();
 }
-
+/**
+ * @brief getImageActor
+ * @return
+ * 获取ImageActor
+ */
 vtkImageActor *BPPMPRWidget::getImageActor()
 {
     return m_PipeLine->getImageActor();
 }
-
+/**
+ * @brief getWindowLevel
+ * @return
+ * 获取窗位
+ */
 vtkImageMapToWindowLevelColors *BPPMPRWidget::getWindowLevel()
 {
     return m_PipeLine->getWindowLevel();
 }
-
+/**
+ * @brief getInteratorStyle
+ * @return
+ * 获取交互器
+ */
 vtkInteractorStyleImage *BPPMPRWidget::getInteratorStyle()
 {
     return m_PipeLine->getInteratorStyle();
 }
-
+/**
+ * @brief setupInteractor
+ * @param arg
+ * 设置交互器
+ */
 void BPPMPRWidget::setupInteractor(vtkRenderWindowInteractor *arg)
 {
     m_PipeLine->setupInteractor(arg);
 }
-
+/**
+ * @brief setOffScreenRendering
+ * @param i
+ * 设置离屏渲染开关
+ */
 void BPPMPRWidget::setOffScreenRendering(vtkTypeBool i)
 {
     m_PipeLine->setOffScreenRendering(i);
 }
-
+/**
+ * @brief getOffScreenRendering
+ * @return
+ * 获取离屏渲染状态
+ */
 vtkTypeBool BPPMPRWidget::getOffScreenRendering()
 {
     return m_PipeLine->getOffScreenRendering();
 }
-
+/**
+ * @brief offScreenRenderingOn
+ * 打开离屏渲染
+ */
 void BPPMPRWidget::offScreenRenderingOn()
 {
     m_PipeLine->offScreenRenderingOn();
 }
-
+/**
+ * @brief offScreenRenderingOff
+ * 关闭离屏渲染
+ */
 void BPPMPRWidget::offScreenRenderingOff()
 {
     m_PipeLine->offScreenRenderingOff();

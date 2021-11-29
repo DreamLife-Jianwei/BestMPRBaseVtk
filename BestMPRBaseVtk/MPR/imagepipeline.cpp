@@ -15,7 +15,10 @@
 #include "vtkStreamingDemandDrivenPipeline.h"
 
 
-
+/**
+ * @brief The ImagePipeLineCallback class
+ * 回调类
+ */
 class ImagePipeLineCallback : public vtkCommand
 {
 
@@ -94,7 +97,19 @@ public:
     double InitialLevel;
 };
 
-vtkStandardNewMacro(ImagePipeLine);
+//vtkStandardNewMacro(ImagePipeLine);
+/**
+ * @brief ImagePipeLine::New
+ * @return
+ * New 函数
+ */
+ImagePipeLine* ImagePipeLine::New()
+{
+    auto result = new ImagePipeLine;
+    result->InitializeObjectBase();
+    return result;
+}
+
 /**
  * @brief getWindowName
  * @return
@@ -371,7 +386,7 @@ void ImagePipeLine::setColorLevel(double s)
         WindowLevel->SetLevel(s);
 }
 
-void ImagePipeLine::setDisolayId(void *a)
+void ImagePipeLine::setDisplayId(void *a)
 {
     this->RenderWindow->SetDisplayId(a);
 }
