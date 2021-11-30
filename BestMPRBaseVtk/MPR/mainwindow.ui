@@ -112,6 +112,19 @@
      <enum>Qt::Horizontal</enum>
     </property>
    </widget>
+   <widget class="QPushButton" name="pushButton_Slicechange">
+    <property name="geometry">
+     <rect>
+      <x>20</x>
+      <y>120</y>
+      <width>120</width>
+      <height>23</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>切换切面显示</string>
+    </property>
+   </widget>
   </widget>
  </widget>
  <customwidgets>

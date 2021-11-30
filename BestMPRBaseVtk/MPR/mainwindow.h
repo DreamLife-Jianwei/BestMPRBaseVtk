@@ -31,15 +31,39 @@ private slots:
      * 读取dicom文件
      */
     void readDicomImageNormal(const char* url);
-
+    /**
+     * @brief readDicomImageBPP
+     * @param url
+     * 读取Dicom文件
+     */
     void readDicomImageBPP(const char* url);
+    /**
+     * @brief on_pushButton_ColorWindow_clicked
+     * 获取窗宽
+     */
     void on_pushButton_ColorWindow_clicked();
-
+    /**
+     * @brief on_pushButton_ColorLevel_clicked
+     * 获取窗位
+     */
     void on_pushButton_ColorLevel_clicked();
-
+    /**
+     * @brief on_horizontalSlider_ColorWindow_valueChanged
+     * @param value
+     * 改变窗宽
+     */
     void on_horizontalSlider_ColorWindow_valueChanged(int value);
-
+    /**
+     * @brief on_horizontalSlider_ColorLevel_valueChanged
+     * @param value
+     * 改变窗位
+     */
     void on_horizontalSlider_ColorLevel_valueChanged(int value);
+    /**
+     * @brief on_pushButton_Slicechange_clicked
+     * 切换切面显示
+     */
+    void on_pushButton_Slicechange_clicked();
 
 private:
     Ui::MainWindow *ui;

@@ -14,6 +14,8 @@
 #include "vtkRenderer.h"
 #include "vtkStreamingDemandDrivenPipeline.h"
 
+#include <QtDebug>
+
 
 /**
  * @brief The ImagePipeLineCallback class
@@ -213,6 +215,8 @@ int ImagePipeLine::getSliceOrientation()
  */
 void ImagePipeLine::setSliceOrientation(int orientation)
 {
+
+
     if(orientation < ImagePipeLine::SLICE_ORIENTATION_YZ || orientation > ImagePipeLine::SLICE_ORIENTATION_XY)
         return;
 
@@ -233,8 +237,8 @@ void ImagePipeLine::setSliceOrientation(int orientation)
         double scale = this->Renderer->GetActiveCamera()->GetParallelScale();
         this->Renderer->ResetCamera();
         this->Renderer->GetActiveCamera()->SetParallelScale(scale);
-    }
 
+    }
     this->render();
 }
 

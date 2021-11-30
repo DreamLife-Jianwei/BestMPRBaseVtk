@@ -21,8 +21,8 @@ MainWindow::~MainWindow()
  */
 void MainWindow::on_pushButton_ReadDicom_clicked()
 {
-    readDicomImageNormal("D:\\00_Code\\CT\\CT.1.2.840.113619.2.290.3.151673680.426.1473208896.505.18.dcm");
-    readDicomImageBPP("D:\\00_Code\\CT\\CT.1.2.840.113619.2.290.3.151673680.426.1473208896.505.18.dcm");
+    readDicomImageNormal("D:\\00_Code\\CT");
+    readDicomImageBPP("D:\\00_Code\\CT");
 
     ui->groupBox->setEnabled(true);
 }
@@ -34,7 +34,7 @@ void MainWindow::on_pushButton_ReadDicom_clicked()
 void MainWindow::readDicomImageNormal(const char *url)
 {
     vtkSmartPointer<vtkDICOMImageReader> render = vtkSmartPointer<vtkDICOMImageReader>::New();
-    render->SetFileName(url);
+    render->SetDirectoryName(url);
     render->Update();
     viewer = vtkSmartPointer<vtkImageViewer2>::New();
     viewer->SetInputData(render->GetOutput());
@@ -49,18 +49,23 @@ void MainWindow::readDicomImageNormal(const char *url)
 void MainWindow::readDicomImageBPP(const char *url)
 {
     vtkSmartPointer<vtkDICOMImageReader> render = vtkSmartPointer<vtkDICOMImageReader>::New();
-    render->SetFileName(url);
+    render->SetDirectoryName(url);
     render->Update();
     mBPPMPRWidget->setInputData(render->GetOutput());
     mBPPMPRWidget->render();
 }
-
-
+/**
+ * @brief on_pushButton_ColorWindow_clicked
+ * 获取窗宽
+ */
 void MainWindow::on_pushButton_ColorWindow_clicked()
 {
     ui->pushButton_ColorWindow->setText(QString::number(mBPPMPRWidget->getColorWindow(),'f',10));
 }
-
+/**
+ * @brief on_pushButton_ColorLevel_clicked
+ * 获取窗位
+ */
 void MainWindow::on_pushButton_ColorLevel_clicked()
 {
     ui->pushButton_ColorLevel->setText(QString::number(mBPPMPRWidget->getColorLevel(),'f',10));
@@ -90,5 +95,20 @@ void MainWindow::on_horizontalSlider_ColorLevel_valueChanged(int value)
     viewer->SetColorLevel(value);
     viewer->Render();
     mBPPMPRWidget->update();
+}
+/**
+ * @brief on_pushButton_Slicechange_clicked
+ * 切换切面显示
+ */
+int orientation = 0;
+void MainWindow::on_pushButton_Slicechange_clicked()
+{
+    viewer->SetSliceOrientation(orientation);
+    mBPPMPRWidget->setSliceOrientation(orientation);
+
+    if((orientation++) == 2)
+    {
+        orientation = 0;
+    }
 }
 

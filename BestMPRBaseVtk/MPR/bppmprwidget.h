@@ -346,8 +346,6 @@ public:                                         //公开属性
     double colorWindow = 0.0;                   //窗宽
     double colorLevel = 0.0;                    //窗位
 
-
-
 protected slots:
     /**
      * @brief cleanupContext
