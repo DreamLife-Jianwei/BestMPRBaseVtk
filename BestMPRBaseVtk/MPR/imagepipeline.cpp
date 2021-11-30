@@ -20,6 +20,7 @@
 /**
  * @brief The ImagePipeLineCallback class
  * 回调类
+ * 这部分需要将来更具功能需要重写
  */
 class ImagePipeLineCallback : public vtkCommand
 {
@@ -215,8 +216,6 @@ int ImagePipeLine::getSliceOrientation()
  */
 void ImagePipeLine::setSliceOrientation(int orientation)
 {
-
-
     if(orientation < ImagePipeLine::SLICE_ORIENTATION_YZ || orientation > ImagePipeLine::SLICE_ORIENTATION_XY)
         return;
 
@@ -241,26 +240,69 @@ void ImagePipeLine::setSliceOrientation(int orientation)
     }
     this->render();
 }
-
+/**
+ * @brief ImagePipeLine::setSliceOrientationToXY
+ * 设置切片方向
+ */
 void ImagePipeLine::setSliceOrientationToXY()
 {
     this->setSliceOrientation(ImagePipeLine::SLICE_ORIENTATION_XY);
 }
-
+/**
+ * @brief ImagePipeLine::setSliceOrientationToYZ
+ * 设置切片方向
+ */
 void ImagePipeLine::setSliceOrientationToYZ()
 {
     this->setSliceOrientation(ImagePipeLine::SLICE_ORIENTATION_YZ);
 }
-
+/**
+ * @brief ImagePipeLine::setSliceOrientationToXZ
+ * 设置切片方向
+ */
 void ImagePipeLine::setSliceOrientationToXZ()
 {
     this->setSliceOrientation(ImagePipeLine::SLICE_ORIENTATION_XZ);
 }
+/**
+ * @brief ImagePipeLine::getSlice
+ * @return
+ * 获取图像序列
+ */
+int ImagePipeLine::getSlice()
+{
+    return this->Slice;
+}
+/**
+ * @brief ImagePipeLine::setSlice
+ * @param s
+ * 设置图像序列
+ */
+void ImagePipeLine::setSlice(int s)
+{
+    int* range = this->getSliceRange();
+    if(range)
+    {
+        if(s < range[0])
+            s = range[0];
+        else if(s > range[1])
+            s = range[1];
+    }
+
+    if(this->Slice == s)
+        return;
+
+    this->Slice = s;
+    this->Modified();
+    this->updateDisplayExtent();
+    this->render();
+}
 
 void ImagePipeLine::updateDisplayExtent()
 {
+
     vtkAlgorithm* input = this->getInputAlgorithm();
-    if(!input || this->ImageActor)
+    if(!input || !this->ImageActor)
         return;
 
     input->UpdateInformation();

@@ -23,7 +23,6 @@ void MainWindow::on_pushButton_ReadDicom_clicked()
 {
     readDicomImageNormal("D:\\00_Code\\CT");
     readDicomImageBPP("D:\\00_Code\\CT");
-
     ui->groupBox->setEnabled(true);
 }
 /**
@@ -82,7 +81,6 @@ void MainWindow::on_horizontalSlider_ColorWindow_valueChanged(int value)
     viewer->SetColorWindow(value);
     mBPPMPRWidget->update();
     viewer->Render();
-
 }
 /**
  * @brief MainWindow::on_horizontalSlider_ColorLevel_valueChanged
@@ -105,10 +103,32 @@ void MainWindow::on_pushButton_Slicechange_clicked()
 {
     viewer->SetSliceOrientation(orientation);
     mBPPMPRWidget->setSliceOrientation(orientation);
-
     if((orientation++) == 2)
-    {
         orientation = 0;
-    }
+
+}
+
+/**
+ * @brief MainWindow::on_pushButton_Slicerange_clicked
+ * 获取图像序列范围
+ */
+void MainWindow::on_pushButton_Slicerange_clicked()
+{
+    int* range = mBPPMPRWidget->getSliceRange();
+    ui->pushButton_Slicerange->setText(QString::number(range[0],10) + " - " + QString::number(range[1],10));
+    ui->horizontalSlider_SliceRange->setMinimum(range[0]);
+    ui->horizontalSlider_SliceRange->setMaximum(range[1]);
+    ui->horizontalSlider_SliceRange->setValue(range[0]);
+}
+
+/**
+ * @brief MainWindow::on_horizontalSlider_SliceRange_valueChanged
+ * @param value
+ * 设置序列值
+ */
+void MainWindow::on_horizontalSlider_SliceRange_valueChanged(int value)
+{
+    mBPPMPRWidget->setSlice(value);
+    viewer->SetSlice(value);
 }
 

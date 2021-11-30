@@ -86,6 +86,19 @@ public:
      */
     virtual void setSliceOrientationToXZ();
     /**
+     * @brief ImagePipeLine::getSlice
+     * @return
+     * 获取图像序列
+     */
+    virtual int getSlice();
+    /**
+     * @brief ImagePipeLine::setSlice
+     * @param s
+     * 设置图像序列
+     */
+    virtual void setSlice(int s);
+
+    /**
      * @brief updateDisplayExtent
      * 更新显示
      */

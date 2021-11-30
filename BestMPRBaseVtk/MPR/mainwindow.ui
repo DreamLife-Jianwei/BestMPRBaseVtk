@@ -51,8 +51,8 @@
    <widget class="QPushButton" name="pushButton_ColorWindow">
     <property name="geometry">
      <rect>
-      <x>20</x>
-      <y>40</y>
+      <x>10</x>
+      <y>30</y>
       <width>120</width>
       <height>23</height>
      </rect>
@@ -64,8 +64,8 @@
    <widget class="QPushButton" name="pushButton_ColorLevel">
     <property name="geometry">
      <rect>
-      <x>20</x>
-      <y>80</y>
+      <x>10</x>
+      <y>60</y>
       <width>120</width>
       <height>23</height>
      </rect>
@@ -77,10 +77,10 @@
    <widget class="QSlider" name="horizontalSlider_ColorWindow">
     <property name="geometry">
      <rect>
-      <x>180</x>
-      <y>40</y>
+      <x>140</x>
+      <y>30</y>
       <width>160</width>
-      <height>16</height>
+      <height>23</height>
      </rect>
     </property>
     <property name="minimum">
@@ -96,10 +96,10 @@
    <widget class="QSlider" name="horizontalSlider_ColorLevel">
     <property name="geometry">
      <rect>
-      <x>180</x>
-      <y>80</y>
+      <x>140</x>
+      <y>60</y>
       <width>160</width>
-      <height>16</height>
+      <height>23</height>
      </rect>
     </property>
     <property name="minimum">
@@ -115,14 +115,46 @@
    <widget class="QPushButton" name="pushButton_Slicechange">
     <property name="geometry">
      <rect>
-      <x>20</x>
-      <y>120</y>
+      <x>10</x>
+      <y>90</y>
       <width>120</width>
       <height>23</height>
      </rect>
     </property>
     <property name="text">
      <string>切换切面显示</string>
+    </property>
+   </widget>
+   <widget class="QPushButton" name="pushButton_Slicerange">
+    <property name="geometry">
+     <rect>
+      <x>10</x>
+      <y>120</y>
+      <width>120</width>
+      <height>23</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>获取切片范围</string>
+    </property>
+   </widget>
+   <widget class="QSlider" name="horizontalSlider_SliceRange">
+    <property name="geometry">
+     <rect>
+      <x>140</x>
+      <y>120</y>
+      <width>160</width>
+      <height>23</height>
+     </rect>
+    </property>
+    <property name="minimum">
+     <number>-100</number>
+    </property>
+    <property name="maximum">
+     <number>100</number>
+    </property>
+    <property name="orientation">
+     <enum>Qt::Horizontal</enum>
     </property>
    </widget>
   </widget>

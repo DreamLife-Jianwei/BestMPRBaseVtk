@@ -288,6 +288,24 @@ void BPPMPRWidget::setSliceOrientationToXZ()
     m_PipeLine->setSliceOrientationToXZ();
 }
 /**
+ * @brief ImagePipeLine::getSlice
+ * @return
+ * 获取图像序列
+ */
+int BPPMPRWidget::getSlice()
+{
+    return m_PipeLine->getSlice();
+}
+/**
+ * @brief ImagePipeLine::setSlice
+ * @param s
+ * 设置图像序列
+ */
+void BPPMPRWidget::setSlice(int slice)
+{
+    m_PipeLine->setSlice(slice);
+}
+/**
  * @brief updateDisplayExtent
  * 更新显示范围
  */
