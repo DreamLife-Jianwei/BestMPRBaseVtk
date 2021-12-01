@@ -577,11 +577,59 @@ void BPPMPRWidget::offScreenRenderingOff()
 {
     m_PipeLine->offScreenRenderingOff();
 }
-
+/**
+ * @brief update
+ * 界面更新函数
+ */
 void BPPMPRWidget::update()
 {
     QOpenGLWidget::update();
     m_PipeLine->render();
+}
+/**
+ * @brief mousePressEvent
+ * @param event
+ * 鼠标按下事件
+ */
+void BPPMPRWidget::mousePressEvent(QMouseEvent *event)
+{
+
+}
+/**
+ * @brief mouseMoveEvent
+ * @param event
+ * 鼠标移动事件
+ */
+void BPPMPRWidget::mouseMoveEvent(QMouseEvent *event)
+{
+
+}
+/**
+ * @brief mouseReleaseEvent
+ * @param event
+ * 鼠标松开事件
+ */
+void BPPMPRWidget::mouseReleaseEvent(QMouseEvent *event)
+{
+
+}
+/**
+ * @brief mouseDoubleClickEvent
+ * @param event
+ * 鼠标双击事件
+ */
+void BPPMPRWidget::mouseDoubleClickEvent(QMouseEvent *event)
+{
+
+}
+/**
+ * @brief wheelEvent
+ * @param event
+ * 鼠标滚轮事件
+ */
+void BPPMPRWidget::wheelEvent(QWheelEvent *event)
+{
+
 }
 
 /**

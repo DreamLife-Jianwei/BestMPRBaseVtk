@@ -69,6 +69,14 @@ private slots:
 
     void on_horizontalSlider_SliceRange_valueChanged(int value);
 
+    void on_pushButton_GetSize_clicked();
+
+    void on_pushButton_Position_clicked();
+
+    void on_spinBox_width_valueChanged(int arg1);
+
+    void on_spinBox_height_valueChanged(int arg1);
+
 private:
     Ui::MainWindow *ui;
 

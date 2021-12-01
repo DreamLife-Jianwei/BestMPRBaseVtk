@@ -4,7 +4,7 @@
 #include <QObject>
 #include <QOpenGLWidget>
 #include <QScopedPointer>
-
+#include <QMouseEvent>
 
 #include <QVTKInteractor.h>
 #include <vtkGUISupportQtModule.h>
@@ -127,11 +127,11 @@ public:                                                             //公开接�
      * 切片方向
      */
     enum
-     {
-       SLICE_ORIENTATION_YZ = 0,
-       SLICE_ORIENTATION_XZ = 1,
-       SLICE_ORIENTATION_XY = 2
-     };
+    {
+        SLICE_ORIENTATION_YZ = 0,
+        SLICE_ORIENTATION_XZ = 1,
+        SLICE_ORIENTATION_XY = 2
+    };
     /**
      * @brief getSliceOrientation
      * @return
@@ -351,8 +351,44 @@ public:                                                             //公开接�
      * 关闭离屏渲染
      */
     void offScreenRenderingOff();
+    /**
+     * @brief update
+     * 界面更新函数
+     */
+    void update();
+    /**
+     * @brief mousePressEvent
+     * @param event
+     * 鼠标按下事件
+     */
+    void mousePressEvent(QMouseEvent* event) override;
+    /**
+     * @brief mouseMoveEvent
+     * @param event
+     * 鼠标移动事件
+     */
+    void mouseMoveEvent(QMouseEvent* event) override;
+    /**
+     * @brief mouseReleaseEvent
+     * @param event
+     * 鼠标松开事件
+     */
+    void mouseReleaseEvent(QMouseEvent* event) override;
+    /**
+     * @brief mouseDoubleClickEvent
+     * @param event
+     * 鼠标双击事件
+     */
+    void mouseDoubleClickEvent(QMouseEvent* event) override;
+    /**
+     * @brief wheelEvent
+     * @param event
+     * 鼠标滚轮事件
+     */
+    void wheelEvent(QWheelEvent* event) override;
 
-   void update();
+
+
 public:                                         //公开属性
 
     double colorWindow = 0.0;                   //窗宽

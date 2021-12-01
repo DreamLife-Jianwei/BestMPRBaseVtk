@@ -359,7 +359,11 @@ void ImagePipeLine::updateDisplayExtent()
         }
     }
 }
-
+/**
+ * @brief getSliceMin
+ * @return
+ * 获取最小切片
+ */
 int ImagePipeLine::getSliceMin()
 {
     int* range = this->getSliceRange();
@@ -370,7 +374,11 @@ int ImagePipeLine::getSliceMin()
 
     return 0;
 }
-
+/**
+ * @brief getSliceMax
+ * @return
+ * 获取最大切片
+ */
 int ImagePipeLine::getSliceMax()
 {
     int* range = this->getSliceRange();
@@ -381,12 +389,21 @@ int ImagePipeLine::getSliceMax()
 
     return 0;
 }
-
+/**
+ * @brief getSliceRange
+ * @param range
+ * 获取切片范围
+ */
 void ImagePipeLine::getSliceRange(int range[])
 {
     this->getSliceRange(range[0], range[1]);
 }
-
+/**
+ * @brief getSliceRange
+ * @param min
+ * @param max
+ * 获取切片范围
+ */
 void ImagePipeLine::getSliceRange(int &min, int &max)
 {
     vtkAlgorithm* input = this->getInputAlgorithm();
@@ -398,7 +415,11 @@ void ImagePipeLine::getSliceRange(int &min, int &max)
         max = w_ext[this->SliceOrientation *  2 +1];
     }
 }
-
+/**
+ * @brief getSliceRange
+ * @return
+ * 获取切片范围
+ */
 int *ImagePipeLine::getSliceRange()
 {
     vtkAlgorithm* input = this->getInputAlgorithm();
@@ -409,23 +430,39 @@ int *ImagePipeLine::getSliceRange()
     }
     return nullptr;
 }
-
+/**
+ * @brief getColorWindow
+ * @return
+ * 获取窗宽
+ */
 double ImagePipeLine::getColorWindow()
 {
     return this->WindowLevel->GetWindow();
 }
-
+/**
+ * @brief getColorLevel
+ * @return
+ * 获取窗位
+ */
 double ImagePipeLine::getColorLevel()
 {
     return this->WindowLevel->GetLevel();
 }
-
+/**
+ * @brief setColorWindow
+ * @param s
+ * 设置窗宽
+ */
 void ImagePipeLine::setColorWindow(double s)
 {
     if(this->WindowLevel)
         WindowLevel->SetWindow(s);
 }
-
+/**
+ * @brief setColorLevel
+ * @param s
+ * 设置窗位
+ */
 void ImagePipeLine::setColorLevel(double s)
 {
     if(this->WindowLevel)
@@ -446,7 +483,11 @@ void ImagePipeLine::setParentId(void *a)
 {
     this->RenderWindow->SetParentId(a);
 }
-
+/**
+ * @brief getPosition
+ * @return
+ * 获取图像位置
+ */
 int *ImagePipeLine::getPosition()
 {
     return this->RenderWindow->GetPosition();
@@ -456,22 +497,39 @@ void ImagePipeLine::setPosition(int x, int y)
 {
     this->RenderWindow->SetPosition(x,y);
 }
-
+/**
+ * @brief setPosition
+ * @param a
+ * 设置图像位置
+ */
 void ImagePipeLine::setPosition(int a[])
 {
     this->setPosition(a[0],a[1]);
-}
+}/**
+     * @brief getSize
+     * @return
+     * 获取图像尺寸
+     */
 
 int *ImagePipeLine::getSize()
 {
     return this->RenderWindow->GetSize();
 }
-
+/**
+ * @brief setSize
+ * @param width
+ * @param height
+ * 设置图像尺寸
+ */
 void ImagePipeLine::setSize(int width, int height)
 {
     this->RenderWindow->SetSize(width,height);
 }
-
+/**
+ * @brief setSize
+ * @param a
+ * 设置图像尺寸
+ */
 void ImagePipeLine::setSize(int a[])
 {
     this->setSize(a[0],a[1]);
@@ -542,27 +600,47 @@ vtkRenderWindow *ImagePipeLine::getRenderWindow()
 {
     return this->RenderWindow;
 }
-
+/**
+ * @brief getRenderer
+ * @return
+ * 获取渲染器
+ */
 vtkRenderer *ImagePipeLine::getRenderer()
 {
     return this->Renderer;
 }
-
+/**
+ * @brief getImageActor
+ * @return
+ * 获取演员
+ */
 vtkImageActor *ImagePipeLine::getImageActor()
 {
     return this->ImageActor;
 }
-
+/**
+ * @brief getWindowLevel
+ * @return
+ * 获取图像信息
+ */
 vtkImageMapToWindowLevelColors *ImagePipeLine::getWindowLevel()
 {
     return this->WindowLevel;
 }
-
+/**
+ * @brief getInteratorStyle
+ * @return
+ * 获取交互器
+ */
 vtkInteractorStyleImage *ImagePipeLine::getInteratorStyle()
 {
     return this->InteractorStyle;
 }
-
+/**
+ * @brief setupInteractor
+ * @param arg
+ * 设置交互器
+ */
 void ImagePipeLine::setupInteractor(vtkRenderWindowInteractor *arg)
 {
     if(this->Interactor == arg)
@@ -582,22 +660,36 @@ void ImagePipeLine::setupInteractor(vtkRenderWindowInteractor *arg)
     if(this->Renderer)
         this->Renderer->GetActiveCamera()->ParallelProjectionOn();
 }
-
+/**
+ * @brief setOffScreenRendering
+ * @param i
+ * 设置离屏渲染开关
+ */
 void ImagePipeLine::setOffScreenRendering(vtkTypeBool i)
 {
     this->RenderWindow->SetOffScreenRendering(i);
 }
-
+/**
+ * @brief getOffScreenRendering
+ * @return
+ * 获取离屏渲染开关
+ */
 vtkTypeBool ImagePipeLine::getOffScreenRendering()
 {
     return this->RenderWindow->GetOffScreenRendering();
 }
-
+/**
+ * @brief offScreenRenderingOn
+ * 打开离屏渲染
+ */
 void ImagePipeLine::offScreenRenderingOn()
 {
     this->setOffScreenRendering(static_cast<vtkTypeBool>(1));
 }
-
+/**
+ * @brief offScreenRenderingOff
+ * 关闭离屏渲染
+ */
 void ImagePipeLine::offScreenRenderingOff()
 {
     this->setOffScreenRendering(static_cast<vtkTypeBool>(0));
@@ -703,12 +795,18 @@ void ImagePipeLine::updateOrientation()
         }
     }
 }
-
+/**
+ * @brief getInputAlgorithm
+ * @return
+ */
 vtkAlgorithm *ImagePipeLine::getInputAlgorithm()
 {
     return this->WindowLevel->GetInputAlgorithm();
 }
-
+/**
+ * @brief getInputInformation
+ * @return
+ */
 vtkInformation *ImagePipeLine::getInputInformation()
 {
     return this->WindowLevel->GetInputInformation();

@@ -107,7 +107,6 @@ void MainWindow::on_pushButton_Slicechange_clicked()
         orientation = 0;
 
 }
-
 /**
  * @brief MainWindow::on_pushButton_Slicerange_clicked
  * 获取图像序列范围
@@ -130,5 +129,39 @@ void MainWindow::on_horizontalSlider_SliceRange_valueChanged(int value)
 {
     mBPPMPRWidget->setSlice(value);
     viewer->SetSlice(value);
+}
+
+/**
+ * @brief MainWindow::on_pushButton_GetSize_clicked
+ * 获取尺寸
+ */
+void MainWindow::on_pushButton_GetSize_clicked()
+{
+    int* msize = mBPPMPRWidget->getSize();
+    ui->pushButton_GetSize->setText("Width: " + QString::number(msize[0],10) + "\nHeight: " + QString::number(msize[1],10));
+    ui->spinBox_width->setValue(msize[0]);
+    ui->spinBox_height->setValue(msize[1]);
+}
+
+/**
+ * @brief MainWindow::on_pushButton_Position_clicked
+ * 获取位置
+ */
+void MainWindow::on_pushButton_Position_clicked()
+{
+    int* mpositon = mBPPMPRWidget->getPosition();
+    ui->pushButton_Position->setText("X: " + QString::number(mpositon[0],10) + "\nY: " + QString::number(mpositon[1],10));
+}
+
+
+void MainWindow::on_spinBox_width_valueChanged(int arg1)
+{
+    mBPPMPRWidget->setSize(arg1,ui->spinBox_height->value());
+}
+
+
+void MainWindow::on_spinBox_height_valueChanged(int arg1)
+{
+    mBPPMPRWidget->setSize(ui->spinBox_width->value(),arg1);
 }
 
