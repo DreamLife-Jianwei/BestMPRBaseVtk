@@ -235,6 +235,19 @@
      <number>9999999</number>
     </property>
    </widget>
+   <widget class="QPushButton" name="pushButton_MPRPosition">
+    <property name="geometry">
+     <rect>
+      <x>10</x>
+      <y>230</y>
+      <width>120</width>
+      <height>23</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>MPR 定位</string>
+    </property>
+   </widget>
   </widget>
  </widget>
  <customwidgets>

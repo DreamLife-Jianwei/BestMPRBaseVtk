@@ -386,8 +386,30 @@ public:                                                             //公开接�
      * 鼠标滚轮事件
      */
     void wheelEvent(QWheelEvent* event) override;
-
-
+    /**
+     * @brief keyPressEvent
+     * @param event
+     * 键盘按键按下事件
+     */
+    void keyPressEvent(QKeyEvent* event) override;
+    /**
+     * @brief keyReleaseEvent
+     * @param event
+     * 键盘按键松开事件
+     */
+    void keyReleaseEvent(QKeyEvent* event) override;
+    /**
+     * @brief enterEvent
+     * @param event
+     * 进入事件
+     */
+    void enterEvent(QEvent* event) override;
+    /**
+     * @brief leaveEvent
+     * @param event
+     * 离开事件
+     */
+    void leaveEvent(QEvent* event) override;
 
 public:                                         //公开属性
 

@@ -40,13 +40,16 @@ BPPMPRWidget::BPPMPRWidget(QWidget *parent, Qt::WindowFlags f) : BPPMPRWidget(vt
  */
 BPPMPRWidget::BPPMPRWidget(vtkGenericOpenGLRenderWindow *window, QWidget *parent, Qt::WindowFlags f) : Superclass(parent,f),RenderWindow(nullptr),RenderWindowAdapter(nullptr),EnableHiDPI(true),UnscaledDPI(72),DefaultCursor(QCursor(Qt::ArrowCursor))
 {
+
     //默认设置为强焦点
     this->setFocusPolicy(Qt::StrongFocus);                                      //焦点策略，即小部件可以通过Tab键和单击接受焦点，在MacOS上，这也表明当处于"文档、列表焦点模式"时，小部件接受选项卡焦点
     this->setUpdateBehavior(QOpenGLWidget::NoPartialUpdate);                    //缓存区刷新策略，不使用部分绘制
     this->setMouseTracking(true);                                               //实时监听鼠标事件
+
     //使用本地updateSize替换原来的resize
     this->connect(this,&BPPMPRWidget::resized,this,&BPPMPRWidget::updateSize);  //这个和直接调用应该没有啥区别
     this->setRenderWindow(window);                                              //设置渲染窗口
+
     //启用Qt手势支持
     this->grabGesture(Qt::PinchGesture);
     this->grabGesture(Qt::PanGesture);
@@ -64,9 +67,9 @@ BPPMPRWidget::BPPMPRWidget(vtkGenericOpenGLRenderWindow *window, QWidget *parent
 BPPMPRWidget::~BPPMPRWidget()
 {
     this->makeCurrent();
-    this->cleanupContext();
+    this->cleanupContext();             //清除上下文
 
-    if(m_PipeLine)
+    if(m_PipeLine)                      //释放资源
     {
         m_PipeLine->Delete();
         m_PipeLine = nullptr;
@@ -101,7 +104,7 @@ void BPPMPRWidget::setRenderWindow(vtkGenericOpenGLRenderWindow *win)
             this->RenderWindow->SetInteractor(iren);            //为RenderWindow添加交互器
             iren->Initialize();                                 //交互器初始化
             vtkNew<vtkInteractorStyleTrackballCamera> style;    //设置交互器默认样式
-            iren->SetInteractorStyle(style);
+            iren->SetInteractorStyle(style);                    //设置交互器
         }
         if(this->isValid())
         {
@@ -628,6 +631,42 @@ void BPPMPRWidget::mouseDoubleClickEvent(QMouseEvent *event)
  * 鼠标滚轮事件
  */
 void BPPMPRWidget::wheelEvent(QWheelEvent *event)
+{
+
+}
+/**
+ * @brief keyPressEvent
+ * @param event
+ * 键盘按键按下事件
+ */
+void BPPMPRWidget::keyPressEvent(QKeyEvent *event)
+{
+
+}
+/**
+ * @brief keyReleaseEvent
+ * @param event
+ * 键盘按键松开事件
+ */
+void BPPMPRWidget::keyReleaseEvent(QKeyEvent *event)
+{
+
+}
+/**
+ * @brief enterEvent
+ * @param event
+ * 进入事件
+ */
+void BPPMPRWidget::enterEvent(QEvent *event)
+{
+
+}
+/**
+ * @brief leaveEvent
+ * @param event
+ * 离开事件
+ */
+void BPPMPRWidget::leaveEvent(QEvent *event)
 {
 
 }

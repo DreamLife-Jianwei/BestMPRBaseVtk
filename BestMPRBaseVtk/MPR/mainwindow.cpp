@@ -153,15 +153,32 @@ void MainWindow::on_pushButton_Position_clicked()
     ui->pushButton_Position->setText("X: " + QString::number(mpositon[0],10) + "\nY: " + QString::number(mpositon[1],10));
 }
 
-
+/**
+ * @brief MainWindow::on_spinBox_width_valueChanged
+ * @param arg1
+ * 宽度改变
+ */
 void MainWindow::on_spinBox_width_valueChanged(int arg1)
 {
     mBPPMPRWidget->setSize(arg1,ui->spinBox_height->value());
 }
 
-
+/**
+ * @brief MainWindow::on_spinBox_height_valueChanged
+ * @param arg1
+ * 高度改变
+ */
 void MainWindow::on_spinBox_height_valueChanged(int arg1)
 {
     mBPPMPRWidget->setSize(ui->spinBox_width->value(),arg1);
+}
+
+/**
+ * @brief MainWindow::on_pushButton_MPRPosition_clicked
+ * MPR定位显示
+ */
+void MainWindow::on_pushButton_MPRPosition_clicked()
+{
+
 }
 
