@@ -276,6 +276,11 @@ public:
      */
     virtual void offScreenRenderingOff();
 
+
+
+
+
+
 protected:
     ImagePipeLine();
     ~ImagePipeLine() override;

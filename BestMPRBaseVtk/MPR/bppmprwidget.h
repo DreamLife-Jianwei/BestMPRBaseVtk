@@ -19,6 +19,11 @@ class QVTKInteractorAdapter;
 class QVTKRenderWindowAdapter;
 class vtkGenericOpenGLRenderWindow;
 
+
+//https://www.cnblogs.com/biaohuang/p/14287854.html
+//https://blog.csdn.net/liushao1031177/article/details/118946205
+
+
 class BPPMPRWidget : public QOpenGLWidget
 {
     Q_OBJECT

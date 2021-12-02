@@ -77,6 +77,8 @@ private slots:
 
     void on_spinBox_height_valueChanged(int arg1);
 
+    void on_pushButton_MPRPosition_clicked();
+
 private:
     Ui::MainWindow *ui;
 
