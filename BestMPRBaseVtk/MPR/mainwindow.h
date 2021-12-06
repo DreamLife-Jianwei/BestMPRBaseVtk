@@ -79,11 +79,25 @@ private slots:
 
     void on_pushButton_MPRPosition_clicked();
 
+    void on_pushButton_Slicerange_2_clicked();
+
+    void on_pushButton_Slicerange_3_clicked();
+
+    void on_horizontalSlider_SliceRange_2_valueChanged(int value);
+
+    void on_horizontalSlider_SliceRange_3_valueChanged(int value);
+
+    void on_pushButton_Slicechange_2_clicked();
+
+    void on_pushButton_Slicechange_3_clicked();
+
 private:
     Ui::MainWindow *ui;
 
 
-    BPPMPRWidget* mBPPMPRWidget = nullptr;
+    BPPMPRWidget* mBPPMPRWidget1 = nullptr;         //轴状为
+    BPPMPRWidget* mBPPMPRWidget2 = nullptr;         //矢状位
+    BPPMPRWidget* mBPPMPRWidget3 = nullptr;         //冠状位
 
     vtkSmartPointer<vtkImageViewer2> viewer;
 

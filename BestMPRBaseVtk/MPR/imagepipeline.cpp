@@ -93,6 +93,10 @@ public:
         this->IV->setColorWindow(newWindow);
         this->IV->setColorLevel(newLevel);
         this->IV->render();
+
+
+
+
     }
 
     ImagePipeLine* IV;
@@ -204,7 +208,11 @@ void ImagePipeLine::setInputConnection(vtkAlgorithmOutput *input)
     this->WindowLevel->SetInputConnection(input);
     this->updateDisplayExtent();
 }
-
+/**
+ * @brief ImagePipeLine::getSliceOrientation
+ * @return
+ * 获取切片方向
+ */
 int ImagePipeLine::getSliceOrientation()
 {
     return SliceOrientation;
@@ -297,7 +305,10 @@ void ImagePipeLine::setSlice(int s)
     this->updateDisplayExtent();
     this->render();
 }
-
+/**
+ * @brief ImagePipeLine::updateDisplayExtent
+ * 更新切片范围显示
+ */
 void ImagePipeLine::updateDisplayExtent()
 {
 
@@ -770,6 +781,8 @@ ImagePipeLine::~ImagePipeLine()
 /**
  * @brief ImagePipeLine::updateOrientation
  * 设置相机位置
+ * 这里代码和官方有点不一样了，修改了相机位置参数
+ * 不知道目前的解决方案是否正确
  */
 void ImagePipeLine::updateOrientation()
 {
@@ -785,12 +798,12 @@ void ImagePipeLine::updateOrientation()
         case ImagePipeLine::SLICE_ORIENTATION_XZ:
             cam->SetFocalPoint(0,0,0);
             cam->SetPosition(0,-1,0);
-            cam->SetViewUp(0,0,1);
+            cam->SetViewUp(0,0,-1);
             break;
         case ImagePipeLine::SLICE_ORIENTATION_YZ:
             cam->SetFocalPoint(0,0,0);
-            cam->SetPosition(1,0,0);
-            cam->SetViewUp(0,0,1);
+            cam->SetPosition(-1,0,0);
+            cam->SetViewUp(0,0,-1);
             break;
         }
     }
