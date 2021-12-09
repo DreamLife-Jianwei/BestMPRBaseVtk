@@ -780,13 +780,14 @@ ImagePipeLine::~ImagePipeLine()
 }
 /**
  * @brief ImagePipeLine::updateOrientation
- * 设置相机位置
+ * 设置相机位置、切片方向
  * 这里代码和官方有点不一样了，修改了相机位置参数
  * 不知道目前的解决方案是否正确
  */
 void ImagePipeLine::updateOrientation()
 {
     vtkCamera* cam = this->Renderer ? this->Renderer->GetActiveCamera() : nullptr;
+
     if(cam)
     {
         switch (this->SliceOrientation) {
@@ -798,15 +799,16 @@ void ImagePipeLine::updateOrientation()
         case ImagePipeLine::SLICE_ORIENTATION_XZ:
             cam->SetFocalPoint(0,0,0);
             cam->SetPosition(0,-1,0);
-            cam->SetViewUp(0,0,-1);
+            cam->SetViewUp(0,0,1);
             break;
         case ImagePipeLine::SLICE_ORIENTATION_YZ:
             cam->SetFocalPoint(0,0,0);
-            cam->SetPosition(-1,0,0);
-            cam->SetViewUp(0,0,-1);
+            cam->SetPosition(1,0,0);
+            cam->SetViewUp(0,0,1);
             break;
         }
     }
+
 }
 /**
  * @brief getInputAlgorithm

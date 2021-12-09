@@ -5,6 +5,7 @@
 
 //自己的库
 #include "mainwindow.h"
+#include "myimagereslicewindow.h"
 
 //vtk
 #include <vtkAutoInit.h>        //启动必须有
@@ -17,8 +18,12 @@ VTK_MODULE_INIT(vtkInteractionStyle);               //注册使用，暂时还�
 int main(int argc, char *argv[])
 {
     QApplication a(argc, argv);
-    MainWindow w;
+//    MainWindow w;
+//    w.show();
+
+    MyImageResliceWindow w;
     w.show();
+
     return a.exec();
 }
 

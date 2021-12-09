@@ -1,0 +1,147 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui version="4.0">
+ <class>MyImageResliceWindow</class>
+ <widget class="QWidget" name="MyImageResliceWindow">
+  <property name="geometry">
+   <rect>
+    <x>0</x>
+    <y>0</y>
+    <width>1366</width>
+    <height>768</height>
+   </rect>
+  </property>
+  <property name="windowTitle">
+   <string>Form</string>
+  </property>
+  <widget class="QVTKOpenGLNativeWidget" name="openGLWidget_1">
+   <property name="geometry">
+    <rect>
+     <x>0</x>
+     <y>16</y>
+     <width>300</width>
+     <height>240</height>
+    </rect>
+   </property>
+  </widget>
+  <widget class="QVTKOpenGLNativeWidget" name="openGLWidget_2">
+   <property name="geometry">
+    <rect>
+     <x>0</x>
+     <y>272</y>
+     <width>300</width>
+     <height>240</height>
+    </rect>
+   </property>
+  </widget>
+  <widget class="QVTKOpenGLNativeWidget" name="openGLWidget_3">
+   <property name="geometry">
+    <rect>
+     <x>0</x>
+     <y>528</y>
+     <width>300</width>
+     <height>240</height>
+    </rect>
+   </property>
+  </widget>
+  <widget class="QPushButton" name="pushButton_reader">
+   <property name="geometry">
+    <rect>
+     <x>310</x>
+     <y>10</y>
+     <width>80</width>
+     <height>20</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>读取文件</string>
+   </property>
+  </widget>
+  <widget class="QGroupBox" name="groupBox_Test">
+   <property name="geometry">
+    <rect>
+     <x>310</x>
+     <y>40</y>
+     <width>1051</width>
+     <height>721</height>
+    </rect>
+   </property>
+   <property name="title">
+    <string>功能测试</string>
+   </property>
+   <widget class="QPushButton" name="pushButton_SetDirection">
+    <property name="geometry">
+     <rect>
+      <x>10</x>
+      <y>20</y>
+      <width>80</width>
+      <height>20</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>三面切换</string>
+    </property>
+   </widget>
+  </widget>
+  <widget class="QLabel" name="label_1">
+   <property name="geometry">
+    <rect>
+     <x>0</x>
+     <y>2</y>
+     <width>54</width>
+     <height>12</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>轴状面</string>
+   </property>
+  </widget>
+  <widget class="QLabel" name="label_2">
+   <property name="geometry">
+    <rect>
+     <x>0</x>
+     <y>258</y>
+     <width>54</width>
+     <height>12</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>矢状面</string>
+   </property>
+  </widget>
+  <widget class="QLabel" name="label_3">
+   <property name="geometry">
+    <rect>
+     <x>0</x>
+     <y>514</y>
+     <width>54</width>
+     <height>12</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>冠状面</string>
+   </property>
+  </widget>
+  <widget class="QPushButton" name="pushButton_reader_2">
+   <property name="geometry">
+    <rect>
+     <x>400</x>
+     <y>10</y>
+     <width>80</width>
+     <height>20</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>直接测试</string>
+   </property>
+  </widget>
+ </widget>
+ <customwidgets>
+  <customwidget>
+   <class>QVTKOpenGLNativeWidget</class>
+   <extends>QOpenGLWidget</extends>
+   <header location="global">qvtkopenglnativewidget.h</header>
+  </customwidget>
+ </customwidgets>
+ <resources/>
+ <connections/>
+</ui>
