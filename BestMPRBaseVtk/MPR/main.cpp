@@ -18,11 +18,11 @@ VTK_MODULE_INIT(vtkInteractionStyle);               //注册使用，暂时还�
 int main(int argc, char *argv[])
 {
     QApplication a(argc, argv);
-//    MainWindow w;
-//    w.show();
-
-    MyImageResliceWindow w;
+    MainWindow w;
     w.show();
+
+//    MyImageResliceWindow w;
+//    w.show();
 
     return a.exec();
 }

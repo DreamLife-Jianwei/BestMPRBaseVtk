@@ -787,7 +787,6 @@ ImagePipeLine::~ImagePipeLine()
 void ImagePipeLine::updateOrientation()
 {
     vtkCamera* cam = this->Renderer ? this->Renderer->GetActiveCamera() : nullptr;
-
     if(cam)
     {
         switch (this->SliceOrientation) {
@@ -798,17 +797,16 @@ void ImagePipeLine::updateOrientation()
             break;
         case ImagePipeLine::SLICE_ORIENTATION_XZ:
             cam->SetFocalPoint(0,0,0);
-            cam->SetPosition(0,-1,0);
-            cam->SetViewUp(0,0,1);
+            cam->SetPosition(0,1,0);
+            cam->SetViewUp(0,0,-1);
             break;
         case ImagePipeLine::SLICE_ORIENTATION_YZ:
             cam->SetFocalPoint(0,0,0);
             cam->SetPosition(1,0,0);
-            cam->SetViewUp(0,0,1);
+            cam->SetViewUp(0,0,-1);
             break;
         }
     }
-
 }
 /**
  * @brief getInputAlgorithm
@@ -836,7 +834,6 @@ void ImagePipeLine::installPipeline()
     {
         this->RenderWindow->AddRenderer(this->Renderer);
     }
-
     if(this->Interactor)
     {
         if(!this->InteractorStyle)
@@ -849,7 +846,6 @@ void ImagePipeLine::installPipeline()
             this->InteractorStyle->AddObserver(vtkCommand::ResetWindowLevelEvent,cbk);
             cbk->Delete();
         }
-
         this->Interactor->SetInteractorStyle(this->InteractorStyle);
         this->Interactor->SetRenderWindow(this->RenderWindow);
     }
