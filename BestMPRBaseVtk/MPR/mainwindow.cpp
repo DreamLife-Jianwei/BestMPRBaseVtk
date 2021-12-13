@@ -23,6 +23,7 @@ MainWindow::MainWindow(QWidget *parent) : QWidget(parent), ui(new Ui::MainWindow
 {
     ui->setupUi(this);
     this->setWindowTitle("BestMPRWidget");
+
     mBPPMPRWidget1 = new BPPMPRWidget(this);
     mBPPMPRWidget1->setGeometry(0,0,350,350);
 
@@ -67,7 +68,7 @@ void MainWindow::readDicomImageNormal(const char *url)
 
     vtkSmartPointer<vtkDICOMImageReader> reader = vtkSmartPointer<vtkDICOMImageReader>::New();
     reader->SetDirectoryName(url);
-    reader->SetDataSpacing(3.2, 3.2, 1.5);
+    reader->SetDataSpacing(3.2, 1.5, 1.5);
     reader->Update();
 
     //这是一个过滤器，官方翻译如下
@@ -98,22 +99,11 @@ void MainWindow::readDicomImageNormal(const char *url)
     vtkSmartPointer<vtkActor> skin = vtkSmartPointer<vtkActor>::New();
     skin->SetMapper(skinMapper);
 
-//    vtkSmartPointer<vtkOutlineFilter> outlineData = vtkSmartPointer<vtkOutlineFilter>::New();
-//    outlineData->SetInputConnection(reader->GetOutputPort());
-
-//    vtkSmartPointer<vtkPolyDataMapper> mapOutline = vtkSmartPointer<vtkPolyDataMapper>::New();
-//    mapOutline->SetInputConnection(outlineData->GetOutputPort());
-
-//    vtkSmartPointer<vtkActor> outline = vtkSmartPointer<vtkActor>::New();
-//    outline->SetMapper(mapOutline);
-//    outline->GetProperty()->SetColor(0, 0, 0);
-
     vtkSmartPointer<vtkRenderer> aRenderer = vtkSmartPointer<vtkRenderer>::New();
     aRenderer->SetBackground(0, 0, 0);
     aRenderer->ResetCameraClippingRange();
     ui->openGLWidget->renderWindow()->AddRenderer(aRenderer);
 
-//    aRenderer->AddActor(outline);
     aRenderer->AddActor(skin);
 
     ui->openGLWidget->renderWindow()->Render();

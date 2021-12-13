@@ -93,10 +93,6 @@ public:
         this->IV->setColorWindow(newWindow);
         this->IV->setColorLevel(newLevel);
         this->IV->render();
-
-
-
-
     }
 
     ImagePipeLine* IV;
@@ -382,7 +378,6 @@ int ImagePipeLine::getSliceMin()
     {
         return range[0];
     }
-
     return 0;
 }
 /**
