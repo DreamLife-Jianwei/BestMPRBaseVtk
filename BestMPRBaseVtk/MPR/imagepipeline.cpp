@@ -479,17 +479,26 @@ void ImagePipeLine::setColorLevel(double s)
     if(this->WindowLevel)
         WindowLevel->SetLevel(s);
 }
-
+/**
+ * @brief ImagePipeLine::setDisplayId
+ * @param a
+ */
 void ImagePipeLine::setDisplayId(void *a)
 {
     this->RenderWindow->SetDisplayId(a);
 }
-
+/**
+ * @brief ImagePipeLine::setWindowId
+ * @param a
+ */
 void ImagePipeLine::setWindowId(void *a)
 {
     this->RenderWindow->SetWindowId(a);
 }
-
+/**
+ * @brief ImagePipeLine::setParentId
+ * @param a
+ */
 void ImagePipeLine::setParentId(void *a)
 {
     this->RenderWindow->SetParentId(a);
@@ -503,7 +512,11 @@ int *ImagePipeLine::getPosition()
 {
     return this->RenderWindow->GetPosition();
 }
-
+/**
+ * @brief ImagePipeLine::setPosition
+ * @param x
+ * @param y
+ */
 void ImagePipeLine::setPosition(int x, int y)
 {
     this->RenderWindow->SetPosition(x,y);

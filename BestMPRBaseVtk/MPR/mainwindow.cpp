@@ -2,6 +2,23 @@
 #include "ui_mainwindow.h"
 #include <QFileDialog>
 #include <QDebug>
+
+
+#include <vtkRenderer.h>
+#include <vtkRenderWindow.h>
+#include <vtkRenderWindowInteractor.h>
+#include <vtkDICOMImageReader.h>
+#include <vtkPolyDataMapper.h>
+#include <vtkActor.h>
+#include <vtkOutlineFilter.h>
+#include <vtkCamera.h>
+#include <vtkProperty.h>
+#include <vtkPolyDataNormals.h>
+#include <vtkContourFilter.h>
+#include <vtkSmartPointer.h>
+
+
+
 MainWindow::MainWindow(QWidget *parent) : QWidget(parent), ui(new Ui::MainWindow)
 {
     ui->setupUi(this);
@@ -41,22 +58,72 @@ void MainWindow::on_pushButton_ReadDicom_clicked()
 /**
  * @brief MainWindow::readDicomImage
  * @param url
- * 读取Dicom文件
+ * 读取Dicom文件,使用官方标准vtkImageViewer2
+ * 这里将准备改为体渲染或面渲染
  */
 void MainWindow::readDicomImageNormal(const char *url)
 {
-    vtkSmartPointer<vtkDICOMImageReader> render = vtkSmartPointer<vtkDICOMImageReader>::New();
-    render->SetDirectoryName(url);
-    render->Update();
-    viewer = vtkSmartPointer<vtkImageViewer2>::New();
-    viewer->SetInputData(render->GetOutput());
-    viewer->SetRenderWindow(ui->openGLWidget->renderWindow());
-    viewer->Render();
+    //读取Dicom文件
+
+    vtkSmartPointer<vtkDICOMImageReader> reader = vtkSmartPointer<vtkDICOMImageReader>::New();
+    reader->SetDirectoryName(url);
+    reader->SetDataSpacing(3.2, 3.2, 1.5);
+    reader->Update();
+
+    //这是一个过滤器，官方翻译如下
+    //vtkContourFilter是一个过滤器，它将任何数据集作为输入，并在输出等值面和/或等值线上生成。
+    //输出的确切形式取决于输入数据的维数。 由3D单元格组成的数据将生成等值面，由2D单元格组成的数据将生成等值线，
+    //由1D或0D单元格组成的数据将生成等点。 如果输入维度是混合的，输出类型的组合是可能的。
+
+    //若要使用此筛选器，必须指定一个或多个轮廓值。 您可以使用SetValue()方法来指定每个轮廓值，也可以使用GenerateValues()来生成一系列均匀间隔的轮廓。
+    //还可以通过使用vtkScalarTree来加速这个过滤器的操作(以额外的内存为代价)。 标量树用于快速定位包含轮廓曲面的单元。 这是特别有效的，如果多个轮廓被提取。
+    //如果您想要使用标量树，请调用方法UseScalarTreeOn()。
+
+    vtkSmartPointer<vtkContourFilter> skinExtractor = vtkSmartPointer<vtkContourFilter>::New();
+    skinExtractor->SetInputConnection(reader->GetOutputPort());
+    skinExtractor->SetValue(0, 500);
+
+    //vtkPolyDataNormals是一个为多边形网格计算点和/或单元法线的过滤器。
+    //用户通过设置ComputeCellNormals和ComputePointNormals标志来指定他们是否希望计算点和/或单元格法线。
+
+    vtkSmartPointer<vtkPolyDataNormals> skinNormals = vtkSmartPointer<vtkPolyDataNormals>::New();
+    skinNormals->SetInputConnection(skinExtractor->GetOutputPort());
+    skinNormals->SetFeatureAngle(60.0);
+
+
+    vtkSmartPointer<vtkPolyDataMapper> skinMapper = vtkSmartPointer<vtkPolyDataMapper>::New();
+    skinMapper->SetInputConnection(skinNormals->GetOutputPort());
+    skinMapper->ScalarVisibilityOff();
+
+    vtkSmartPointer<vtkActor> skin = vtkSmartPointer<vtkActor>::New();
+    skin->SetMapper(skinMapper);
+
+//    vtkSmartPointer<vtkOutlineFilter> outlineData = vtkSmartPointer<vtkOutlineFilter>::New();
+//    outlineData->SetInputConnection(reader->GetOutputPort());
+
+//    vtkSmartPointer<vtkPolyDataMapper> mapOutline = vtkSmartPointer<vtkPolyDataMapper>::New();
+//    mapOutline->SetInputConnection(outlineData->GetOutputPort());
+
+//    vtkSmartPointer<vtkActor> outline = vtkSmartPointer<vtkActor>::New();
+//    outline->SetMapper(mapOutline);
+//    outline->GetProperty()->SetColor(0, 0, 0);
+
+    vtkSmartPointer<vtkRenderer> aRenderer = vtkSmartPointer<vtkRenderer>::New();
+    aRenderer->SetBackground(0, 0, 0);
+    aRenderer->ResetCameraClippingRange();
+    ui->openGLWidget->renderWindow()->AddRenderer(aRenderer);
+
+//    aRenderer->AddActor(outline);
+    aRenderer->AddActor(skin);
+
+    ui->openGLWidget->renderWindow()->Render();
+
+
 }
 /**
  * @brief MainWindow::readDicomImageBPP
  * @param url
- * 读取Dicom文件
+ * 读取Dicom文件 使用自定义的BPPMPRWidget
  */
 void MainWindow::readDicomImageBPP(const char *url)
 {
@@ -110,8 +177,6 @@ void MainWindow::on_horizontalSlider_ColorWindow_valueChanged(int value)
     mBPPMPRWidget3->setColorWindow(value);
     mBPPMPRWidget3->update();
 
-    viewer->SetColorWindow(value);
-    viewer->Render();
 }
 /**
  * @brief MainWindow::on_horizontalSlider_ColorLevel_valueChanged
@@ -129,9 +194,6 @@ void MainWindow::on_horizontalSlider_ColorLevel_valueChanged(int value)
     mBPPMPRWidget3->setColorLevel(value);
     mBPPMPRWidget3->update();
 
-    viewer->SetColorLevel(value);
-    viewer->Render();
-
 }
 /**
  * @brief on_pushButton_Slicechange_clicked
@@ -144,7 +206,6 @@ void MainWindow::on_pushButton_Slicechange_clicked()
     orientation++;
     if(orientation == 3)
         orientation = 0;
-    viewer->SetSliceOrientation(orientation);
     mBPPMPRWidget1->setSliceOrientation(orientation);
 
 
@@ -170,7 +231,6 @@ void MainWindow::on_pushButton_Slicerange_clicked()
 void MainWindow::on_horizontalSlider_SliceRange_valueChanged(int value)
 {
     mBPPMPRWidget1->setSlice(value);
-    viewer->SetSlice(value);
 }
 
 /**
