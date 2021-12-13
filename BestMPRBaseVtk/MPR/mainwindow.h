@@ -19,6 +19,8 @@ public:
     explicit MainWindow(QWidget *parent = nullptr);
     ~MainWindow();
 
+    void openFile(QString dir);
+
 private slots:
     /**
      * @brief on_pushButton_ReadDicom_clicked
@@ -90,6 +92,10 @@ private slots:
     void on_pushButton_Slicechange_2_clicked();
 
     void on_pushButton_Slicechange_3_clicked();
+
+    void on_pushButton_ReadDicom_2_clicked();
+
+
 
 private:
     Ui::MainWindow *ui;

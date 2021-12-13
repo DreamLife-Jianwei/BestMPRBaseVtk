@@ -36,7 +36,7 @@
     </rect>
    </property>
    <property name="text">
-    <string>导入测试图片</string>
+    <string>内置图片直接测试</string>
    </property>
   </widget>
   <widget class="QGroupBox" name="groupBox">
@@ -326,7 +326,6 @@
     </property>
     <property name="font">
      <font>
-      <family>Adobe Devanagari</family>
       <pointsize>10</pointsize>
      </font>
     </property>
@@ -345,7 +344,6 @@
     </property>
     <property name="font">
      <font>
-      <family>Adobe Devanagari</family>
       <pointsize>10</pointsize>
      </font>
     </property>
@@ -364,7 +362,6 @@
     </property>
     <property name="font">
      <font>
-      <family>Adobe Devanagari</family>
       <pointsize>10</pointsize>
      </font>
     </property>
@@ -398,6 +395,19 @@
      <string>冠状-切换切面</string>
     </property>
    </widget>
+  </widget>
+  <widget class="QPushButton" name="pushButton_ReadDicom_2">
+   <property name="geometry">
+    <rect>
+     <x>840</x>
+     <y>10</y>
+     <width>121</width>
+     <height>23</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>打开文件夹测试</string>
+   </property>
   </widget>
  </widget>
  <customwidgets>

@@ -1,5 +1,6 @@
 #include "mainwindow.h"
 #include "ui_mainwindow.h"
+#include <QFileDialog>
 #include <QDebug>
 MainWindow::MainWindow(QWidget *parent) : QWidget(parent), ui(new Ui::MainWindow)
 {
@@ -22,15 +23,20 @@ MainWindow::~MainWindow()
 {
     delete ui;
 }
+
+void MainWindow::openFile(QString dir)
+{
+    readDicomImageNormal(dir.toLocal8Bit().data());
+    readDicomImageBPP(dir.toLocal8Bit().data());
+    ui->groupBox->setEnabled(true);
+}
 /**
  * @brief MainWindow::on_pushButton_ReadDicom_clicked
  * 读取Dicom文件槽函数
  */
 void MainWindow::on_pushButton_ReadDicom_clicked()
 {
-    readDicomImageNormal("D:\\00_Code\\ST0\\SE2");
-    readDicomImageBPP("D:\\00_Code\\ST0\\SE2");
-    ui->groupBox->setEnabled(true);
+    this->openFile(QString("D:\\00_Code\\ST0\\SE2"));
 }
 /**
  * @brief MainWindow::readDicomImage
@@ -62,11 +68,9 @@ void MainWindow::readDicomImageBPP(const char *url)
     mBPPMPRWidget1->setSliceOrientation(2);
     mBPPMPRWidget1->render();
 
-
     mBPPMPRWidget2->setInputData(render->GetOutput());
     mBPPMPRWidget2->setSliceOrientation(0);
     mBPPMPRWidget2->render();
-
 
     mBPPMPRWidget3->setInputData(render->GetOutput());
     mBPPMPRWidget3->setSliceOrientation(1);
@@ -220,7 +224,6 @@ void MainWindow::on_pushButton_MPRPosition_clicked()
 
 }
 
-
 void MainWindow::on_pushButton_Slicerange_2_clicked()
 {
     int* range = mBPPMPRWidget2->getSliceRange();
@@ -229,7 +232,6 @@ void MainWindow::on_pushButton_Slicerange_2_clicked()
     ui->horizontalSlider_SliceRange_2->setMaximum(range[1]);
     ui->horizontalSlider_SliceRange_2->setValue(range[0]);
 }
-
 
 void MainWindow::on_pushButton_Slicerange_3_clicked()
 {
@@ -240,18 +242,15 @@ void MainWindow::on_pushButton_Slicerange_3_clicked()
     ui->horizontalSlider_SliceRange_3->setValue(range[0]);
 }
 
-
 void MainWindow::on_horizontalSlider_SliceRange_2_valueChanged(int value)
 {
     mBPPMPRWidget2->setSlice(value);
 }
 
-
 void MainWindow::on_horizontalSlider_SliceRange_3_valueChanged(int value)
 {
     mBPPMPRWidget3->setSlice(value);
 }
-
 
 void MainWindow::on_pushButton_Slicechange_2_clicked()
 {
@@ -262,7 +261,6 @@ void MainWindow::on_pushButton_Slicechange_2_clicked()
     mBPPMPRWidget2->setSliceOrientation(orientation);
 }
 
-
 void MainWindow::on_pushButton_Slicechange_3_clicked()
 {
     int orientation = mBPPMPRWidget3->getSliceOrientation();
@@ -270,5 +268,18 @@ void MainWindow::on_pushButton_Slicechange_3_clicked()
     if(orientation == 3)
         orientation = 0;
     mBPPMPRWidget3->setSliceOrientation(orientation);
+}
+
+/**
+ * @brief MainWindow::on_pushButton_ReadDicom_2_clicked
+ * 读取文件夹
+ */
+void MainWindow::on_pushButton_ReadDicom_2_clicked()
+{
+    QString dir = QFileDialog::getExistingDirectory(this, tr("Open Folder"),"D:\\00_Code\\ST0\\SE2",QFileDialog::ShowDirsOnly| QFileDialog::DontResolveSymlinks);
+    if(!dir.isEmpty())
+    {
+        this->openFile(dir);
+    }
 }
 
