@@ -21,6 +21,7 @@
  * @brief The ImagePipeLineCallback class
  * 回调类
  * 这部分需要将来更具功能需要重写
+ * 测试好像没有啥用呀
  */
 class ImagePipeLineCallback : public vtkCommand
 {

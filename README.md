@@ -32,9 +32,13 @@ VTK版本：8.2 -> 9.0.3
 
 ![](https://raw.githubusercontent.com/DreamLife-Jianwei/CSDNResources/master/202112131349908.gif)
 
+增加了3D体渲染
 
+![](https://raw.githubusercontent.com/DreamLife-Jianwei/CSDNResources/master/202112141008290.gif)
 
+更新交互方式
 
+![](https://raw.githubusercontent.com/DreamLife-Jianwei/CSDNResources/master/202112141436612.gif)
 
 ---
 

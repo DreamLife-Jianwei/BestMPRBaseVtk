@@ -20,6 +20,88 @@
 #include "vtkNew.h"
 #include "vtkObjectFactory.h"
 #include "vtkOpenGLState.h"
+#include "vtkSmartPointer.h"
+#include "vtkInteractorStyleImage.h"
+
+
+
+class myVtkInteractorStyleImage : public vtkInteractorStyleImage
+{
+public:
+    static myVtkInteractorStyleImage* New();
+    vtkTypeMacro(myVtkInteractorStyleImage, vtkInteractorStyleImage);
+
+protected:
+    ImagePipeLine* ImageViewer;
+    int Slice;
+    int MinSlice;
+    int MaxSlice;
+
+public:
+    void SetImageViewer(ImagePipeLine* imageViewer)
+    {
+        this->ImageViewer = imageViewer;
+        this->MinSlice = imageViewer->getSliceMin();
+        this->MaxSlice = imageViewer->getSliceMax();
+        this->Slice = (this->MinSlice + this->MaxSlice) / 2;
+        this->ImageViewer->setSlice(this->Slice);
+        this->ImageViewer->render();
+    }
+
+protected:
+    virtual void OnMouseWheelForward() override
+    {
+        this->MinSlice = ImageViewer->getSliceMin();
+        this->MaxSlice = ImageViewer->getSliceMax();
+
+        if (this->Slice < this->MaxSlice)
+        {
+            this->Slice += 1;
+            this->ImageViewer->setSlice(this->Slice);
+            this->ImageViewer->render();
+        }
+    }
+
+    virtual void OnMouseWheelBackward() override
+    {
+
+        this->MinSlice = ImageViewer->getSliceMin();
+        this->MaxSlice = ImageViewer->getSliceMax();
+
+        if (this->Slice > this->MinSlice)
+        {
+            this->Slice -= 1;
+            this->ImageViewer->setSlice(this->Slice);
+            this->ImageViewer->render();
+        }
+    }
+};
+
+vtkStandardNewMacro(myVtkInteractorStyleImage);
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 /**
@@ -41,6 +123,10 @@ BPPMPRWidget::BPPMPRWidget(QWidget *parent, Qt::WindowFlags f) : BPPMPRWidget(vt
 BPPMPRWidget::BPPMPRWidget(vtkGenericOpenGLRenderWindow *window, QWidget *parent, Qt::WindowFlags f) : Superclass(parent,f),RenderWindow(nullptr),RenderWindowAdapter(nullptr),EnableHiDPI(true),UnscaledDPI(72),DefaultCursor(QCursor(Qt::ArrowCursor))
 {
 
+    m_PipeLine = ImagePipeLine::New();
+
+
+
     //默认设置为强焦点
     this->setFocusPolicy(Qt::StrongFocus);                                      //焦点策略，即小部件可以通过Tab键和单击接受焦点，在MacOS上，这也表明当处于"文档、列表焦点模式"时，小部件接受选项卡焦点
     this->setUpdateBehavior(QOpenGLWidget::NoPartialUpdate);                    //缓存区刷新策略，不使用部分绘制
@@ -57,7 +143,7 @@ BPPMPRWidget::BPPMPRWidget(vtkGenericOpenGLRenderWindow *window, QWidget *parent
     this->grabGesture(Qt::TapAndHoldGesture);
     this->grabGesture(Qt::SwipeGesture);
 
-    m_PipeLine = ImagePipeLine::New();
+
 
 }
 /**
@@ -68,12 +154,6 @@ BPPMPRWidget::~BPPMPRWidget()
 {
     this->makeCurrent();
     this->cleanupContext();             //清除上下文
-
-    if(m_PipeLine)                      //释放资源
-    {
-        m_PipeLine->Delete();
-        m_PipeLine = nullptr;
-    }
 }
 /**
  * @brief BPPMPRWidget::setRenderWindow
@@ -82,35 +162,37 @@ BPPMPRWidget::~BPPMPRWidget()
  */
 void BPPMPRWidget::setRenderWindow(vtkGenericOpenGLRenderWindow *win)
 {
-    if(this->RenderWindow == win)                               //判断当前窗口是不是传进来的，是就返回不是继续
+    if(this->RenderWindow == win)                                                       //判断当前窗口是不是传进来的，是就返回不是继续
     {
         return;
     }
 
-    if(this->RenderWindowAdapter)                               // 这将释放所有与旧窗口相关的OpenGL资源
+    if(this->RenderWindowAdapter)                                                       // 这将释放所有与旧窗口相关的OpenGL资源
     {
-        this->makeCurrent();                                    //为窗口绘制OpenGL内容做准备，将上下文设置为当前，并为该上下文绑定framebuffer
-        this->RenderWindowAdapter.reset(nullptr);               //删除并重置指针
+        this->makeCurrent();                                                            //为窗口绘制OpenGL内容做准备，将上下文设置为当前，并为该上下文绑定framebuffer
+        this->RenderWindowAdapter.reset(nullptr);                                       //删除并重置指针
     }
 
-    this->RenderWindow = win;                                   //赋新值
+    this->RenderWindow = win;                                                           //赋新值
     if(this->RenderWindow)
     {
         this->RenderWindow->SetReadyForRendering(false);
 
-        if(!this->RenderWindow->GetInteractor())                //如果没有提供交互器，我们默认将创建一个
+        if(!this->RenderWindow->GetInteractor())                                        //如果没有提供交互器，我们默认将创建一个
         {
-            vtkNew<QVTKInteractor> iren;                        //创建一个默认交互器
-            this->RenderWindow->SetInteractor(iren);            //为RenderWindow添加交互器
-            iren->Initialize();                                 //交互器初始化
-            vtkNew<vtkInteractorStyleTrackballCamera> style;    //设置交互器默认样式
-            iren->SetInteractorStyle(style);                    //设置交互器
+            vtkNew<QVTKInteractor> iren;                                                //创建一个默认交互器
+            this->RenderWindow->SetInteractor(iren);                                    //为RenderWindow添加交互器
+            iren->Initialize();                                                         //交互器初始化
+
+            vtkNew<myVtkInteractorStyleImage> style;                                    //设置交互器默认样式
+            style->SetImageViewer(m_PipeLine);
+            iren->SetInteractorStyle(style);                                            //设置交互器
         }
         if(this->isValid())
         {
-            this->makeCurrent();                                //为窗口绘制OpenG内容做准备，将上下文设置为当前，并为该上下文绑定framebuffer paintGL会自动调用。
-            this->initializeGL();                               //初始化Openg
-            this->updateSize();                                 //更新窗口尺寸
+            this->makeCurrent();                                                        //为窗口绘制OpenG内容做准备，将上下文设置为当前，并为该上下文绑定framebuffer paintGL会自动调用。
+            this->initializeGL();                                                       //初始化Openg
+            this->updateSize();                                                         //更新窗口尺寸
         }
     }
 }
@@ -133,7 +215,7 @@ void BPPMPRWidget::setRenderWindow(vtkRenderWindow *win)
  */
 vtkRenderWindow *BPPMPRWidget::renderWindow() const
 {
-    return this->RenderWindow;                          //返回窗口指针
+    return this->RenderWindow;                                                                                          //返回窗口指针
 }
 /**
  * @brief BPPMPRWidget::interactor
@@ -147,12 +229,11 @@ QVTKInteractor *BPPMPRWidget::interactor() const
 /**
  * @brief BPPMPRWidget::defaultFormat
  * @param stereo_capable
- * @return
- * 返回QSurfaceFormat
+ * @return 返回QSurfaceFormat
  */
 QSurfaceFormat BPPMPRWidget::defaultFormat(bool stereo_capable)
 {
-    return QVTKRenderWindowAdapter::defaultFormat(stereo_capable);              //返回默认QSurfaceFormat
+    return QVTKRenderWindowAdapter::defaultFormat(stereo_capable);                                                      //返回默认QSurfaceFormat
 }
 /**
  * @brief BPPMPRWidget::setEnableHiDPI
@@ -164,7 +245,7 @@ void BPPMPRWidget::setEnableHiDPI(bool enable)
     this->EnableHiDPI = enable;
     if(this->RenderWindowAdapter)
     {
-        this->RenderWindowAdapter->setEnableHiDPI(enable);
+        this->RenderWindowAdapter->setEnableHiDPI(enable);                                                              //设置开启窗口高Dpi支持
     }
 }
 /**
@@ -174,7 +255,7 @@ void BPPMPRWidget::setEnableHiDPI(bool enable)
  */
 bool BPPMPRWidget::enableHiDPI() const
 {
-    return this->EnableHiDPI;
+    return this->EnableHiDPI;                                                                                           //返回高Dpi支持状态
 }
 /**
  * @brief BPPMPRWidget::setUnscaledDPI
@@ -186,7 +267,7 @@ void BPPMPRWidget::setUnscaledDPI(int dpi)
     this->UnscaledDPI = dpi;
     if(this->RenderWindowAdapter)
     {
-        this->RenderWindowAdapter->setUnscaledDPI(dpi);
+        this->RenderWindowAdapter->setUnscaledDPI(dpi);                                                                 //设置默认Dpi
     }
 }
 /**
@@ -632,7 +713,7 @@ void BPPMPRWidget::mouseDoubleClickEvent(QMouseEvent *event)
  */
 void BPPMPRWidget::wheelEvent(QWheelEvent *event)
 {
-
+    qDebug() << "event->";
 }
 /**
  * @brief keyPressEvent
@@ -719,7 +800,8 @@ void BPPMPRWidget::initializeGL()
         this->RenderWindowAdapter->setEnableHiDPI(this->EnableHiDPI);               //设置HiDPI
         this->RenderWindowAdapter->setUnscaledDPI(this->UnscaledDPI);               //设置默认DPI
     }
-    this->connect(this->context(),&QOpenGLContext::aboutToBeDestroyed,this,&BPPMPRWidget::cleanupContext,static_cast<Qt::ConnectionType>(Qt::UniqueConnection | Qt::DirectConnection)); //连接信号槽
+    this->connect(this->context(),&QOpenGLContext::aboutToBeDestroyed,
+                  this,&BPPMPRWidget::cleanupContext,static_cast<Qt::ConnectionType>(Qt::UniqueConnection | Qt::DirectConnection)); //连接信号槽
 }
 /**
  * @brief BPPMPRWidget::paintGL
