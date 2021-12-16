@@ -23,10 +23,13 @@
 #include "vtkSmartPointer.h"
 #include "vtkInteractorStyleImage.h"
 
-
-
+/**
+ * @brief The myVtkInteractorStyleImage class
+ * 鼠标交互类
+ */
 class myVtkInteractorStyleImage : public vtkInteractorStyleImage
 {
+
 public:
     static myVtkInteractorStyleImage* New();
     vtkTypeMacro(myVtkInteractorStyleImage, vtkInteractorStyleImage);
@@ -53,7 +56,7 @@ protected:
     {
         this->MinSlice = ImageViewer->getSliceMin();
         this->MaxSlice = ImageViewer->getSliceMax();
-
+        this->Slice = this->ImageViewer->getSlice();
         if (this->Slice < this->MaxSlice)
         {
             this->Slice += 1;
@@ -67,7 +70,7 @@ protected:
 
         this->MinSlice = ImageViewer->getSliceMin();
         this->MaxSlice = ImageViewer->getSliceMax();
-
+        this->Slice = this->ImageViewer->getSlice();
         if (this->Slice > this->MinSlice)
         {
             this->Slice -= 1;
@@ -78,29 +81,6 @@ protected:
 };
 
 vtkStandardNewMacro(myVtkInteractorStyleImage);
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 
@@ -308,7 +288,7 @@ const QCursor &BPPMPRWidget::defaultCursor() const
  */
 void BPPMPRWidget::setInputData(vtkImageData *data)
 {
-        m_PipeLine->setInputData(data);
+    m_PipeLine->setInputData(data);
     if(m_PipeLine->getRenderWindow() != this->renderWindow())
         m_PipeLine->setRenderWindow(this->renderWindow());                          //问题已修正，整导入数据的时候切换渲染窗口，但是这么写会不会有新的问题，还待考证
 }
@@ -319,7 +299,7 @@ void BPPMPRWidget::setInputData(vtkImageData *data)
  */
 void BPPMPRWidget::setInputConnection(vtkAlgorithmOutput *input)
 {
-        m_PipeLine->setInputConnection(input);
+    m_PipeLine->setInputConnection(input);
 }
 /**
  * @brief render

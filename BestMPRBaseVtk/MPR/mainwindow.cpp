@@ -71,6 +71,12 @@ void MainWindow::readDicomImageNormal(const char *url)
     reader->SetDataSpacing(3.2, 1.5, 1.5);
     reader->Update();
 
+    qDebug()  << reader->GetPixelRepresentation() << reader->GetNumberOfComponents() << reader->GetNumberOfScalarComponents();
+
+
+
+
+
     //这是一个过滤器，官方翻译如下
     //vtkContourFilter是一个过滤器，它将任何数据集作为输入，并在输出等值面和/或等值线上生成。
     //输出的确切形式取决于输入数据的维数。 由3D单元格组成的数据将生成等值面，由2D单元格组成的数据将生成等值线，
@@ -120,6 +126,8 @@ void MainWindow::readDicomImageBPP(const char *url)
     vtkSmartPointer<vtkDICOMImageReader> render = vtkSmartPointer<vtkDICOMImageReader>::New();
     render->SetDirectoryName(url);
     render->Update();
+
+    qDebug() << render->GetBitsAllocated() << render->GetPixelRepresentation();
 
     mBPPMPRWidget1->setInputData(render->GetOutput());
     mBPPMPRWidget1->setSliceOrientation(2);
