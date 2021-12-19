@@ -71,12 +71,6 @@ void MainWindow::readDicomImageNormal(const char *url)
     reader->SetDataSpacing(3.2, 1.5, 1.5);
     reader->Update();
 
-    qDebug()  << reader->GetPixelRepresentation() << reader->GetNumberOfComponents() << reader->GetNumberOfScalarComponents();
-
-
-
-
-
     //这是一个过滤器，官方翻译如下
     //vtkContourFilter是一个过滤器，它将任何数据集作为输入，并在输出等值面和/或等值线上生成。
     //输出的确切形式取决于输入数据的维数。 由3D单元格组成的数据将生成等值面，由2D单元格组成的数据将生成等值线，
@@ -127,18 +121,25 @@ void MainWindow::readDicomImageBPP(const char *url)
     render->SetDirectoryName(url);
     render->Update();
 
-    qDebug() << render->GetBitsAllocated() << render->GetPixelRepresentation();
-
     mBPPMPRWidget1->setInputData(render->GetOutput());
     mBPPMPRWidget1->setSliceOrientation(2);
+    mBPPMPRWidget1->setColorWindow(3731);
+    mBPPMPRWidget1->setColorLevel(1865);
+    ui->horizontalSlider_ColorWindow->setValue(3731);
+    ui->horizontalSlider_ColorLevel->setValue(1865);
+
     mBPPMPRWidget1->render();
 
     mBPPMPRWidget2->setInputData(render->GetOutput());
     mBPPMPRWidget2->setSliceOrientation(0);
+    mBPPMPRWidget2->setColorWindow(3731);
+    mBPPMPRWidget2->setColorLevel(1865);
     mBPPMPRWidget2->render();
 
     mBPPMPRWidget3->setInputData(render->GetOutput());
     mBPPMPRWidget3->setSliceOrientation(1);
+    mBPPMPRWidget3->setColorWindow(3731);
+    mBPPMPRWidget3->setColorLevel(1865);
     mBPPMPRWidget3->render();
 
 }

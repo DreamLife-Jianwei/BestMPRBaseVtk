@@ -29,15 +29,15 @@ MyImageResliceWindow::~MyImageResliceWindow()
 
 void MyImageResliceWindow::readDicom(QString temp)
 {
-    reader->SetDirectoryName(temp.toLocal8Bit().data());                    //设置文件夹路径
-    reader->Update();                                                       //更新
-    reader->GetOutput()->GetExtent(this->extent);                           //获取图像序列范围
-    reader->GetOutput()->GetSpacing(this->spacing);                         //获取数据间距
-    reader->GetOutput()->GetOrigin(this->origin);                           //获取原点
+    reader->SetDirectoryName(temp.toLocal8Bit().data());                            //设置文件夹路径
+    reader->Update();                                                               //更新
+    reader->GetOutput()->GetExtent(this->extent);                                   //获取图像序列范围
+    reader->GetOutput()->GetSpacing(this->spacing);                                 //获取数据间距
+    reader->GetOutput()->GetOrigin(this->origin);                                   //获取原点
 
-    center[0] = origin[0] + spacing[0] * 0.5 * (extent[0] + extent[1]);     //获取中心点
-    center[1] = origin[1] + spacing[1] * 0.5 * (extent[2] + extent[3]);     //获取中心点
-    center[2] = origin[2] + spacing[2] * 0.5 * (extent[4] + extent[5]);     //获取中心点
+    center[0] = origin[0] + spacing[0] * 0.5 * (extent[0] + extent[1]);             //获取中心点
+    center[1] = origin[1] + spacing[1] * 0.5 * (extent[2] + extent[3]);             //获取中心点
+    center[2] = origin[2] + spacing[2] * 0.5 * (extent[4] + extent[5]);             //获取中心点
 }
 
 void MyImageResliceWindow::initImageForm()
