@@ -54,29 +54,29 @@ public:
 protected:
     virtual void OnMouseWheelForward() override
     {
-        this->MinSlice = ImageViewer->getSliceMin();
-        this->MaxSlice = ImageViewer->getSliceMax();
-        this->Slice = this->ImageViewer->getSlice();
-        if (this->Slice < this->MaxSlice)
-        {
-            this->Slice += 1;
-            this->ImageViewer->setSlice(this->Slice);
-            this->ImageViewer->render();
-        }
+//        this->MinSlice = ImageViewer->getSliceMin();
+//        this->MaxSlice = ImageViewer->getSliceMax();
+//        this->Slice = this->ImageViewer->getSlice();
+//        if (this->Slice < this->MaxSlice)
+//        {
+//            this->Slice += 1;
+//            this->ImageViewer->setSlice(this->Slice);
+//            this->ImageViewer->render();
+//        }
     }
 
     virtual void OnMouseWheelBackward() override
     {
 
-        this->MinSlice = ImageViewer->getSliceMin();
-        this->MaxSlice = ImageViewer->getSliceMax();
-        this->Slice = this->ImageViewer->getSlice();
-        if (this->Slice > this->MinSlice)
-        {
-            this->Slice -= 1;
-            this->ImageViewer->setSlice(this->Slice);
-            this->ImageViewer->render();
-        }
+//        this->MinSlice = ImageViewer->getSliceMin();
+//        this->MaxSlice = ImageViewer->getSliceMax();
+//        this->Slice = this->ImageViewer->getSlice();
+//        if (this->Slice > this->MinSlice)
+//        {
+//            this->Slice -= 1;
+//            this->ImageViewer->setSlice(this->Slice);
+//            this->ImageViewer->render();
+//        }
     }
 };
 
@@ -693,7 +693,28 @@ void BPPMPRWidget::mouseDoubleClickEvent(QMouseEvent *event)
  */
 void BPPMPRWidget::wheelEvent(QWheelEvent *event)
 {
-    qDebug() << "event->";
+
+    this->minSLice = m_PipeLine->getSliceMin();                     //获取最小Slice
+    this->maxSlice = m_PipeLine->getSliceMax();                     //获取最大Slice
+    this->slice = this->m_PipeLine->getSlice();                     //获取当前Slice
+   if(event->delta() > 0)                                           //向前
+   {
+       if (this->slice > this->minSLice)
+       {
+           this->slice -= 1;
+           this->m_PipeLine->setSlice(this->slice);
+           this->m_PipeLine->render();
+       }
+   }
+   else                                                             //向后
+   {
+       if (this->slice < this->maxSlice)
+       {
+           this->slice += 1;
+           this->m_PipeLine->setSlice(this->slice);
+           this->m_PipeLine->render();
+       }
+   }
 }
 /**
  * @brief keyPressEvent

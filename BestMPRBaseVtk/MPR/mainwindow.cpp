@@ -44,7 +44,7 @@ MainWindow::~MainWindow()
 
 void MainWindow::openFile(QString dir)
 {
-    readDicomImageNormal(dir.toLocal8Bit().data());
+//    readDicomImageNormal(dir.toLocal8Bit().data());
     readDicomImageBPP(dir.toLocal8Bit().data());
     ui->groupBox->setEnabled(true);
 }
@@ -340,5 +340,12 @@ void MainWindow::on_pushButton_ReadDicom_2_clicked()
     {
         this->openFile(dir);
     }
+}
+
+
+void MainWindow::on_spinBox_x_valueChanged(int arg1)
+{
+    mBPPMPRWidget1->setPosition(arg1,0);
+    mBPPMPRWidget1->render();
 }
 

@@ -97,6 +97,8 @@ private slots:
 
 
 
+    void on_spinBox_x_valueChanged(int arg1);
+
 private:
     Ui::MainWindow *ui;
 

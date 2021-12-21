@@ -420,6 +420,9 @@ public:                                         //公开属性
 
     double colorWindow = 0.0;                   //窗宽
     double colorLevel = 0.0;                    //窗位
+    int slice = 0;                              //当前切片
+    int minSLice = 0;                           //最小切片
+    int maxSlice = 0;                           //最大切片
 
 protected slots:
     /**
