@@ -40,6 +40,10 @@ VTK版本：8.2 -> 9.0.3
 
 ![](https://raw.githubusercontent.com/DreamLife-Jianwei/CSDNResources/master/202112141436612.gif)
 
+更新鼠标操作事件，使用Qt鼠标事件来切换Slice
+
+![](https://raw.githubusercontent.com/DreamLife-Jianwei/CSDNResources/master/202112211026273.gif)
+
 ---
 
 <img src="https://img-blog.csdnimg.cn/e931244fe9284d62854df336584f2ed6.png#pic_center" alt="博客签名2021"  />
