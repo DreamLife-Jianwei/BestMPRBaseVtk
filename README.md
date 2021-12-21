@@ -24,25 +24,39 @@ VTK版本：8.2 -> 9.0.3
 
 ## MPR项目
 
+### 20211220：更新鼠标操作事件
+
+使用Qt鼠标事件来切换Slice
+
+![](https://raw.githubusercontent.com/DreamLife-Jianwei/CSDNResources/master/202112211026273.gif)
+
+### 20211214：更新交互方式
+
+![](https://raw.githubusercontent.com/DreamLife-Jianwei/CSDNResources/master/202112141436612.gif)
+
+### 20211213：增加了3D体渲染
+
+![](https://raw.githubusercontent.com/DreamLife-Jianwei/CSDNResources/master/202112141008290.gif)
+
+### 更新
+
+![](https://raw.githubusercontent.com/DreamLife-Jianwei/CSDNResources/master/202112131349908.gif)
+
+
+
+### 初始化项目
+
 功能测试项目，目前已搬运官方代码，效果如下：
 
 ![gif6](https://raw.githubusercontent.com/DreamLife-Jianwei/CSDNResources/master/20211104162012.gif)
 
-更新
 
-![](https://raw.githubusercontent.com/DreamLife-Jianwei/CSDNResources/master/202112131349908.gif)
 
-增加了3D体渲染
 
-![](https://raw.githubusercontent.com/DreamLife-Jianwei/CSDNResources/master/202112141008290.gif)
 
-更新交互方式
 
-![](https://raw.githubusercontent.com/DreamLife-Jianwei/CSDNResources/master/202112141436612.gif)
 
-更新鼠标操作事件，使用Qt鼠标事件来切换Slice
 
-![](https://raw.githubusercontent.com/DreamLife-Jianwei/CSDNResources/master/202112211026273.gif)
 
 ---
 

@@ -158,16 +158,16 @@ void BPPMPRWidget::setRenderWindow(vtkGenericOpenGLRenderWindow *win)
     {
         this->RenderWindow->SetReadyForRendering(false);
 
-        if(!this->RenderWindow->GetInteractor())                                        //如果没有提供交互器，我们默认将创建一个
-        {
-            vtkNew<QVTKInteractor> iren;                                                //创建一个默认交互器
-            this->RenderWindow->SetInteractor(iren);                                    //为RenderWindow添加交互器
-            iren->Initialize();                                                         //交互器初始化
+//        if(!this->RenderWindow->GetInteractor())                                        //如果没有提供交互器，我们默认将创建一个
+//        {
+//            vtkNew<QVTKInteractor> iren;                                                //创建一个默认交互器
+//            this->RenderWindow->SetInteractor(iren);                                    //为RenderWindow添加交互器
+//            iren->Initialize();                                                         //交互器初始化
 
-            vtkNew<myVtkInteractorStyleImage> style;                                    //设置交互器默认样式
-            style->SetImageViewer(m_PipeLine);
-            iren->SetInteractorStyle(style);                                            //设置交互器
-        }
+//            vtkNew<myVtkInteractorStyleImage> style;                                    //设置交互器默认样式
+//            style->SetImageViewer(m_PipeLine);
+//            iren->SetInteractorStyle(style);                                            //设置交互器
+//        }
         if(this->isValid())
         {
             this->makeCurrent();                                                        //为窗口绘制OpenG内容做准备，将上下文设置为当前，并为该上下文绑定framebuffer paintGL会自动调用。
@@ -451,6 +451,7 @@ double BPPMPRWidget::getColorLevel()
 void BPPMPRWidget::setColorWindow(double s)
 {
     m_PipeLine->setColorWindow(s);
+    emit colorWindowChanged(s);                     //触发窗宽改变信号
 }
 /**
  * @brief setColorLevel
@@ -460,6 +461,7 @@ void BPPMPRWidget::setColorWindow(double s)
 void BPPMPRWidget::setColorLevel(double s)
 {
     m_PipeLine->setColorLevel(s);
+    emit colorLevelChanged(s);                      //处罚窗位改变信号
 }
 /**
  * @brief setDisplayId
@@ -704,6 +706,7 @@ void BPPMPRWidget::wheelEvent(QWheelEvent *event)
            this->slice -= 1;
            this->m_PipeLine->setSlice(this->slice);
            this->m_PipeLine->render();
+           emit sliceChanged(this->slice);
        }
    }
    else                                                             //向后
@@ -713,6 +716,7 @@ void BPPMPRWidget::wheelEvent(QWheelEvent *event)
            this->slice += 1;
            this->m_PipeLine->setSlice(this->slice);
            this->m_PipeLine->render();
+           emit sliceChanged(this->slice);
        }
    }
 }

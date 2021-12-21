@@ -321,7 +321,7 @@ protected:
     int SliceOrientation;
     int FirstRender;
     int Slice;
-    friend class ImagePipeLineCallback;
+//    friend class ImagePipeLineCallback;
 
 signals:
 
