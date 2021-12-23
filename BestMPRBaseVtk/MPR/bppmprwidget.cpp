@@ -22,65 +22,163 @@
 #include "vtkOpenGLState.h"
 #include "vtkSmartPointer.h"
 #include "vtkInteractorStyleImage.h"
+#include "vtkInteractorObserver.h"
 
 /**
  * @brief The myVtkInteractorStyleImage class
  * 鼠标交互类
  */
-class myVtkInteractorStyleImage : public vtkInteractorStyleImage
-{
+//class myVtkInteractorStyleImage : public vtkInteractorStyleImage
+//{
 
-public:
-    static myVtkInteractorStyleImage* New();
-    vtkTypeMacro(myVtkInteractorStyleImage, vtkInteractorStyleImage);
+//public:
+//    static myVtkInteractorStyleImage* New();
+//    vtkTypeMacro(myVtkInteractorStyleImage, vtkInteractorStyleImage);
 
-protected:
-    ImagePipeLine* ImageViewer;
-    int Slice;
-    int MinSlice;
-    int MaxSlice;
+//protected:
+//    ImagePipeLine* ImageViewer;
 
-public:
-    void SetImageViewer(ImagePipeLine* imageViewer)
-    {
-        this->ImageViewer = imageViewer;
-        this->MinSlice = imageViewer->getSliceMin();
-        this->MaxSlice = imageViewer->getSliceMax();
-        this->Slice = (this->MinSlice + this->MaxSlice) / 2;
-        this->ImageViewer->setSlice(this->Slice);
-        this->ImageViewer->render();
-    }
+//    int Slice;
+//    int MinSlice;
+//    int MaxSlice;
 
-protected:
-    virtual void OnMouseWheelForward() override
-    {
-//        this->MinSlice = ImageViewer->getSliceMin();
-//        this->MaxSlice = ImageViewer->getSliceMax();
-//        this->Slice = this->ImageViewer->getSlice();
-//        if (this->Slice < this->MaxSlice)
+//public:
+//    void SetImageViewer(ImagePipeLine* imageViewer)
+//    {
+
+
+//        this->ImageViewer = imageViewer;
+//        this->MinSlice = imageViewer->getSliceMin();
+//        this->MaxSlice = imageViewer->getSliceMax();
+//        this->Slice = (this->MinSlice + this->MaxSlice) / 2;
+//        this->ImageViewer->setSlice(this->Slice);
+//        this->ImageViewer->render();
+//    }
+
+//protected:
+
+//    //移动获取value
+//    virtual void OnMouseMove() override
+//    {
+
+//        int* pos = this->Interactor->GetEventPosition();
+
+//       qDebug() << pos[0] << pos[1];
+
+
+
+//    }
+
+//    virtual void OnMouseWheelForward() override
+//    {
+//        //        this->MinSlice = ImageViewer->getSliceMin();
+//        //        this->MaxSlice = ImageViewer->getSliceMax();
+//        //        this->Slice = this->ImageViewer->getSlice();
+//        //        if (this->Slice < this->MaxSlice)
+//        //        {
+//        //            this->Slice += 1;
+//        //            this->ImageViewer->setSlice(this->Slice);
+//        //            this->ImageViewer->render();
+//        //        }
+//    }
+
+//    virtual void OnMouseWheelBackward() override
+//    {
+
+//        //        this->MinSlice = ImageViewer->getSliceMin();
+//        //        this->MaxSlice = ImageViewer->getSliceMax();
+//        //        this->Slice = this->ImageViewer->getSlice();
+//        //        if (this->Slice > this->MinSlice)
+//        //        {
+//        //            this->Slice -= 1;
+//        //            this->ImageViewer->setSlice(this->Slice);
+//        //            this->ImageViewer->render();
+//        //        }
+
+//    }
+
+//    virtual void OnMiddleButtonDown() override
+//    {
+//        int x = this->Interactor->GetEventPosition()[0];
+//        int y = this->Interactor->GetEventPosition()[1];
+
+//        this->FindPokedRenderer(x, y);
+//        if (this->CurrentRenderer == nullptr)
 //        {
-//            this->Slice += 1;
-//            this->ImageViewer->setSlice(this->Slice);
-//            this->ImageViewer->render();
+//            return;
 //        }
-    }
-
-    virtual void OnMouseWheelBackward() override
-    {
-
-//        this->MinSlice = ImageViewer->getSliceMin();
-//        this->MaxSlice = ImageViewer->getSliceMax();
-//        this->Slice = this->ImageViewer->getSlice();
-//        if (this->Slice > this->MinSlice)
+//        //        this->GrabFocus(this->EventCallbackCommand);
+//        if (!this->Interactor->GetShiftKey() && !this->Interactor->GetControlKey())
 //        {
-//            this->Slice -= 1;
-//            this->ImageViewer->setSlice(this->Slice);
-//            this->ImageViewer->render();
+//            this->WindowLevelStartPosition[0] = x;
+//            this->WindowLevelStartPosition[1] = y;
+//            this->StartWindowLevel();
 //        }
-    }
-};
+//    }
+//    virtual void OnMiddleButtonUp() override
+//    {
+//        switch (this->State)
+//        {
+//        case VTKIS_WINDOW_LEVEL:
+//            this->EndWindowLevel();
+//            if (this->Interactor)
+//            {
+//                this->ReleaseFocus();
+//            }
+//            break;
 
-vtkStandardNewMacro(myVtkInteractorStyleImage);
+//        case VTKIS_SLICE:
+//            this->EndSlice();
+//            if (this->Interactor)
+//            {
+//                this->ReleaseFocus();
+//            }
+//            break;
+//        }
+
+//        this->Superclass::OnMiddleButtonUp();
+//    }
+
+//    virtual void OnLeftButtonDown() override
+//    {
+//        int x = this->Interactor->GetEventPosition()[0];
+//        int y = this->Interactor->GetEventPosition()[1];
+
+//        this->FindPokedRenderer(x, y);
+//        if (this->CurrentRenderer == nullptr)
+//        {
+//            return;
+//        }
+
+//    }
+
+//    virtual void OnLeftButtonUp() override
+//    {
+//        switch (this->State)
+//        {
+//        case VTKIS_WINDOW_LEVEL:
+//            this->EndWindowLevel();
+//            if (this->Interactor)
+//            {
+//                this->ReleaseFocus();
+//            }
+//            break;
+
+//        case VTKIS_SLICE:
+//            this->EndSlice();
+//            if (this->Interactor)
+//            {
+//                this->ReleaseFocus();
+//            }
+//            break;
+//        }
+
+//    }
+
+
+//};
+
+//vtkStandardNewMacro(myVtkInteractorStyleImage);
 
 
 
@@ -158,16 +256,20 @@ void BPPMPRWidget::setRenderWindow(vtkGenericOpenGLRenderWindow *win)
     {
         this->RenderWindow->SetReadyForRendering(false);
 
-//        if(!this->RenderWindow->GetInteractor())                                        //如果没有提供交互器，我们默认将创建一个
-//        {
-//            vtkNew<QVTKInteractor> iren;                                                //创建一个默认交互器
-//            this->RenderWindow->SetInteractor(iren);                                    //为RenderWindow添加交互器
-//            iren->Initialize();                                                         //交互器初始化
+        if(!this->RenderWindow->GetInteractor())                                        //如果没有提供交互器，我们默认将创建一个
+        {
+            vtkNew<QVTKInteractor> iren;                                                //创建一个默认交互器
+            this->RenderWindow->SetInteractor(iren);                                    //为RenderWindow添加交互器
 
-//            vtkNew<myVtkInteractorStyleImage> style;                                    //设置交互器默认样式
-//            style->SetImageViewer(m_PipeLine);
-//            iren->SetInteractorStyle(style);                                            //设置交互器
-//        }
+            iren->Initialize();                                                         //交互器初始化
+
+/*            vtkNew<myVtkInteractorStyleImage> style;                                    //设置交互器默认样式
+
+            style->SetImageViewer(m_PipeLine);
+
+            iren->SetInteractorStyle(style); */                                           //设置交互器
+
+        }
         if(this->isValid())
         {
             this->makeCurrent();                                                        //为窗口绘制OpenG内容做准备，将上下文设置为当前，并为该上下文绑定framebuffer paintGL会自动调用。
@@ -699,26 +801,26 @@ void BPPMPRWidget::wheelEvent(QWheelEvent *event)
     this->minSLice = m_PipeLine->getSliceMin();                     //获取最小Slice
     this->maxSlice = m_PipeLine->getSliceMax();                     //获取最大Slice
     this->slice = this->m_PipeLine->getSlice();                     //获取当前Slice
-   if(event->delta() > 0)                                           //向前
-   {
-       if (this->slice > this->minSLice)
-       {
-           this->slice -= 1;
-           this->m_PipeLine->setSlice(this->slice);
-           this->m_PipeLine->render();
-           emit sliceChanged(this->slice);
-       }
-   }
-   else                                                             //向后
-   {
-       if (this->slice < this->maxSlice)
-       {
-           this->slice += 1;
-           this->m_PipeLine->setSlice(this->slice);
-           this->m_PipeLine->render();
-           emit sliceChanged(this->slice);
-       }
-   }
+    if(event->delta() > 0)                                           //向前
+    {
+        if (this->slice > this->minSLice)
+        {
+            this->slice -= 1;
+            this->m_PipeLine->setSlice(this->slice);
+            this->m_PipeLine->render();
+            emit sliceChanged(this->slice);
+        }
+    }
+    else                                                             //向后
+    {
+        if (this->slice < this->maxSlice)
+        {
+            this->slice += 1;
+            this->m_PipeLine->setSlice(this->slice);
+            this->m_PipeLine->render();
+            emit sliceChanged(this->slice);
+        }
+    }
 }
 /**
  * @brief keyPressEvent

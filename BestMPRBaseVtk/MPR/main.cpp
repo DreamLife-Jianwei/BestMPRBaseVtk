@@ -5,7 +5,7 @@
 
 //自己的库
 #include "mainwindow.h"
-#include "myimagereslicewindow.h"
+//#include "myimagereslicewindow.h"
 
 //vtk
 #include <vtkAutoInit.h>        //启动必须有

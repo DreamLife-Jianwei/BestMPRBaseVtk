@@ -14,17 +14,16 @@ SOURCES += \
     imagepipeline.cpp \
     main.cpp \
     mainwindow.cpp \
-    myimagereslicewindow.cpp
+    myvtkinteractorstyleimage.cpp
 
 HEADERS += \
     bppmprwidget.h \
     imagepipeline.h \
     mainwindow.h \
-    myimagereslicewindow.h
+    myvtkinteractorstyleimage.h
 
 FORMS += \
-    mainwindow.ui \
-    myimagereslicewindow.ui
+    mainwindow.ui
 
 
 INCLUDEPATH += ./include/vtk-9.0

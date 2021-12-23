@@ -44,7 +44,7 @@ MainWindow::~MainWindow()
 
 void MainWindow::openFile(QString dir)
 {
-//    readDicomImageNormal(dir.toLocal8Bit().data());
+//    readDicomImageNormal(dir.toLocal8Bit().data());                 //3D加载路径
     readDicomImageBPP(dir.toLocal8Bit().data());
     ui->groupBox->setEnabled(true);
 }
