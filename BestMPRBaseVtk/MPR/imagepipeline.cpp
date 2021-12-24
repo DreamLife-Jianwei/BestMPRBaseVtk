@@ -1,4 +1,5 @@
 #include "imagepipeline.h"
+#include <QtDebug>
 
 #include "vtkCamera.h"
 #include "vtkCommand.h"
@@ -14,94 +15,9 @@
 #include "vtkRenderer.h"
 #include "vtkStreamingDemandDrivenPipeline.h"
 
-#include <QtDebug>
 
 
-/**
- * @brief The ImagePipeLineCallback class
- * 回调类
- * 这部分需要将来更具功能需要重写
- * 测试好像没有啥用呀
- */
-//class ImagePipeLineCallback : public vtkCommand
-//{
 
-//public:
-//    static ImagePipeLineCallback* New()
-//    {
-//        return new ImagePipeLineCallback;
-//    }
-
-//    void Execute(vtkObject* caller,unsigned long event,void* vtkNotUsed(callData)) override
-//    {
-//        if(this->IV->getInput() == nullptr)
-//        {
-//            return;
-//        }
-
-//        if(event == vtkCommand::ResetWindowLevelEvent)
-//        {
-//            this->IV->getInputAlgorithm()->UpdateWholeExtent();
-//            double* range = this->IV->getInput()->GetScalarRange();
-//            this->IV->setColorWindow(range[1] - range[0]);
-//            this->IV->setColorLevel(0.5 * (range[1] + range[0]));
-//            this->IV->render();
-//            return;
-//        }
-
-//        if(event == vtkCommand::StartWindowLevelEvent)
-//        {
-//            this->InitialWindow = this->IV->getColorWindow();
-//            this->InitialLevel = this->IV->getColorLevel();
-//            return;
-//        }
-
-//        vtkInteractorStyleImage* isi = static_cast<vtkInteractorStyleImage*>(caller);
-
-//        const int* size = this->IV->getRenderWindow()->GetSize();
-
-//        double window = this->InitialWindow;
-//        double level = this->InitialLevel;
-
-//        double dx = 4.0 * (isi->GetWindowLevelCurrentPosition()[0] - isi->GetWindowLevelStartPosition()[0]) / size[0];
-//        double dy = 4.0 * (isi->GetWindowLevelStartPosition()[1] - isi->GetWindowLevelCurrentPosition()[1]) / size[1];
-
-//        if(fabs(window) > 0.01)
-//            dx = dx * window;
-//        else
-//            dx = dx * (window < 0 ? -0.01 : 0.01);
-
-//        if(fabs(level) > 0.01)
-//            dy = dy * level;
-//        else
-//            dy = dy * (level < 0 ? -0.01 : 0.01);
-
-//        if(window < 0.01)
-//            dx = -1 * dx;
-
-//        if(level < 0.01)
-//            dy = -1 * dy;
-
-//        double newWindow = dx + window;
-//        double newLevel = level -dy;
-
-//        if(fabs(newWindow) < 0.01)
-//            newWindow = 0.01 * (newWindow < 0 ? -1 :1);
-
-//        if(fabs(newLevel) < 0.01)
-//            newLevel = 0.01 * (newLevel < 0 ? -1 : 1);
-
-//        this->IV->setColorWindow(newWindow);
-//        this->IV->setColorLevel(newLevel);
-//        this->IV->render();
-//    }
-
-//    ImagePipeLine* IV;
-//    double InitialWindow;
-//    double InitialLevel;
-//};
-
-//vtkStandardNewMacro(ImagePipeLine);
 /**
  * @brief ImagePipeLine::New
  * @return

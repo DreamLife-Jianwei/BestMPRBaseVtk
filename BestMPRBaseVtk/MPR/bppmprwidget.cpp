@@ -1,4 +1,5 @@
 #include "bppmprwidget.h"
+#include <QtDebug>
 
 #include <QApplication>
 #include <QDesktopWidget>
@@ -9,7 +10,6 @@
 #include <QOpenGLTexture>
 #include <QPointer>
 #include <QScopedValueRollback>
-#include <QtDebug>
 
 #include "QVTKInteractor.h"
 #include "QVTKInteractorAdapter.h"
@@ -21,165 +21,8 @@
 #include "vtkObjectFactory.h"
 #include "vtkOpenGLState.h"
 #include "vtkSmartPointer.h"
-#include "vtkInteractorStyleImage.h"
-#include "vtkInteractorObserver.h"
 
-/**
- * @brief The myVtkInteractorStyleImage class
- * 鼠标交互类
- */
-//class myVtkInteractorStyleImage : public vtkInteractorStyleImage
-//{
-
-//public:
-//    static myVtkInteractorStyleImage* New();
-//    vtkTypeMacro(myVtkInteractorStyleImage, vtkInteractorStyleImage);
-
-//protected:
-//    ImagePipeLine* ImageViewer;
-
-//    int Slice;
-//    int MinSlice;
-//    int MaxSlice;
-
-//public:
-//    void SetImageViewer(ImagePipeLine* imageViewer)
-//    {
-
-
-//        this->ImageViewer = imageViewer;
-//        this->MinSlice = imageViewer->getSliceMin();
-//        this->MaxSlice = imageViewer->getSliceMax();
-//        this->Slice = (this->MinSlice + this->MaxSlice) / 2;
-//        this->ImageViewer->setSlice(this->Slice);
-//        this->ImageViewer->render();
-//    }
-
-//protected:
-
-//    //移动获取value
-//    virtual void OnMouseMove() override
-//    {
-
-//        int* pos = this->Interactor->GetEventPosition();
-
-//       qDebug() << pos[0] << pos[1];
-
-
-
-//    }
-
-//    virtual void OnMouseWheelForward() override
-//    {
-//        //        this->MinSlice = ImageViewer->getSliceMin();
-//        //        this->MaxSlice = ImageViewer->getSliceMax();
-//        //        this->Slice = this->ImageViewer->getSlice();
-//        //        if (this->Slice < this->MaxSlice)
-//        //        {
-//        //            this->Slice += 1;
-//        //            this->ImageViewer->setSlice(this->Slice);
-//        //            this->ImageViewer->render();
-//        //        }
-//    }
-
-//    virtual void OnMouseWheelBackward() override
-//    {
-
-//        //        this->MinSlice = ImageViewer->getSliceMin();
-//        //        this->MaxSlice = ImageViewer->getSliceMax();
-//        //        this->Slice = this->ImageViewer->getSlice();
-//        //        if (this->Slice > this->MinSlice)
-//        //        {
-//        //            this->Slice -= 1;
-//        //            this->ImageViewer->setSlice(this->Slice);
-//        //            this->ImageViewer->render();
-//        //        }
-
-//    }
-
-//    virtual void OnMiddleButtonDown() override
-//    {
-//        int x = this->Interactor->GetEventPosition()[0];
-//        int y = this->Interactor->GetEventPosition()[1];
-
-//        this->FindPokedRenderer(x, y);
-//        if (this->CurrentRenderer == nullptr)
-//        {
-//            return;
-//        }
-//        //        this->GrabFocus(this->EventCallbackCommand);
-//        if (!this->Interactor->GetShiftKey() && !this->Interactor->GetControlKey())
-//        {
-//            this->WindowLevelStartPosition[0] = x;
-//            this->WindowLevelStartPosition[1] = y;
-//            this->StartWindowLevel();
-//        }
-//    }
-//    virtual void OnMiddleButtonUp() override
-//    {
-//        switch (this->State)
-//        {
-//        case VTKIS_WINDOW_LEVEL:
-//            this->EndWindowLevel();
-//            if (this->Interactor)
-//            {
-//                this->ReleaseFocus();
-//            }
-//            break;
-
-//        case VTKIS_SLICE:
-//            this->EndSlice();
-//            if (this->Interactor)
-//            {
-//                this->ReleaseFocus();
-//            }
-//            break;
-//        }
-
-//        this->Superclass::OnMiddleButtonUp();
-//    }
-
-//    virtual void OnLeftButtonDown() override
-//    {
-//        int x = this->Interactor->GetEventPosition()[0];
-//        int y = this->Interactor->GetEventPosition()[1];
-
-//        this->FindPokedRenderer(x, y);
-//        if (this->CurrentRenderer == nullptr)
-//        {
-//            return;
-//        }
-
-//    }
-
-//    virtual void OnLeftButtonUp() override
-//    {
-//        switch (this->State)
-//        {
-//        case VTKIS_WINDOW_LEVEL:
-//            this->EndWindowLevel();
-//            if (this->Interactor)
-//            {
-//                this->ReleaseFocus();
-//            }
-//            break;
-
-//        case VTKIS_SLICE:
-//            this->EndSlice();
-//            if (this->Interactor)
-//            {
-//                this->ReleaseFocus();
-//            }
-//            break;
-//        }
-
-//    }
-
-
-//};
-
-//vtkStandardNewMacro(myVtkInteractorStyleImage);
-
+#include "myvtkinteractorstyleimage.h"                  //交互样式
 
 
 /**
@@ -203,8 +46,6 @@ BPPMPRWidget::BPPMPRWidget(vtkGenericOpenGLRenderWindow *window, QWidget *parent
 
     m_PipeLine = ImagePipeLine::New();
 
-
-
     //默认设置为强焦点
     this->setFocusPolicy(Qt::StrongFocus);                                      //焦点策略，即小部件可以通过Tab键和单击接受焦点，在MacOS上，这也表明当处于"文档、列表焦点模式"时，小部件接受选项卡焦点
     this->setUpdateBehavior(QOpenGLWidget::NoPartialUpdate);                    //缓存区刷新策略，不使用部分绘制
@@ -220,8 +61,6 @@ BPPMPRWidget::BPPMPRWidget(vtkGenericOpenGLRenderWindow *window, QWidget *parent
     this->grabGesture(Qt::TapGesture);
     this->grabGesture(Qt::TapAndHoldGesture);
     this->grabGesture(Qt::SwipeGesture);
-
-
 
 }
 /**
@@ -263,11 +102,11 @@ void BPPMPRWidget::setRenderWindow(vtkGenericOpenGLRenderWindow *win)
 
             iren->Initialize();                                                         //交互器初始化
 
-/*            vtkNew<myVtkInteractorStyleImage> style;                                    //设置交互器默认样式
+            vtkNew<myVtkInteractorStyleImage> style;                                    //设置交互器默认样式
 
             style->SetImageViewer(m_PipeLine);
 
-            iren->SetInteractorStyle(style); */                                           //设置交互器
+            iren->SetInteractorStyle(style);                                            //设置交互器
 
         }
         if(this->isValid())

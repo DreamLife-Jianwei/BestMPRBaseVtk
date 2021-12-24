@@ -1,7 +1,7 @@
 TEMPLATE = subdirs
 
 SUBDIRS += \
-    ../../bPPMPRWidget/bPPMPRWidget \
+#    ../../bPPMPRWidget/bPPMPRWidget \
     BestMPRBaseVtk \
     BestMPRBaseVtkTest \
     MPR \
