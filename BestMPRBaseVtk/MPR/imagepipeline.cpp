@@ -15,9 +15,6 @@
 #include "vtkRenderer.h"
 #include "vtkStreamingDemandDrivenPipeline.h"
 
-
-
-
 /**
  * @brief ImagePipeLine::New
  * @return
@@ -58,22 +55,25 @@ void ImagePipeLine::render()
             case ImagePipeLine::SLICE_ORIENTATION_XY:
             default:
                 xs = w_ext[1] - w_ext[0] + 1;
-                ys = w_ext[3] - w_ext[2] +1;
+                ys = w_ext[3] - w_ext[2] + 1;
                 break;
 
             case ImagePipeLine::SLICE_ORIENTATION_XZ:
                 xs = w_ext[1] - w_ext[0] + 1;
-                ys = w_ext[5] - w_ext[4] +1;
+                ys = w_ext[5] - w_ext[4] + 1;
                 break;
 
             case ImagePipeLine::SLICE_ORIENTATION_YZ:
                 xs = w_ext[3] - w_ext[2] + 1;
-                ys = w_ext[5] - w_ext[4] +1;
+                ys = w_ext[5] - w_ext[4] + 1;
                 break;
             }
             /*
              * 如果图像尺寸小于150*100，那么强制把图像尺寸设置为150*100
              */
+
+            qDebug() << this->RenderWindow->GetSize()[0];
+
             if(this->RenderWindow->GetSize()[0] == 0)
             {
                 this->RenderWindow->SetSize(xs < 150 ? 150 : xs, ys < 100 ? 100 : ys);

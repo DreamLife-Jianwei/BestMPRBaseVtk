@@ -3,8 +3,12 @@
 
 
 
-vtkStandardNewMacro(myVtkInteractorStyleImage);
-
+vtkStandardNewMacro(myVtkInteractorStyleImage);                             //标准类生成宏
+/**
+ * @brief myVtkInteractorStyleImage::SetImageViewer
+ * @param imageViewer
+ * 设置图像接口
+ */
 void myVtkInteractorStyleImage::SetImageViewer(ImagePipeLine *imageViewer)
 {
     this->ImageViewer = imageViewer;
@@ -52,9 +56,6 @@ void myVtkInteractorStyleImage::OnMiddleButtonDown()
         this->StartWindowLevel();
         qDebug() << x;
     }
-
-
-
 
 }
 /**

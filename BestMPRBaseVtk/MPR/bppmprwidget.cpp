@@ -31,7 +31,8 @@
  * @param f
  * 构造函数，调用另一个构造函数
  */
-BPPMPRWidget::BPPMPRWidget(QWidget *parent, Qt::WindowFlags f) : BPPMPRWidget(vtkSmartPointer<vtkGenericOpenGLRenderWindow>::New().GetPointer(),parent,f)
+BPPMPRWidget::BPPMPRWidget(QWidget *parent, Qt::WindowFlags f) :
+    BPPMPRWidget(vtkSmartPointer<vtkGenericOpenGLRenderWindow>::New().GetPointer(),parent,f)
 {
 }
 /**
@@ -41,7 +42,8 @@ BPPMPRWidget::BPPMPRWidget(QWidget *parent, Qt::WindowFlags f) : BPPMPRWidget(vt
  * @param f
  * 最终的构造函数，完成控件焦点设置，
  */
-BPPMPRWidget::BPPMPRWidget(vtkGenericOpenGLRenderWindow *window, QWidget *parent, Qt::WindowFlags f) : Superclass(parent,f),RenderWindow(nullptr),RenderWindowAdapter(nullptr),EnableHiDPI(true),UnscaledDPI(72),DefaultCursor(QCursor(Qt::ArrowCursor))
+BPPMPRWidget::BPPMPRWidget(vtkGenericOpenGLRenderWindow *window, QWidget *parent, Qt::WindowFlags f) :
+    Superclass(parent,f),RenderWindow(nullptr),RenderWindowAdapter(nullptr),EnableHiDPI(true),UnscaledDPI(72),DefaultCursor(QCursor(Qt::ArrowCursor))
 {
 
     m_PipeLine = ImagePipeLine::New();
@@ -609,7 +611,7 @@ void BPPMPRWidget::mousePressEvent(QMouseEvent *event)
  */
 void BPPMPRWidget::mouseMoveEvent(QMouseEvent *event)
 {
-
+//    qDebug() <<"xxxxxxxxx:"<<event->x() << event->y();
 }
 /**
  * @brief mouseReleaseEvent
