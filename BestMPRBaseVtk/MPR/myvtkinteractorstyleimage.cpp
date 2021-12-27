@@ -1,6 +1,6 @@
 #include "myvtkinteractorstyleimage.h"
 #include <QtDebug>
-
+#include <bppmprwidget.h>
 
 
 vtkStandardNewMacro(myVtkInteractorStyleImage);                             //标准类生成宏
@@ -17,6 +17,11 @@ void myVtkInteractorStyleImage::SetImageViewer(ImagePipeLine *imageViewer)
     this->Slice = (this->MinSlice + this->MaxSlice) / 2;
     this->ImageViewer->setSlice(this->Slice);
     this->ImageViewer->render();
+}
+
+void myVtkInteractorStyleImage::SetBPPMPRWidget(BPPMPRWidget *temp)
+{
+    this->bppWidget = temp;
 }
 /**
  * @brief myVtkInteractorStyleImage::OnMouseWheelForward
@@ -54,8 +59,8 @@ void myVtkInteractorStyleImage::OnMiddleButtonDown()
         this->WindowLevelStartPosition[0] = x;
         this->WindowLevelStartPosition[1] = y;
         this->StartWindowLevel();
-        qDebug() << x;
     }
+
 
 }
 /**
@@ -94,14 +99,21 @@ void myVtkInteractorStyleImage::OnMiddleButtonUp()
  */
 void myVtkInteractorStyleImage::OnLeftButtonDown()
 {
-    int x = this->Interactor->GetEventPosition()[0];
-    int y = this->Interactor->GetEventPosition()[1];
-
-    this->FindPokedRenderer(x, y);
+    this->FindPokedRenderer(
+      this->Interactor->GetEventPosition()[0], this->Interactor->GetEventPosition()[1]);
     if (this->CurrentRenderer == nullptr)
     {
-        return;
+      return;
     }
+
+    // If shift is held down, change the slice
+    if ((this->InteractionMode == VTKIS_IMAGE3D || this->InteractionMode == VTKIS_IMAGE_SLICING) &&
+      this->Interactor->GetShiftKey())
+    {
+      this->StartSlice();
+    }
+
+    this->Superclass::OnMiddleButtonDown();
 }
 /**
  * @brief myVtkInteractorStyleImage::OnLeftButtonUp
@@ -133,7 +145,49 @@ void myVtkInteractorStyleImage::OnLeftButtonUp()
  * @brief myVtkInteractorStyleImage::OnMouseMove
  * 鼠标移动
  */
-//void myVtkInteractorStyleImage::OnMouseMove()
-//{
-//    int* pos = this->Interactor->GetEventPosition();
-//}
+void myVtkInteractorStyleImage::OnMouseMove()
+{
+    int x = this->Interactor->GetEventPosition()[0];
+    int y = this->Interactor->GetEventPosition()[1];
+
+    switch (this->State)
+    {
+      case VTKIS_WINDOW_LEVEL:
+        this->FindPokedRenderer(x, y);
+        this->WindowLevel();
+        this->InvokeEvent(vtkCommand::InteractionEvent, nullptr);
+        break;
+
+      case VTKIS_PICK:
+        this->FindPokedRenderer(x, y);
+        this->Pick();
+        this->InvokeEvent(vtkCommand::InteractionEvent, nullptr);
+        break;
+
+      case VTKIS_SLICE:
+        this->FindPokedRenderer(x, y);
+//        this->Slice();
+        this->InvokeEvent(vtkCommand::InteractionEvent, nullptr);
+        break;
+    }
+
+
+    bppWidget->emitPositionSignal(this->Interactor->GetEventPosition());
+}
+/**
+ * @brief myVtkInteractorStyleImage::OnRightButtonDown
+ * 鼠标右键按下
+ */
+void myVtkInteractorStyleImage::OnRightButtonDown()
+{
+
+}
+/**
+ * @brief myVtkInteractorStyleImage::OnRightButtonUp
+ * 鼠标右键抬起
+ */
+void myVtkInteractorStyleImage::OnRightButtonUp()
+{
+
+}
+

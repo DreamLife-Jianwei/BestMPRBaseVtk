@@ -51,6 +51,7 @@ void ImagePipeLine::render()
             int* w_ext = this->getInputInformation()->Get(vtkStreamingDemandDrivenPipeline::WHOLE_EXTENT());
             int xs = 0,ys = 0;
 
+
             switch (this->SliceOrientation){
             case ImagePipeLine::SLICE_ORIENTATION_XY:
             default:
@@ -71,9 +72,6 @@ void ImagePipeLine::render()
             /*
              * 如果图像尺寸小于150*100，那么强制把图像尺寸设置为150*100
              */
-
-            qDebug() << this->RenderWindow->GetSize()[0];
-
             if(this->RenderWindow->GetSize()[0] == 0)
             {
                 this->RenderWindow->SetSize(xs < 150 ? 150 : xs, ys < 100 ? 100 : ys);
@@ -82,7 +80,7 @@ void ImagePipeLine::render()
             if(this->Renderer)
             {
                 this->Renderer->ResetCamera();
-                this->Renderer->GetActiveCamera()->SetParallelScale(xs < 150 ? 75 : (xs - 1) / 2.0);
+                this->Renderer->GetActiveCamera()->SetParallelScale(xs < 150 ? 75 : (xs - 1) / 2.0);        //设置平行投影比例
             }
             this->FirstRender = 0;
         }

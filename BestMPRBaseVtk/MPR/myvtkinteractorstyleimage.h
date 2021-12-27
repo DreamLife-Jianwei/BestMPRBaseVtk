@@ -10,7 +10,7 @@
  * @brief The myVtkInteractorStyleImage class
  * 用户鼠标交互类
  */
-
+class BPPMPRWidget;
 class myVtkInteractorStyleImage : public vtkInteractorStyleImage
 {
 public:
@@ -20,6 +20,8 @@ public:
     vtkTypeMacro(myVtkInteractorStyleImage, vtkInteractorStyleImage);
 
     void SetImageViewer(ImagePipeLine* imageViewer);                        //设置流水线输入
+
+    void SetBPPMPRWidget(BPPMPRWidget *temp);
 
 
 protected:
@@ -42,7 +44,14 @@ protected:
 
     virtual void OnLeftButtonUp() override;                                 //鼠标左键抬起
 
-//    virtual void OnMouseMove() override;                                    //鼠标移动
+    virtual void OnMouseMove() override;                                    //鼠标移动
+
+    virtual void OnRightButtonDown() override;
+
+    virtual void OnRightButtonUp() override;
+
+private:
+    BPPMPRWidget* bppWidget = nullptr;
 
 
 };

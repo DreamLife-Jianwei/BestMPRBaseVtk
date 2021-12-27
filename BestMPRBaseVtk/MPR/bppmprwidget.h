@@ -178,7 +178,7 @@ public:                                                            /******公开
 
     void leaveEvent(QEvent* event) override;                            //离开事件
 
-public:                                                            /******公开属性******/
+public:                                                            /******公开属性，目前仅为公开变量，在实际插件中，将对应为属性******/
 
     double colorWindow = 0.0;                                           //窗宽
     double colorLevel = 0.0;                                            //窗位
@@ -188,11 +188,13 @@ public:                                                            /******公开
 
 signals:
 
-    void sliceChanged(int slice);                                       //Slice改变信号
+    void onSliceChanged(int slice);                                     //Slice改变信号
 
-    void colorWindowChanged(double colorWindow);                        //窗宽改变信号
+    void onColorWindowChanged(double colorWindow);                      //窗宽改变信号
 
-    void colorLevelChanged(double colorLevel);                          //窗位改变信号
+    void onColorLevelChanged(double colorLevel);                        //窗位改变信号
+
+    void onPositonChanged(int x,int y);                                 //鼠标位置改变信号
 protected slots:
 
     virtual void cleanupContext();                                      //清除上下文
@@ -212,6 +214,11 @@ protected:
 
     vtkSmartPointer<vtkGenericOpenGLRenderWindow> RenderWindow;         //渲染窗口
     QScopedPointer<QVTKRenderWindowAdapter> RenderWindowAdapter;        //窗口管理器
+    friend class myVtkInteractorStyleImage;                             //把交互类声明为友元类，为了访问私有信号触发接口
+
+private:
+    void emitPositionSignal(int* temp);
+
 
 private:
 
