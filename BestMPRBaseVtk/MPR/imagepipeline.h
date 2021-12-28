@@ -143,7 +143,7 @@ protected:
     vtkRenderWindowInteractor* Interactor;                          //交互器
     vtkInteractorStyleImage* InteractorStyle;                       //交互样式
     int SliceOrientation;                                           //切片方向
-    int FirstRender;                                                //
+    int FirstRender;                                                //第一次渲染标志
     int Slice;                                                      //当前切片
 
 private:

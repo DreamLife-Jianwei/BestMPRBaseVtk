@@ -217,7 +217,9 @@ protected:
     friend class myVtkInteractorStyleImage;                             //把交互类声明为友元类，为了访问私有信号触发接口
 
 private:
-    void emitPositionSignal(int* temp);
+    void emitPositionChangedSignal(int* temp);
+
+    void emitSliceChangedSignal(int temp);
 
 
 private:

@@ -2,6 +2,7 @@
 #define MYVTKINTERACTORSTYLEIMAGE_H
 
 #include "vtkInteractorStyleImage.h"
+#include "vtkInteractorStyleTrackballCamera.h"
 #include "vtkObjectFactory.h"
 #include "vtkInteractorObserver.h"
 #include "vtkRenderWindowInteractor.h"
@@ -21,16 +22,10 @@ public:
 
     void SetImageViewer(ImagePipeLine* imageViewer);                        //设置流水线输入
 
-    void SetBPPMPRWidget(BPPMPRWidget *temp);
+    void SetBPPMPRWidget(BPPMPRWidget *temp);                               //设置主窗口
 
 
 protected:
-
-    ImagePipeLine* ImageViewer;                                             //流水线
-    int Slice;                                                              //当前Slice
-    int MinSlice;                                                           //最小Slice范围
-    int MaxSlice;                                                           //最大Slice范围
-
 
     virtual void OnMouseWheelForward() override;                            //鼠标滚轮向前滚动
 
@@ -46,13 +41,30 @@ protected:
 
     virtual void OnMouseMove() override;                                    //鼠标移动
 
-    virtual void OnRightButtonDown() override;
+    virtual void OnRightButtonDown() override;                              //鼠标右键按下
 
-    virtual void OnRightButtonUp() override;
+    virtual void OnRightButtonUp() override;                                //鼠标右键抬起
+
+
+
 
 private:
-    BPPMPRWidget* bppWidget = nullptr;
+    BPPMPRWidget* bppWidget = nullptr;                                      //主窗口
+    ImagePipeLine* ImageViewer;                                             //流水线
 
+    int WindowLevelStartPosition[2];
+    int WindowLevelCurrentPosition[2];
+    double WindowLevelInitial[2];
+    vtkImageProperty* CurrentImageProperty;
+    int CurrentImageNumber;
+
+    int InteractionMode;
+    double XViewRightVector[3];
+    double XViewUpVector[3];
+    double YViewRightVector[3];
+    double YViewUpVector[3];
+    double ZViewRightVector[3];
+    double ZViewUpVector[3];
 
 };
 

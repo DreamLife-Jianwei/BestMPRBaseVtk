@@ -396,7 +396,7 @@ double BPPMPRWidget::getColorLevel()
 void BPPMPRWidget::setColorWindow(double s)
 {
     m_PipeLine->setColorWindow(s);
-    emit colorWindowChanged(s);                     //触发窗宽改变信号
+    emit onColorWindowChanged(s);                     //触发窗宽改变信号
 }
 /**
  * @brief setColorLevel
@@ -406,7 +406,7 @@ void BPPMPRWidget::setColorWindow(double s)
 void BPPMPRWidget::setColorLevel(double s)
 {
     m_PipeLine->setColorLevel(s);
-    emit colorLevelChanged(s);                      //处罚窗位改变信号
+    emit onColorLevelChanged(s);                      //处罚窗位改变信号
 }
 /**
  * @brief setDisplayId
@@ -641,29 +641,29 @@ void BPPMPRWidget::mouseDoubleClickEvent(QMouseEvent *event)
 void BPPMPRWidget::wheelEvent(QWheelEvent *event)
 {
 
-    this->minSLice = m_PipeLine->getSliceMin();                     //获取最小Slice
-    this->maxSlice = m_PipeLine->getSliceMax();                     //获取最大Slice
-    this->slice = this->m_PipeLine->getSlice();                     //获取当前Slice
-    if(event->delta() > 0)                                          //向前
-    {
-        if (this->slice > this->minSLice)
-        {
-            this->slice -= 1;
-            this->m_PipeLine->setSlice(this->slice);
-            this->m_PipeLine->render();
-            emit onSliceChanged(this->slice);
-        }
-    }
-    else                                                            //向后
-    {
-        if (this->slice < this->maxSlice)
-        {
-            this->slice += 1;
-            this->m_PipeLine->setSlice(this->slice);
-            this->m_PipeLine->render();
-            emit onSliceChanged(this->slice);
-        }
-    }
+//    this->minSLice = m_PipeLine->getSliceMin();                     //获取最小Slice
+//    this->maxSlice = m_PipeLine->getSliceMax();                     //获取最大Slice
+//    this->slice = this->m_PipeLine->getSlice();                     //获取当前Slice
+//    if(event->delta() > 0)                                          //向前
+//    {
+//        if (this->slice > this->minSLice)
+//        {
+//            this->slice -= 1;
+//            this->m_PipeLine->setSlice(this->slice);
+//            this->m_PipeLine->render();
+//            emit onSliceChanged(this->slice);
+//        }
+//    }
+//    else                                                            //向后
+//    {
+//        if (this->slice < this->maxSlice)
+//        {
+//            this->slice += 1;
+//            this->m_PipeLine->setSlice(this->slice);
+//            this->m_PipeLine->render();
+//            emit onSliceChanged(this->slice);
+//        }
+//    }
 }
 /**
  * @brief keyPressEvent
@@ -788,5 +788,15 @@ void BPPMPRWidget::paintGL()
 void BPPMPRWidget::emitPositionChangedSignal(int *temp)
 {
     emit onPositonChanged(temp[0],temp[1]);
+}
+/**
+ * @brief BPPMPRWidget::emitSliceChangedSignal
+ * @param temp
+ * 发送当前切片改变信号
+ */
+void BPPMPRWidget::emitSliceChangedSignal(int temp)
+{
+    this->slice = temp;                 //更新数值
+    emit onSliceChanged(temp);          //发送信号
 }
 
