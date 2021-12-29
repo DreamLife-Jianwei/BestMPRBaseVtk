@@ -3,6 +3,9 @@
 #include <bppmprwidget.h>
 
 
+#include "vtkCoordinate.h"
+#include "vtkImageData.h"
+
 vtkStandardNewMacro(myVtkInteractorStyleImage);                             //标准类生成宏
 /**
  * @brief myVtkInteractorStyleImage::SetImageViewer
@@ -184,6 +187,7 @@ void myVtkInteractorStyleImage::OnMouseMove()
     }
 
     bppWidget->emitPositionChangedSignal(this->Interactor->GetEventPosition());
+    this->GetValue();                           //获取窗宽
     this->Superclass::OnMouseMove();
 }
 /**
@@ -256,8 +260,24 @@ void myVtkInteractorStyleImage::OnRightButtonUp()
         break;
     }
 
-    // Call parent to handle all other states and perform additional work
-
     this->Superclass::OnRightButtonUp();
+}
+/**
+ * @brief myVtkInteractorStyleImage::GetValue
+ * 获取对应点窗宽
+ */
+void myVtkInteractorStyleImage::GetValue()
+{
+    int eventPosition[2];
+    this->Interactor->GetEventPosition(eventPosition);
+
+    vtkSmartPointer<vtkCoordinate> pCoorPress = vtkSmartPointer<vtkCoordinate>::New();
+    pCoorPress->SetCoordinateSystemToDisplay();
+    pCoorPress->SetValue(eventPosition[0],eventPosition[1],0.0);
+
+
+
+
+
 }
 

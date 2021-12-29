@@ -45,6 +45,8 @@ protected:
 
     virtual void OnRightButtonUp() override;                                //鼠标右键抬起
 
+    void GetValue();
+
 
 
 

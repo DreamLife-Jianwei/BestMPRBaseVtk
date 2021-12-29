@@ -765,6 +765,9 @@ void BPPMPRWidget::paintGL()
 void BPPMPRWidget::emitPositionChangedSignal(int *temp)
 {
     emit onPositonChanged(temp[0],temp[1]);
+
+    qDebug() << temp[0]<<temp[1];
+
 }
 /**
  * @brief BPPMPRWidget::emitSliceChangedSignal
