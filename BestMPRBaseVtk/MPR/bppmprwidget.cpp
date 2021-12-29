@@ -641,29 +641,6 @@ void BPPMPRWidget::mouseDoubleClickEvent(QMouseEvent *event)
 void BPPMPRWidget::wheelEvent(QWheelEvent *event)
 {
 
-//    this->minSLice = m_PipeLine->getSliceMin();                     //获取最小Slice
-//    this->maxSlice = m_PipeLine->getSliceMax();                     //获取最大Slice
-//    this->slice = this->m_PipeLine->getSlice();                     //获取当前Slice
-//    if(event->delta() > 0)                                          //向前
-//    {
-//        if (this->slice > this->minSLice)
-//        {
-//            this->slice -= 1;
-//            this->m_PipeLine->setSlice(this->slice);
-//            this->m_PipeLine->render();
-//            emit onSliceChanged(this->slice);
-//        }
-//    }
-//    else                                                            //向后
-//    {
-//        if (this->slice < this->maxSlice)
-//        {
-//            this->slice += 1;
-//            this->m_PipeLine->setSlice(this->slice);
-//            this->m_PipeLine->render();
-//            emit onSliceChanged(this->slice);
-//        }
-//    }
 }
 /**
  * @brief keyPressEvent

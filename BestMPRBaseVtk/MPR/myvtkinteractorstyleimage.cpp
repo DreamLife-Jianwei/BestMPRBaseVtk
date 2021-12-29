@@ -58,26 +58,16 @@ void myVtkInteractorStyleImage::OnMouseWheelBackward()
  */
 void myVtkInteractorStyleImage::OnMiddleButtonDown()
 {
-    this->FindPokedRenderer(
-      this->Interactor->GetEventPosition()[0], this->Interactor->GetEventPosition()[1]);
+    int x = this->Interactor->GetEventPosition()[0];
+    int y = this->Interactor->GetEventPosition()[1];
+    this->FindPokedRenderer(x, y);
     if (this->CurrentRenderer == nullptr)
     {
-      return;
+        return;
     }
-
-    // If shift is held down, change the slice
-    if ((this->InteractionMode == VTKIS_IMAGE3D || this->InteractionMode == VTKIS_IMAGE_SLICING) &&
-      this->Interactor->GetShiftKey())
-    {
-      this->StartSlice();
-    }
-
-    // The rest of the button + key combinations remain the same
-
-    else
-    {
-      this->Superclass::OnMiddleButtonDown();
-    }
+    this->WindowLevelStartPosition[0] = x;
+    this->WindowLevelStartPosition[1] = y;
+    this->StartWindowLevel();
 }
 /**
  * @brief myVtkInteractorStyleImage::OnMiddleButtonUp
@@ -86,18 +76,22 @@ void myVtkInteractorStyleImage::OnMiddleButtonDown()
 void myVtkInteractorStyleImage::OnMiddleButtonUp()
 {
     switch (this->State)
-     {
-       case VTKIS_SLICE:
-         this->EndSlice();
-         if (this->Interactor)
-         {
-           this->ReleaseFocus();
-         }
-         break;
-     }
-
-
-     this->Superclass::OnMiddleButtonUp();
+    {
+    case VTKIS_SLICE:
+        this->EndSlice();
+        if (this->Interactor)
+        {
+            this->ReleaseFocus();
+        }
+        break;
+    case VTKIS_WINDOW_LEVEL:
+        this->EndWindowLevel();
+        if (this->Interactor)
+        {
+            this->ReleaseFocus();
+        }
+        break;
+    }
 }
 /**
  * @brief myVtkInteractorStyleImage::OnLeftButtonDown
@@ -106,41 +100,30 @@ void myVtkInteractorStyleImage::OnMiddleButtonUp()
 void myVtkInteractorStyleImage::OnLeftButtonDown()
 {
     int x = this->Interactor->GetEventPosition()[0];
-     int y = this->Interactor->GetEventPosition()[1];
+    int y = this->Interactor->GetEventPosition()[1];
+    this->FindPokedRenderer(x, y);
+    if (this->CurrentRenderer == nullptr)
+    {
+        return;
+    }
+    // If shift is held down, do a rotation
+    else if (this->InteractionMode == VTKIS_IMAGE3D && this->Interactor->GetShiftKey())
+    {
+        this->StartRotate();
+    }
 
-     this->FindPokedRenderer(x, y);
-     if (this->CurrentRenderer == nullptr)
-     {
-       return;
-     }
+    // If ctrl is held down in slicing mode, slice the image
+    else if (this->InteractionMode == VTKIS_IMAGE_SLICING && this->Interactor->GetControlKey())
+    {
+        this->StartSlice();
+    }
 
-     // Redefine this button to handle window/level
-//     this->GrabFocus(this->EventCallbackCommand);
-     if (!this->Interactor->GetShiftKey() && !this->Interactor->GetControlKey())
-     {
-       this->WindowLevelStartPosition[0] = x;
-       this->WindowLevelStartPosition[1] = y;
-       this->StartWindowLevel();
-     }
+    // The rest of the button + key combinations remain the same
 
-     // If shift is held down, do a rotation
-     else if (this->InteractionMode == VTKIS_IMAGE3D && this->Interactor->GetShiftKey())
-     {
-       this->StartRotate();
-     }
-
-     // If ctrl is held down in slicing mode, slice the image
-     else if (this->InteractionMode == VTKIS_IMAGE_SLICING && this->Interactor->GetControlKey())
-     {
-       this->StartSlice();
-     }
-
-     // The rest of the button + key combinations remain the same
-
-     else
-     {
-       this->Superclass::OnLeftButtonDown();
-     }
+    //    else
+    //    {
+    //        this->Superclass::OnLeftButtonDown();
+    //    }
 }
 /**
  * @brief myVtkInteractorStyleImage::OnLeftButtonUp
@@ -149,25 +132,26 @@ void myVtkInteractorStyleImage::OnLeftButtonDown()
 void myVtkInteractorStyleImage::OnLeftButtonUp()
 {
     switch (this->State)
-      {
-        case VTKIS_WINDOW_LEVEL:
-          this->EndWindowLevel();
-          if (this->Interactor)
-          {
-            this->ReleaseFocus();
-          }
-          break;
+    {
+    //关闭窗宽窗位功能
+    //    case VTKIS_WINDOW_LEVEL:
+    //        this->EndWindowLevel();
+    //        if (this->Interactor)
+    //        {
+    //            this->ReleaseFocus();
+    //        }
+    //        break;
 
-        case VTKIS_SLICE:
-          this->EndSlice();
-          if (this->Interactor)
-          {
+    case VTKIS_SLICE:
+        this->EndSlice();
+        if (this->Interactor)
+        {
             this->ReleaseFocus();
-          }
-          break;
-      }
+        }
+        break;
+    }
 
-      this->Superclass::OnLeftButtonUp();
+    this->Superclass::OnLeftButtonUp();
 }
 /**
  * @brief myVtkInteractorStyleImage::OnMouseMove
@@ -180,19 +164,19 @@ void myVtkInteractorStyleImage::OnMouseMove()
 
     switch (this->State)
     {
-      case VTKIS_WINDOW_LEVEL:
+    case VTKIS_WINDOW_LEVEL:
         this->FindPokedRenderer(x, y);
         this->WindowLevel();
         this->InvokeEvent(vtkCommand::InteractionEvent, nullptr);
         break;
 
-      case VTKIS_PICK:
+    case VTKIS_PICK:
         this->FindPokedRenderer(x, y);
         this->Pick();
         this->InvokeEvent(vtkCommand::InteractionEvent, nullptr);
         break;
 
-      case VTKIS_SLICE:
+    case VTKIS_SLICE:
         this->FindPokedRenderer(x, y);
         this->Slice();
         this->InvokeEvent(vtkCommand::InteractionEvent, nullptr);
@@ -214,30 +198,30 @@ void myVtkInteractorStyleImage::OnRightButtonDown()
     this->FindPokedRenderer(x, y);
     if (this->CurrentRenderer == nullptr)
     {
-      return;
+        return;
     }
 
     // Redefine this button + shift to handle pick
-//    this->GrabFocus(this->EventCallbackCommand);
+    //    this->GrabFocus(this->EventCallbackCommand);
     if (this->Interactor->GetShiftKey())
     {
-      this->StartPick();
+        this->StartPick();
     }
 
     else if (this->InteractionMode == VTKIS_IMAGE3D && this->Interactor->GetControlKey())
     {
-      this->StartSlice();
+        this->StartSlice();
     }
     else if (this->InteractionMode == VTKIS_IMAGE_SLICING && this->Interactor->GetControlKey())
     {
-      this->StartSpin();
+        this->StartSpin();
     }
 
     // The rest of the button + key combinations remain the same
 
     else
     {
-      this->Superclass::OnRightButtonDown();
+        this->Superclass::OnRightButtonDown();
     }
 }
 /**
@@ -247,33 +231,33 @@ void myVtkInteractorStyleImage::OnRightButtonDown()
 void myVtkInteractorStyleImage::OnRightButtonUp()
 {
     switch (this->State)
-     {
-       case VTKIS_PICK:
-         this->EndPick();
-         if (this->Interactor)
-         {
-           this->ReleaseFocus();
-         }
-         break;
+    {
+    case VTKIS_PICK:
+        this->EndPick();
+        if (this->Interactor)
+        {
+            this->ReleaseFocus();
+        }
+        break;
 
-       case VTKIS_SLICE:
-         this->EndSlice();
-         if (this->Interactor)
-         {
-           this->ReleaseFocus();
-         }
-         break;
+    case VTKIS_SLICE:
+        this->EndSlice();
+        if (this->Interactor)
+        {
+            this->ReleaseFocus();
+        }
+        break;
 
-       case VTKIS_SPIN:
-         if (this->Interactor)
-         {
-           this->EndSpin();
-         }
-         break;
-     }
+    case VTKIS_SPIN:
+        if (this->Interactor)
+        {
+            this->EndSpin();
+        }
+        break;
+    }
 
-     // Call parent to handle all other states and perform additional work
+    // Call parent to handle all other states and perform additional work
 
-     this->Superclass::OnRightButtonUp();
+    this->Superclass::OnRightButtonUp();
 }
 
