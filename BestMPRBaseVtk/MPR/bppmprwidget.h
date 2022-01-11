@@ -6,11 +6,12 @@
 #include <QScopedPointer>
 #include <QMouseEvent>
 
-#include <QVTKInteractor.h>
-#include <vtkGUISupportQtModule.h>
-#include <vtkNew.h>
-#include <vtkSmartPointer.h>
-
+#include "QVTKInteractor.h"
+#include "vtkGUISupportQtModule.h"
+#include "vtkNew.h"
+#include "vtkSmartPointer.h"
+#include "vtkPointData.h"
+#include "vtkPropPicker.h"
 #include "imagepipeline.h"
 
 
@@ -229,6 +230,8 @@ private:
     int UnscaledDPI;
     QCursor DefaultCursor;
     ImagePipeLine* m_PipeLine = nullptr;
+    vtkSmartPointer<vtkPropPicker> proPicker;
+    vtkSmartPointer<vtkImageActor> imageActor = nullptr;
 };
 
 #endif // BPPMPRWIDGET_H

@@ -117,6 +117,11 @@ void MainWindow::readDicomImageNormal(const char *url)
  */
 void MainWindow::readDicomImageBPP(const char *url)
 {
+
+    ui->horizontalSlider_ColorWindow->setValue(3731);
+    ui->horizontalSlider_ColorLevel->setValue(1865);
+
+
     vtkSmartPointer<vtkDICOMImageReader> render = vtkSmartPointer<vtkDICOMImageReader>::New();
     render->SetDirectoryName(url);
     render->Update();
@@ -125,9 +130,6 @@ void MainWindow::readDicomImageBPP(const char *url)
     mBPPMPRWidget1->setSliceOrientation(2);
     mBPPMPRWidget1->setColorWindow(3731);
     mBPPMPRWidget1->setColorLevel(1865);
-    ui->horizontalSlider_ColorWindow->setValue(3731);
-    ui->horizontalSlider_ColorLevel->setValue(1865);
-
     mBPPMPRWidget1->render();
 
     mBPPMPRWidget2->setInputData(render->GetOutput());

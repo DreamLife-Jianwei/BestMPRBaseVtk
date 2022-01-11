@@ -136,7 +136,7 @@ protected:
 
 protected:
 
-    vtkImageMapToWindowLevelColors* WindowLevel;
+    vtkImageMapToWindowLevelColors* WindowLevel;                    //窗宽窗位控制
     vtkRenderWindow* RenderWindow;                                  //渲染窗口
     vtkRenderer* Renderer;                                          //渲染器
     vtkImageActor* ImageActor;                                      //ImageActor

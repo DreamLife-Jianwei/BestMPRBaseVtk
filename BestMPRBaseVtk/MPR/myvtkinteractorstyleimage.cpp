@@ -3,9 +3,14 @@
 #include <bppmprwidget.h>
 
 
-#include "vtkCoordinate.h"
 #include "vtkImageData.h"
-
+#include "vtkPropPicker.h"
+#include "vtkCollection.h"
+#include "vtkAssemblyNode.h"
+#include "vtkProp.h"
+#include "vtkAssemblyPath.h"
+#include "vtkImageActor.h"
+#include "vtkRenderWindow.h"
 vtkStandardNewMacro(myVtkInteractorStyleImage);                             //标准类生成宏
 /**
  * @brief myVtkInteractorStyleImage::SetImageViewer
@@ -16,11 +21,30 @@ void myVtkInteractorStyleImage::SetImageViewer(ImagePipeLine *imageViewer)
 {
     this->ImageViewer = imageViewer;
 }
-
+/**
+ * @brief myVtkInteractorStyleImage::SetBPPMPRWidget
+ * @param temp
+ * 设置渲染窗口
+ */
 void myVtkInteractorStyleImage::SetBPPMPRWidget(BPPMPRWidget *temp)
 {
     this->bppWidget = temp;
 }
+/**
+ * @brief myVtkInteractorStyleImage::SetPicker
+ * @param picker
+ * 设置拾取器
+ */
+void myVtkInteractorStyleImage::SetPicker(vtkPropPicker *picker)
+{
+    this->Picker = picker;
+}
+
+void myVtkInteractorStyleImage::SetRender(vtkRenderer *render)
+{
+    this->renderer = render;
+}
+
 /**
  * @brief myVtkInteractorStyleImage::OnMouseWheelForward
  * 鼠标滚轮向前滚动
@@ -102,6 +126,18 @@ void myVtkInteractorStyleImage::OnMiddleButtonUp()
  */
 void myVtkInteractorStyleImage::OnLeftButtonDown()
 {
+
+/****************Testing**************/
+
+    this->Render = ImageViewer->getRenderer();
+    this->Actor = ImageViewer->getImageActor();
+    this->Image = ImageViewer->getInput();
+    qDebug() <<  this->Picker->Pick(this->Interactor->GetEventPosition()[0],this->Interactor->GetEventPosition()[1],0.0,this->renderer);
+
+
+/****************Testing**************/
+
+
     int x = this->Interactor->GetEventPosition()[0];
     int y = this->Interactor->GetEventPosition()[1];
     this->FindPokedRenderer(x, y);
@@ -186,8 +222,19 @@ void myVtkInteractorStyleImage::OnMouseMove()
         break;
     }
 
-    bppWidget->emitPositionChangedSignal(this->Interactor->GetEventPosition());
-    this->GetValue();                           //获取窗宽
+
+
+    /**********************获取当前点value测试*****************************/
+
+
+
+    if(this->ImageViewer->getRenderer())
+
+
+
+
+ /***************************************************/
+    bppWidget->emitPositionChangedSignal(this->Interactor->GetEventPosition());     //将鼠标坐标信息发送出去 vtk Display 坐标
     this->Superclass::OnMouseMove();
 }
 /**
@@ -261,23 +308,5 @@ void myVtkInteractorStyleImage::OnRightButtonUp()
     }
 
     this->Superclass::OnRightButtonUp();
-}
-/**
- * @brief myVtkInteractorStyleImage::GetValue
- * 获取对应点窗宽
- */
-void myVtkInteractorStyleImage::GetValue()
-{
-    int eventPosition[2];
-    this->Interactor->GetEventPosition(eventPosition);
-
-    vtkSmartPointer<vtkCoordinate> pCoorPress = vtkSmartPointer<vtkCoordinate>::New();
-    pCoorPress->SetCoordinateSystemToDisplay();
-    pCoorPress->SetValue(eventPosition[0],eventPosition[1],0.0);
-
-
-
-
-
 }
 

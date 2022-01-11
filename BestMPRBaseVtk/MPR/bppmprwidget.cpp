@@ -1,6 +1,6 @@
 #include "bppmprwidget.h"
 #include <QtDebug>
-
+// Qt 头文件
 #include <QApplication>
 #include <QDesktopWidget>
 #include <QOpenGLContext>
@@ -10,7 +10,7 @@
 #include <QOpenGLTexture>
 #include <QPointer>
 #include <QScopedValueRollback>
-
+// vtk 头文件
 #include "QVTKInteractor.h"
 #include "QVTKInteractorAdapter.h"
 #include "QVTKRenderWindowAdapter.h"
@@ -21,6 +21,9 @@
 #include "vtkObjectFactory.h"
 #include "vtkOpenGLState.h"
 #include "vtkSmartPointer.h"
+#include "vtkCoordinate.h"
+#include "vtkRenderer.h"
+#include "vtkImageActor.h"
 
 #include "myvtkinteractorstyleimage.h"                  //交互样式
 
@@ -45,7 +48,6 @@ BPPMPRWidget::BPPMPRWidget(QWidget *parent, Qt::WindowFlags f) :
 BPPMPRWidget::BPPMPRWidget(vtkGenericOpenGLRenderWindow *window, QWidget *parent, Qt::WindowFlags f) :
     Superclass(parent,f),RenderWindow(nullptr),RenderWindowAdapter(nullptr),EnableHiDPI(true),UnscaledDPI(72),DefaultCursor(QCursor(Qt::ArrowCursor))
 {
-
     m_PipeLine = ImagePipeLine::New();
 
     //默认设置为强焦点
@@ -55,6 +57,9 @@ BPPMPRWidget::BPPMPRWidget(vtkGenericOpenGLRenderWindow *window, QWidget *parent
 
     //使用本地updateSize替换原来的resize
     this->connect(this,&BPPMPRWidget::resized,this,&BPPMPRWidget::updateSize);  //这个和直接调用应该没有啥区别
+
+    proPicker = vtkSmartPointer<vtkPropPicker>::New();
+    proPicker->PickFromListOn();
     this->setRenderWindow(window);                                              //设置渲染窗口
 
     //启用Qt手势支持
@@ -81,45 +86,42 @@ BPPMPRWidget::~BPPMPRWidget()
  */
 void BPPMPRWidget::setRenderWindow(vtkGenericOpenGLRenderWindow *win)
 {
-    if(this->RenderWindow == win)                                                       //判断当前窗口是不是传进来的，是就返回不是继续
-    {
+    if(this->RenderWindow == win)                                           //判断当前窗口是不是传进来的，是就返回不是继续
         return;
-    }
-
-    if(this->RenderWindowAdapter)                                                       // 这将释放所有与旧窗口相关的OpenGL资源
+    if(this->RenderWindowAdapter)                                           // 这将释放所有与旧窗口相关的OpenGL资源
     {
-        this->makeCurrent();                                                            //为窗口绘制OpenGL内容做准备，将上下文设置为当前，并为该上下文绑定framebuffer
-        this->RenderWindowAdapter.reset(nullptr);                                       //删除并重置指针
+        this->makeCurrent();                                                //为窗口绘制OpenGL内容做准备，将上下文设置为当前，并为该上下文绑定framebuffer
+        this->RenderWindowAdapter.reset(nullptr);                           //删除并重置指针
     }
-
-    this->RenderWindow = win;                                                           //赋新值
+    this->RenderWindow = win;                                               //赋新值
     if(this->RenderWindow)
     {
         this->RenderWindow->SetReadyForRendering(false);
-
-        if(!this->RenderWindow->GetInteractor())                                        //如果没有提供交互器，我们默认将创建一个
+        if(!this->RenderWindow->GetInteractor())                            //如果没有提供交互器，我们默认将创建一个
         {
-            vtkNew<QVTKInteractor> iren;                                                //创建一个默认交互器
-            this->RenderWindow->SetInteractor(iren);                                    //为RenderWindow添加交互器
+            vtkNew<QVTKInteractor> iren;                                    //创建一个默认交互器
+            this->RenderWindow->SetInteractor(iren);                        //为RenderWindow添加交互器
+            iren->Initialize();                                             //交互器初始化
+            vtkNew<myVtkInteractorStyleImage> style;                        //设置交互器默认样式
 
-            iren->Initialize();                                                         //交互器初始化
-
-            vtkNew<myVtkInteractorStyleImage> style;                                    //设置交互器默认样式
-
-            style->SetImageViewer(m_PipeLine);
-
-            style->SetBPPMPRWidget(this);
-
-            iren->SetInteractorStyle(style);                                            //设置交互器
-
+            style->SetPicker(this->proPicker);                              //设置拾取器
+            style->SetImageViewer(m_PipeLine);                              //传递流水线
+            style->SetBPPMPRWidget(this);                                   //传递渲染窗口
+            style->SetInteractor(this->RenderWindow->GetInteractor());      //设置交互器
+            style->SetRender(this->getRenderer());                          //传递渲染器
+            iren->SetInteractorStyle(style);                                //设置交互器
         }
         if(this->isValid())
         {
-            this->makeCurrent();                                                        //为窗口绘制OpenG内容做准备，将上下文设置为当前，并为该上下文绑定framebuffer paintGL会自动调用。
-            this->initializeGL();                                                       //初始化Openg
-            this->updateSize();                                                         //更新窗口尺寸
+            this->makeCurrent();                                            //为窗口绘制OpenG内容做准备，将上下文设置为当前，并为该上下文绑定framebuffer paintGL会自动调用。
+            this->initializeGL();                                           //初始化Openg
+            this->updateSize();                                             //更新窗口尺寸
         }
     }
+
+
+    qDebug() << "22222222222222222222222222222222222222222";
+
 }
 /**
  * @brief BPPMPRWidget::setRenderWindow
@@ -128,10 +130,12 @@ void BPPMPRWidget::setRenderWindow(vtkGenericOpenGLRenderWindow *win)
  */
 void BPPMPRWidget::setRenderWindow(vtkRenderWindow *win)
 {
-    auto gwin = vtkGenericOpenGLRenderWindow::SafeDownCast(win);                                                                                //做类型转换
-    if(win != nullptr && gwin == nullptr)                                                                                                       //转换失败，则提示类型不支持
-        qDebug() << "QVTKOpenGLNativeWidget requires a `vtkGenericOpenGLRenderWindow`. `" << win->GetClassName() << "` is not supported.";      //输出信息，后期得该到日志系统里面
-    this->setRenderWindow(gwin);                                                                                                                //调用另一个setRenderWindow
+    auto gwin = vtkGenericOpenGLRenderWindow::SafeDownCast(win);            //做类型转换
+    if(win != nullptr && gwin == nullptr)                                   //转换失败，则提示类型不支持
+        qDebug() << "QVTKOpenGLNativeWidget requires a "
+                    "`vtkGenericOpenGLRenderWindow`. `"
+                 << win->GetClassName() << "` is not supported.";           //输出信息，后期得该到日志系统里面
+    this->setRenderWindow(gwin);                                            //调用另一个setRenderWindow
 }
 /**
  * @brief BPPMPRWidget::renderWindow
@@ -236,6 +240,15 @@ void BPPMPRWidget::setInputData(vtkImageData *data)
     m_PipeLine->setInputData(data);
     if(m_PipeLine->getRenderWindow() != this->renderWindow())
         m_PipeLine->setRenderWindow(this->renderWindow());                          //问题已修正，整导入数据的时候切换渲染窗口，但是这么写会不会有新的问题，还待考证
+    imageActor = vtkSmartPointer<vtkImageActor>::New();
+    imageActor = m_PipeLine->getImageActor();
+    proPicker->AddPickList(imageActor);
+    imageActor->InterpolateOff();
+
+
+    qDebug() <<"11111111111111111111111111111111111111111111111";
+
+
 }
 /**
  * @brief setInputConnection
@@ -721,7 +734,7 @@ void BPPMPRWidget::initializeGL()
     this->Superclass::initializeGL();
     if(this->RenderWindow)
     {
-        Q_ASSERT(this->RenderWindowAdapter.data() == nullptr);              //断言，程序错误后会自动停止程序运行，并弹出提示，只有的Debug下有效
+        Q_ASSERT(this->RenderWindowAdapter.data() == nullptr);                      //断言，程序错误后会自动停止程序运行，并弹出提示，只有的Debug下有效
         this->RenderWindowAdapter.reset(new QVTKRenderWindowAdapter(this->context(),this->RenderWindow,this));  //重置
         this->RenderWindowAdapter->setDefaultCursor(this->defaultCursor());         //设置默认光标
         this->RenderWindowAdapter->setEnableHiDPI(this->EnableHiDPI);               //设置HiDPI
@@ -765,9 +778,6 @@ void BPPMPRWidget::paintGL()
 void BPPMPRWidget::emitPositionChangedSignal(int *temp)
 {
     emit onPositonChanged(temp[0],temp[1]);
-
-    qDebug() << temp[0]<<temp[1];
-
 }
 /**
  * @brief BPPMPRWidget::emitSliceChangedSignal

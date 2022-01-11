@@ -12,6 +12,7 @@
  * 用户鼠标交互类
  */
 class BPPMPRWidget;
+class vtkPropPicker;
 class myVtkInteractorStyleImage : public vtkInteractorStyleImage
 {
 public:
@@ -24,6 +25,9 @@ public:
 
     void SetBPPMPRWidget(BPPMPRWidget *temp);                               //设置主窗口
 
+    void SetPicker(vtkPropPicker* picker);                                  //设置拾取器
+
+    void SetRender(vtkRenderer* render);                                    //设置渲染器
 
 protected:
 
@@ -45,14 +49,16 @@ protected:
 
     virtual void OnRightButtonUp() override;                                //鼠标右键抬起
 
-    void GetValue();
-
-
 
 
 private:
     BPPMPRWidget* bppWidget = nullptr;                                      //主窗口
-    ImagePipeLine* ImageViewer;                                             //流水线
+    ImagePipeLine* ImageViewer= nullptr;;                                   //流水线
+    vtkPropPicker* Picker= nullptr;;
+    vtkRenderer* Render = nullptr;
+    vtkImageActor* Actor = nullptr;
+    vtkImageData* Image = nullptr;
+    vtkRenderer* renderer = nullptr;
 
     int WindowLevelStartPosition[2];
     int WindowLevelCurrentPosition[2];
@@ -67,6 +73,16 @@ private:
     double YViewUpVector[3];
     double ZViewRightVector[3];
     double ZViewUpVector[3];
+
+
+
+
+    /********************/
+
+    double pos[3] = {0.0};
+    double bounds[6] = {0.0};
+    int axis;
+
 
 };
 

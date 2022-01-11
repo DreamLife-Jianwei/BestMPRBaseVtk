@@ -759,6 +759,9 @@ void ImagePipeLine::installPipeline()
     }
     if(this->Interactor)
     {
+
+        qDebug() << "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa";
+
 //        if(!this->InteractorStyle)
 //        {
 //            this->InteractorStyle = vtkInteractorStyleImage::New();

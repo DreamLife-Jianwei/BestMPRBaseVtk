@@ -13,7 +13,8 @@
 
 VTK_MODULE_INIT(vtkRenderingOpenGL2);               //注册使用，暂时还看不懂
 VTK_MODULE_INIT(vtkInteractionStyle);               //注册使用，暂时还看不懂
-
+VTK_MODULE_INIT(vtkRenderingFreeType);
+VTK_MODULE_INIT(vtkRenderingContextOpenGL2);
 
 int main(int argc, char *argv[])
 {
