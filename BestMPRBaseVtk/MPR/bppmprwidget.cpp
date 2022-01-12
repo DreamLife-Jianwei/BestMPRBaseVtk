@@ -119,9 +119,6 @@ void BPPMPRWidget::setRenderWindow(vtkGenericOpenGLRenderWindow *win)
         }
     }
 
-
-    qDebug() << "22222222222222222222222222222222222222222";
-
 }
 /**
  * @brief BPPMPRWidget::setRenderWindow
@@ -244,11 +241,6 @@ void BPPMPRWidget::setInputData(vtkImageData *data)
     imageActor = m_PipeLine->getImageActor();
     proPicker->AddPickList(imageActor);
     imageActor->InterpolateOff();
-
-
-    qDebug() <<"11111111111111111111111111111111111111111111111";
-
-
 }
 /**
  * @brief setInputConnection
@@ -707,9 +699,7 @@ void BPPMPRWidget::cleanupContext()
 void BPPMPRWidget::updateSize()
 {
     if(this->RenderWindowAdapter)
-    {
         this->RenderWindowAdapter->resize(this->width(),this->height());
-    }
 }
 /**
  * @brief BPPMPRWidget::event
@@ -752,9 +742,9 @@ void BPPMPRWidget::paintGL()
     this->Superclass::paintGL();
     if(this->RenderWindow)
     {
-        Q_ASSERT(this->RenderWindowAdapter);        //断言，程序在出问题是，会停止，并自动弹窗包出错位置，只有的Debug下有效
-        this->RenderWindowAdapter->paint();         //调用vtk绘制函数
-        this->makeCurrent();                        //自动调用了，见上面注释
+        Q_ASSERT(this->RenderWindowAdapter);                                        //断言，程序在出问题是，会停止，并自动弹窗包出错位置，只有的Debug下有效
+        this->RenderWindowAdapter->paint();                                         //调用vtk绘制函数
+        this->makeCurrent();                                                        //自动调用了，见上面注释
         QOpenGLFunctions_3_2_Core* f = QOpenGLContext::currentContext()->versionFunctions<QOpenGLFunctions_3_2_Core>();
         if(f)
         {
